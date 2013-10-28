@@ -3,4 +3,4 @@ php:
   - 5.3
 script:
   - composer install
-  - bin/spectre specs/**
+  - bin/spectre specs/** -xvendor -xbin/spectre

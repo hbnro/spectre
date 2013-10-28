@@ -4,6 +4,8 @@
 error_reporting(-1);
 date_default_timezone_set('America/Mexico_City');
 
+define('HAS_XDEBUG', function_exists('xdebug_is_enabled') && xdebug_is_enabled());
+
 call_user_func(function () use($argv) {
   $vendor = array(
     dirname(dirname(dirname(__DIR__))).DIRECTORY_SEPARATOR.'autoload.php',
@@ -30,6 +32,9 @@ call_user_func(function () use($argv) {
       }
     } elseif (preg_match('/--reporter=(\w+)|-r(\w+)/', $one, $match)) {
       $args['reporter'] = !empty($match[2]) ? $match[2] : $match[1];
+    } elseif (preg_match('/--exclude=(\w+)|-x(\S+)/', $one, $match)) {
+      isset($args['exclude']) || $args['exclude'] = array();
+      $args['exclude'] []= !empty($match[2]) ? $match[2] : $match[1];
     }
   }
 
@@ -37,18 +42,20 @@ call_user_func(function () use($argv) {
   $cc = array();
 
   foreach (array_unique(array_filter($input, 'is_file')) as $spec) {
-    $filter = new \PHP_CodeCoverage_Filter;
+    if (HAS_XDEBUG) {
+      $filter = new \PHP_CodeCoverage_Filter;
 
-    // TODO: allow configuration
-    $filter->addDirectoryToBlacklist('vendor');
-    $filter->addDirectoryToBlacklist('bin/spectre');
+      if (!empty($args['exclude'])) {
+        foreach ($args['exclude'] as $path) {
+          $filter->addDirectoryToBlacklist($path);
+        }
+      }
 
-    $coverage = new \PHP_CodeCoverage(null, $filter);
-    $coverage->start($file);
+      $cc[$file] = new \PHP_CodeCoverage(null, $filter);
+      $cc[$file]->start($file);
+    }
 
     require $spec;
-
-    $cc[$file] = $coverage;
   }
 
 
@@ -58,15 +65,17 @@ call_user_func(function () use($argv) {
       exit(1);
     }
 
-    foreach ($cc as $file => $coverage) {
-      $coverage->stop();
-      $name = basename($file, '.php');
+    if (HAS_XDEBUG) {
+      foreach ($cc as $file => $coverage) {
+        $coverage->stop();
+        $name = basename($file, '.php');
 
-      $html = new \PHP_CodeCoverage_Report_HTML;
-      $html->process($coverage, "coverage/$name");
+        $html = new \PHP_CodeCoverage_Report_HTML;
+        $html->process($coverage, "coverage/$name");
 
-      $clover = new \PHP_CodeCoverage_Report_Clover;
-      $clover->process($coverage, "coverage/$name.xml");
+        $clover = new \PHP_CodeCoverage_Report_Clover;
+        $clover->process($coverage, "coverage/$name.xml");
+      }
     }
 
 
