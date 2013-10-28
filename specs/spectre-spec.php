@@ -48,7 +48,7 @@ describe('Spectre:', function () {
       $subject = array_shift($args);
       $callback = array(expect($subject), $fn);
 
-      it(trim("testing $fn() matcher"), function () use ($callback, $args) {
+      it("testing $fn() matcher", function () use ($callback, $args) {
         call_user_func_array($callback, $args);
       });
     }
