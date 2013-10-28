@@ -6,11 +6,16 @@ class Node
 {
   public $tree = array();
   public $tests = array();
+  public $context;
+
+  public function __construct()
+  {
+    $this->context = new \Spectre\Spec\Context;
+  }
 
   public function add($spec)
   {
     $node = new \Spectre\Spec\Node;
-    $node->context = new \Spectre\Spec\Context;
     $node->parent = $this;
     $node->description = $spec;
 
