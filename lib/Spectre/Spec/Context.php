@@ -7,7 +7,7 @@ class Context {
 
   public function __get($key)
   {
-    return $this->locals[$key];
+    return isset($this->locals[$key]) ? $this->locals[$key] : null;
   }
 
   public function __set($key, $value)
