@@ -5,11 +5,6 @@ function run_specs(\Closure $block)
   $block(\Spectre\Base::instance()->run());
 }
 
-function expect($value)
-{
-  return \Spectre\Base::instance()->expect($value);
-}
-
 function local($key, $value)
 {
   return \Spectre\Base::instance()->local($key, $value);

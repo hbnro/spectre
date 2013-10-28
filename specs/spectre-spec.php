@@ -15,41 +15,42 @@ describe('Spectre:', function () {
     });
   });
 
-  describe('About matchers:', function () {
+
+  describe('About php-spec matchers:', function () {
     $tests = array(
+      // TODO: improve this
+      'toContain' => array(array(1, 2, 3), 2),
+      'toBeLike' => array(1, '1'),
       'toBe' => array(1, 1),
-      'toEqual' => array(1, '1'),
-      'toBeNull' => array(null, null),
-      'toBeTruthy' => array(true, true),
-      'toBeFalsy' => array(false, false),
-      'toContain' => array('candybar', 'andy'),
-      'toBeEmpty' => array(null),
+      'toEqual' => array(1, 1),
+      'toBeNull' => array(),
+      'toBeString' => array(''),
+      'toBeBoolean' => array(!0),
+      'toBeObject' => array(new \stdClass),
+      'toBeArray' => array(array()),
+      'toBeInteger' => array(1),
+      'toBeCallable' => array(function () {}),
+      'toBeDouble' => array(1.0),
+      'toBeFloat' => array(1.0),
+      'toBeLong' => array(1),
+      'toBeNumeric' => array('1.0'),
+      'toBeReal' => array(1.0),
+      'toBeScalar' => array('0'),
+      'toEndWith' => array('abc', 'c'),
+      'toStartWith' => array('def', 'd'),
       'toMatch' => array('bAr', '/[A-Z]/'),
+      'toBeAnInstanceOf' => array(new \stdClass, 'stdClass'),
       'toThrow' => array(function () { throw new \Exception('unknown'); }),
     );
 
-    $length = sizeof($tests);
 
-    describe("will handle correctly $length test matchers,", function () use ($tests) {
-      foreach ($tests as $fn => $args) {
-        $subject = array_shift($args);
-        $callback = array(expect($subject), $fn);
+    foreach ($tests as $fn => $args) {
+      $subject = array_shift($args);
+      $callback = array(expect($subject), $fn);
 
-        $string_fn = preg_replace_callback('/[A-Z]/', function ($match) {
-          return ' ' . strtolower($match[0]);
-        }, $fn);
-
-        $string_args = '';
-        $string_subject = $subject instanceof \Closure ? '{closure}' : json_encode($subject);
-
-        if (!empty($args[0]) && is_string($args[0])) {
-          $string_args = preg_replace('/\s+/', '', var_export($args[0], 1));
-        }
-
-        it(trim("expects $string_subject $string_fn $string_args"), function () use ($callback, $args) {
-          call_user_func_array($callback, $args);
-        });
-      }
-    });
+      it(trim("testing $fn() matcher"), function () use ($callback, $args) {
+        call_user_func_array($callback, $args);
+      });
+    }
   });
 });

@@ -31,7 +31,8 @@ class Base
     try {
       return array(0, call_user_func_array($test, $args));
     } catch (\Exception $e) {
-      return array(1, $e->getMessage());
+      // TODO: improve formatting BTW
+      return array(1, preg_replace('/<\/?value>/', '', $e->getMessage()));
     }
   }
 }
