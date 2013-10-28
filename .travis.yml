@@ -3,4 +3,4 @@ php:
   - 5.3
 script:
   - composer install --prefer-dist
-  - bin/spectre specs/** -xvendor -xbin/spectre
+  - bin/spectre specs/**
