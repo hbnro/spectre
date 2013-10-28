@@ -30,11 +30,13 @@ call_user_func(function () use($argv) {
       } else {
         $input []= realpath($one);
       }
-    } elseif (preg_match('/--reporter=(\w+)|-r(\w+)/', $one, $match)) {
+    } elseif (preg_match('/^(?:--reporter=(\w+)|-r(\w+))$/', $one, $match)) {
       $args['reporter'] = !empty($match[2]) ? $match[2] : $match[1];
-    } elseif (preg_match('/--exclude=(\w+)|-x(\S+)/', $one, $match)) {
+    } elseif (preg_match('/^(?:--exclude=(\w+)|-x(\S+))$/', $one, $match)) {
       isset($args['exclude']) || $args['exclude'] = array();
       $args['exclude'] []= !empty($match[2]) ? $match[2] : $match[1];
+    } elseif (preg_match('/^(?:--cover|-c)$/', $one)) {
+      $args['cover'] = true;
     }
   }
 
@@ -42,7 +44,7 @@ call_user_func(function () use($argv) {
   $cc = array();
 
   foreach (array_unique(array_filter($input, 'is_file')) as $spec) {
-    if (HAS_XDEBUG) {
+    if (!empty($args['cover']) && HAS_XDEBUG) {
       $filter = new \PHP_CodeCoverage_Filter;
 
       if (!empty($args['exclude'])) {
@@ -65,7 +67,7 @@ call_user_func(function () use($argv) {
       exit(1);
     }
 
-    if (HAS_XDEBUG) {
+    if (!empty($args['cover']) && HAS_XDEBUG) {
       foreach ($cc as $file => $coverage) {
         $coverage->stop();
         $name = basename($file, '.php');
