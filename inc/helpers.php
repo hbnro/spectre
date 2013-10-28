@@ -1,8 +1,8 @@
 <?php
 
-function run_specs()
+function run_specs(\Closure $block)
 {
-  return \Spectre\Base::instance()->run();
+  $block(\Spectre\Base::instance()->run());
 }
 
 function expect($value)
