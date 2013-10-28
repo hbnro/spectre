@@ -20,14 +20,18 @@ call_user_func(function () use($argv) {
     if (substr($one, 0, 1) !== '-') {
       if (is_dir($one)) {
         foreach (glob("$one/*-spec.php") as $file) {
-          require realpath($file);
+          $input []= realpath($file);
         }
       } else {
-        require realpath($one);
+        $input []= realpath($one);
       }
     } elseif (preg_match('/--reporter=(\w+)|-r(\w+)/', $one, $match)) {
       $args['reporter'] = !empty($match[2]) ? $match[2] : $match[1];
     }
+  }
+
+  foreach (array_unique(array_filter($input, 'is_file')) as $spec) {
+    require $spec;
   }
 
 
