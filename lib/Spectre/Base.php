@@ -2,7 +2,8 @@
 
 namespace Spectre;
 
-class Base {
+class Base
+{
   private static $spectre;
 
   public static function instance()

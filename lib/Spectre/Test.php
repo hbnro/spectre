@@ -2,7 +2,8 @@
 
 namespace Spectre;
 
-class Test {
+class Test
+{
   private $subject;
   private $inverse = false;
 
@@ -17,7 +18,6 @@ class Test {
 
     return $this;
   }
-
 
   public function toBe($expected)
   {
@@ -58,9 +58,9 @@ class Test {
   {
     if (is_array($this->subject)) {
       $test = preg_replace('/\s+/', '', @var_export($this->subject, 1));
-      $this->assert(array_search($expected, $this->subject) !== false, "expected '$test' to contain '$expected'");
+      $this->assert(false !== array_search($expected, $this->subject), "expected '$test' to contain '$expected'");
     } else {
-      $this->assert(strpos($this->subject, $expected) !== false, "expected '$this->subject' to contain '$expected'");
+      $this->assert(false !== strpos($this->subject, $expected), "expected '$this->subject' to contain '$expected'");
     }
   }
 
@@ -68,9 +68,9 @@ class Test {
   {
     if (is_array($this->subject)) {
       $test = preg_replace('/\s+/', '', @var_export($this->subject, 1));
-      $this->assert(sizeof($this->subject) === 0, "expected '$test' to be empty");
+      $this->assert(0 === sizeof($this->subject), "expected '$test' to be empty");
     } elseif (is_string($this->subject)) {
-      $this->assert(strlen($this->subject) === 0, "expected '$this->subject' to be empty");
+      $this->assert(0 === strlen($this->subject), "expected '$this->subject' to be empty");
     } else {
       $this->assert(empty($this->subject), "expected '$this->subject' to be empty");
     }
@@ -81,7 +81,6 @@ class Test {
     $nth = $count <> 1 ? " $count times" : '';
     $this->assert($count == @preg_match($expected, $this->subject), "expected '$this->subject' to match '$expected'$nth");
   }
-
 
   private function assert($test, $msg)
   {

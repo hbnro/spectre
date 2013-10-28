@@ -2,7 +2,8 @@
 
 namespace Spectre\Report;
 
-class Basic {
+class Basic
+{
   public $status = -1;
 
   private $start;
@@ -31,7 +32,6 @@ class Basic {
       return "$test\n$ok/$all ... everything is alright ({$time}s)\n";
     }
   }
-
 
   private function report($set, $depth = 0)
   {

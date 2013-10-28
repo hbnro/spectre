@@ -2,7 +2,8 @@
 
 namespace Spectre\Spec;
 
-class Node {
+class Node
+{
   public $tree = array();
   public $tests = array();
 

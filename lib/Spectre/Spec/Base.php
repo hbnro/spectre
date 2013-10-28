@@ -2,7 +2,8 @@
 
 namespace Spectre\Spec;
 
-class Base {
+class Base
+{
   private $tree;
 
   public function __construct()
@@ -44,12 +45,10 @@ class Base {
     $this->tree->push($desc, $test);
   }
 
-
   public function expect($value)
   {
     return new \Spectre\Test($value);
   }
-
 
   public function abort($error)
   {

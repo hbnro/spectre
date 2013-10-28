@@ -2,7 +2,8 @@
 
 namespace Spectre\Report;
 
-class TAP {
+class TAP
+{
   public $status = -1;
 
   public function __construct(array $report)
@@ -25,7 +26,7 @@ class TAP {
 
           $nth = $k + 1;
           $out []= "$pre$nth -$suff";
-        } else{
+        } else {
           $out []= $v;
         }
       }
@@ -41,7 +42,6 @@ class TAP {
 
     return join($out);
   }
-
 
   private function report($set, $top = '')
   {

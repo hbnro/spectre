@@ -2,7 +2,8 @@
 
 namespace Spectre\Spec;
 
-class Context {
+class Context
+{
   public $locals = array();
 
   public function __get($key)
