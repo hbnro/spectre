@@ -33,7 +33,7 @@ describe('Spectre:', function () {
     describe("will handle correctly $length test matchers,", function () use ($tests) {
       foreach ($tests as $fn => $args) {
         $subject = array_shift($args);
-        $callback = [expect($subject), $fn];
+        $callback = array(expect($subject), $fn);
 
         $string_fn = preg_replace_callback('/[A-Z]/', function ($match) {
           return ' ' . strtolower($match[0]);
