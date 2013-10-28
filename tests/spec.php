@@ -3,37 +3,30 @@
 describe('Spectre:', function () {
   describe('About locals:', function () {
     local('foo', 'bar');
-    $this->candy = 'does nothing';
 
-    it('can set/read locals per scope', function ($candy, $foo) {
-      expect($this->candy)->toBe('does nothing');
-      expect($candy)->toBe('does nothing');
-      expect($this->foo)->toBe('bar');
+    it('can set/read locals per scope', function ($foo) {
       expect($foo)->toBe('bar');
     });
 
     describe('But within another scope:', function () {
-      it('would not exists those previous locals', function ($candy, $foo) {
-        expect($this->candy)->toBeNull();
-        expect($candy)->toBeNull();
-        expect($this->foo)->toBeNull();
+      it('would not exists those previous locals', function ($foo) {
         expect($foo)->toBeNull();
       });
     });
   });
 
   describe('About matchers:', function () {
-    $tests = [
-      'toBe' => [1, 1],
-      'toEqual' => [1, '1'],
-      'toBeNull' => [null, null],
-      'toBeTruthy' => [true, true],
-      'toBeFalsy' => [false, false],
-      'toContain' => ['candybar', 'andy'],
-      'toBeEmpty' => [null],
-      'toMatch' => ['bAr', '/[A-Z]/'],
-      'toThrow' => [function () { throw new \Exception('unknown'); }],
-    ];
+    $tests = array(
+      'toBe' => array(1, 1),
+      'toEqual' => array(1, '1'),
+      'toBeNull' => array(null, null),
+      'toBeTruthy' => array(true, true),
+      'toBeFalsy' => array(false, false),
+      'toContain' => array('candybar', 'andy'),
+      'toBeEmpty' => array(null),
+      'toMatch' => array('bAr', '/[A-Z]/'),
+      'toThrow' => array(function () { throw new \Exception('unknown'); }),
+    );
 
     $length = sizeof($tests);
 
