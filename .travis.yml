@@ -1,4 +1,6 @@
 language: php
 php:
   - 5.3
-script: composer install; php run_specs.php
+script:
+  - composer install
+  - bin/spectre specs -rTAP
