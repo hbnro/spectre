@@ -13,11 +13,7 @@ class Node {
     $node->parent = $this;
     $node->description = $spec;
 
-    if ($prepend) {
-      array_unshift($this->tree, $node);
-    } else {
-      $this->tree []= $node;
-    }
+    $this->tree []= $node;
 
     return $node;
   }
