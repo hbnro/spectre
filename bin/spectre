@@ -70,12 +70,21 @@ call_user_func(function () use($argv) {
         $coverage->stop();
         $name = basename($file, '.php');
 
-        $html = new \PHP_CodeCoverage_Report_HTML;
-        $html->process($coverage, "coverage/$name");
+        if (!empty($previous)) {
+          $previous->merge($coverage);
+        }
 
-        $clover = new \PHP_CodeCoverage_Report_Clover;
-        $clover->process($coverage, "coverage/$name.xml");
+        $previous = $coverage;
       }
+
+      $coverage = new \PHP_CodeCoverage;
+      $coverage->merge($previous);
+
+      $html = new \PHP_CodeCoverage_Report_HTML;
+      $html->process($coverage, 'coverage/html-report');
+
+      $clover = new \PHP_CodeCoverage_Report_Clover;
+      $clover->process($coverage, 'coverage/clover-report.xml');
     }
 
 
