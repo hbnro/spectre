@@ -39,8 +39,12 @@ describe('Spectre:', function () {
           return ' ' . strtolower($match[0]);
         }, $fn);
 
-        $string_args = is_string($args[0]) ? preg_replace('/\s+/', '', var_export($args[0], 1)) : '';
+        $string_args = '';
         $string_subject = $subject instanceof \Closure ? '{closure}' : json_encode($subject);
+
+        if (!empty($args[0]) && is_string($args[0])) {
+          $string_args = preg_replace('/\s+/', '', var_export($args[0], 1));
+        }
 
         it(trim("expects $string_subject $string_fn $string_args"), function () use ($callback, $args) {
           call_user_func_array($callback, $args);
