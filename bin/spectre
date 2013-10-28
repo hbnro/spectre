@@ -53,8 +53,10 @@ call_user_func(function () use($argv) {
         }
       }
 
-      $cc[$file] = new \PHP_CodeCoverage(null, $filter);
-      $cc[$file]->start($file);
+      $coverage = new \PHP_CodeCoverage(null, $filter);
+      $coverage->start($spec);
+
+      $cc []= $coverage;
     }
 
     require $spec;
@@ -68,25 +70,18 @@ call_user_func(function () use($argv) {
     }
 
     if (!empty($args['cover']) && HAS_XDEBUG) {
-      foreach ($cc as $file => $coverage) {
+      $output = new \PHP_CodeCoverage;
+
+      foreach ($cc as $coverage) {
         $coverage->stop();
-        $name = basename($file, '.php');
-
-        if (!empty($previous)) {
-          $previous->merge($coverage);
-        }
-
-        $previous = $coverage;
+        $output->merge($coverage);
       }
 
-      $coverage = new \PHP_CodeCoverage;
-      $coverage->merge($previous);
-
       $html = new \PHP_CodeCoverage_Report_HTML;
-      $html->process($coverage, 'coverage/html-report');
+      $html->process($output, 'coverage/html-report');
 
       $clover = new \PHP_CodeCoverage_Report_Clover;
-      $clover->process($coverage, 'coverage/clover-report.xml');
+      $clover->process($output, 'coverage/clover-report.xml');
     }
 
 
