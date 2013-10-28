@@ -1,0 +1,17 @@
+{
+  "name": "habanero/spectre",
+  "description": "Simple spec-testing tools",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Alvaro Cabrera"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.4"
+  },
+  "autoload": {
+    "psr-0": { "Spectre": "lib/" },
+    "files": ["inc/helpers.php"]
+  }
+}
