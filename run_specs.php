@@ -2,10 +2,10 @@
 
 error_reporting(-1);
 
-require dirname(__DIR__).DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
+require 'vendor/autoload.php';
 
 call_user_func(function () {
-  $files = glob(__DIR__.'/*-spec.php');
+  $files = glob('specs/*-spec.php');
 
   foreach ($files as $spec) {
     require $spec;
