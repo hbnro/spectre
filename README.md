@@ -1,10 +1,17 @@
 Spectre
 =======
 
-Aims to write-and-run your specs in a easy way, quickly.
+Aims to write-and-run your specs in a easy way. Quickly.
+
+  - Includes PHPSpec matchers used on expect()
+  - Report results using TAP or Basic-output
+  - Code-coverage reporting with PHPUnit
+  - Don't struggle with classes!
+
+## How to?
 
 ```bash
-$ composer require habanero/spectre:dev-master --prefer-dist
+$ composer require habanero/spectre --prefer-dist
   ...
 ```
 
@@ -36,7 +43,7 @@ describe('sum()', function () {
 Execute your specs:
 
 ```bash
-$ vendor/bin/spectre specs -rTAP
+$ bin/spectre specs -rTAP
   ok 1 - sum() sums two numbers
 
   1..1
@@ -46,5 +53,19 @@ $ vendor/bin/spectre specs -rTAP
 
   # ok
 ```
+
+## Options
+
+```bash
+# examples
+$ bin/spectre specs -rTAP -c -xvendor -xspecs
+$ bin/spectre ./specs /path/to/specs --cover --exclude=docs
+$ bin/spectre $PWD/specs --reporter=Basic
+```
+
+  - `[-r|--reporter=]<TAP|Basic>` choose the reporter (default: Basic)
+  - `[-x|--exclude=]<file|path>` ignored for code-coverage
+  - `[-c|--cover]` enables the code-coverage
+  - `<file|path>` any input file or path
 
 [![Build Status](https://travis-ci.org/pateketrueke/spectre.png)](https://travis-ci.org/pateketrueke/spectre)
