@@ -10,9 +10,18 @@ Aims to write-and-run your specs in a easy way. Quickly.
 
 ## How to?
 
-```bash
-$ composer require habanero/spectre --prefer-dist
-  ...
+**composer.json**
+
+```json
+{
+  "require": {
+    "habanero/spectre": "dev-master"
+  },
+  "minimum-stability": "dev",
+  "config": {
+    "bin-dir": "bin"
+  }
+}
 ```
 
 **inc/sum.php**
