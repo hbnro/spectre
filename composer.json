@@ -17,5 +17,8 @@
     "psr-0": { "Spectre": "lib/" },
     "files": ["inc/helpers.php"]
   },
-  "bin": ["bin/spectre"]
+  "bin": ["bin/spectre"],
+  "config": {
+    "bin-dir": "bin"
+  }
 }
