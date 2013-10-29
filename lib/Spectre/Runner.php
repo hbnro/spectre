@@ -52,7 +52,8 @@ class Runner
 
       static::run();
     } catch (\Exception $e) {
-      var_dump($e->getMessage());
+      echo $e->getMessage() . "\n";
+      exit(1);
     }
   }
 
