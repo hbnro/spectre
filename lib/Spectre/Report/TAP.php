@@ -38,12 +38,12 @@ class TAP
     $out []= "\n# fail  $err";
     $out []= "\n\n# ";
     $out []= $err ? 'not ' : '';
-    $out []= 'ok';
+    $out []= "ok\n";
 
     return join($out);
   }
 
-  private function report($set, $top = '')
+  private function report(array $set, $top = '')
   {
     $out = array();
     $tests = 0;

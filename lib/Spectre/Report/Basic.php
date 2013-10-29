@@ -33,7 +33,7 @@ class Basic
     }
   }
 
-  private function report($set, $depth = 0)
+  private function report(array $set, $depth = 0)
   {
     $out = array();
     $tests = 0;

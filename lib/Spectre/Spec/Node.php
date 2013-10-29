@@ -52,6 +52,14 @@ class Node
       if (!empty($group->tree)) {
         $out['groups'][$group->description] += $group->report();
       }
+
+      if (empty($out['groups'][$group->description])) {
+        unset($out['groups'][$group->description]);
+      }
+
+      if (empty($out['groups'])) {
+        unset($out['groups']);
+      }
     }
 
     return $out;

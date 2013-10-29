@@ -53,6 +53,10 @@ class Base
 
   public function run()
   {
-    return $this->tree->report();
+    if (!($retval = $this->tree->report())) {
+      $this->abort('Missing specs!');
+    }
+
+    return $retval;
   }
 }
