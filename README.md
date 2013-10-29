@@ -17,10 +17,7 @@ Aims to write-and-run your specs in a easy way. Quickly.
   "require": {
     "habanero/spectre": "dev-master"
   },
-  "minimum-stability": "dev",
-  "config": {
-    "bin-dir": "bin"
-  }
+  "minimum-stability": "dev"
 }
 ```
 
@@ -52,7 +49,7 @@ describe('sum()', function () {
 Execute your specs:
 
 ```bash
-$ bin/spectre specs -rTAP
+$ vendor/bin/spectre specs -rTAP
   ok 1 - sum() sums two numbers
 
   1..1
@@ -67,9 +64,9 @@ $ bin/spectre specs -rTAP
 
 ```bash
 # examples
-$ bin/spectre specs -rTAP -c -xvendor -xspecs
-$ bin/spectre ./specs /path/to/specs --cover --exclude=docs
-$ bin/spectre $PWD/specs --reporter=Basic
+$ vendor/bin/spectre specs -rTAP -c -xvendor -xspecs
+$ vendor/bin/spectre ./specs /path/to/specs --cover --exclude=docs
+$ vendor/bin/spectre $PWD/specs --reporter=Basic
 ```
 
   - `[-r|--reporter=]<TAP|Basic>` choose the reporter (default: Basic)
