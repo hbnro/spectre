@@ -4,93 +4,22 @@
 error_reporting(-1);
 date_default_timezone_set('America/Mexico_City');
 
-define('HAS_XDEBUG', function_exists('xdebug_is_enabled') && xdebug_is_enabled());
-
-call_user_func(function () use($argv) {
-  $vendor = array(
-    dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR.'autoload.php',
-    dirname(dirname(dirname(__DIR__))).DIRECTORY_SEPARATOR.'autoload.php',
-    dirname(__DIR__).DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php',
+call_user_func(function () {
+  $vendor_dirs = array(
+    getcwd(),
+    dirname(__DIR__),
+    dirname(dirname(__DIR__)),
+    dirname(dirname(dirname(__DIR__))),
   );
 
-  foreach ($vendor as $file) {
-    is_file($file) && require $file;
-  }
 
-  array_shift($argv);
-
-  $args = array();
-  $input = array();
-
-  foreach ($argv as $i => $one) {
-    if (substr($one, 0, 1) !== '-') {
-      if (is_dir($one)) {
-        foreach (glob("$one/*-spec.php") as $file) {
-          $input []= realpath($file);
-        }
-      } else {
-        $input []= realpath($one);
-      }
-    } elseif (preg_match('/^(?:--reporter=(\w+)|-r(\w+))$/', $one, $match)) {
-      $args['reporter'] = !empty($match[2]) ? $match[2] : $match[1];
-    } elseif (preg_match('/^(?:--exclude=(\w+)|-x(\S+))$/', $one, $match)) {
-      isset($args['exclude']) || $args['exclude'] = array();
-      $args['exclude'] []= !empty($match[2]) ? $match[2] : $match[1];
-    } elseif (preg_match('/^(?:--cover|-c)$/', $one)) {
-      $args['cover'] = true;
+  foreach ($vendor_dirs as $path) {
+    $vendor_file = join(array($path, 'vendor', 'autoload.php'), DIRECTORY_SEPARATOR);
+    if (is_file($vendor_file)) {
+      require $vendor_file;
+      break;
     }
   }
 
-
-  $cc = array();
-
-  foreach (array_unique(array_filter($input, 'is_file')) as $spec) {
-    if (!empty($args['cover']) && HAS_XDEBUG) {
-      $filter = new \PHP_CodeCoverage_Filter;
-
-      if (!empty($args['exclude'])) {
-        foreach ($args['exclude'] as $path) {
-          $filter->addDirectoryToBlacklist($path);
-        }
-      }
-
-      $coverage = new \PHP_CodeCoverage(null, $filter);
-      $coverage->start($spec);
-
-      $cc []= $coverage;
-    }
-
-    require $spec;
-  }
-
-
-  run_specs(function ($report) use($args, $cc) {
-    if (!$report) {
-      echo "Missing specs\n";
-      exit(1);
-    }
-
-    if (!empty($args['cover']) && HAS_XDEBUG) {
-      $output = new \PHP_CodeCoverage;
-
-      foreach ($cc as $coverage) {
-        $coverage->stop();
-        $output->merge($coverage);
-      }
-
-      $html = new \PHP_CodeCoverage_Report_HTML;
-      $html->process($output, 'coverage/html-report');
-
-      $clover = new \PHP_CodeCoverage_Report_Clover;
-      $clover->process($output, 'coverage/clover-report.xml');
-    }
-
-
-    $reporter = !empty($args['tap']) ? 'TAP' : (!empty($args['reporter']) ? $args['reporter'] : 'Basic');
-    $klass = "\\Spectre\\Report\\$reporter";
-    $tap = new $klass($report);
-
-    echo $tap;
-    exit((int)(!!$tap->status));
-  });
+  \Spectre\Runner::execute();
 });

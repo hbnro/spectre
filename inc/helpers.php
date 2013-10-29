@@ -1,10 +1,5 @@
 <?php
 
-function run_specs(\Closure $block)
-{
-  $block(\Spectre\Base::instance()->run());
-}
-
 function local($key, $value)
 {
   return \Spectre\Base::instance()->local($key, $value);
