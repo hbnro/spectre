@@ -2,7 +2,7 @@
 
 function expect($value)
 {
-  return new \Spectre\Expect($value);
+  return \Spectre\Expect::that($value);
 }
 
 function local($key, $value)
