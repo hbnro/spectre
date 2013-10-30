@@ -3,7 +3,7 @@ Spectre
 
 Aims to write-and-run your specs in a easy way. Quickly.
 
-  - Report results using TAP or Basic-output
+  - Report results using TAP, JSON or Basic-output
   - Code-coverage reporting with PHPUnit
   - Don't struggle with classes!
 
@@ -63,8 +63,8 @@ $ vendor/bin/spectre specs -rTAP
 
 ```bash
 # examples
-$ vendor/bin/spectre specs -rTAP -c -xvendor -xspecs
-$ vendor/bin/spectre ./specs /path/to/specs --cover --exclude=docs
+$ vendor/bin/spectre specs -r TAP -c -x vendor -xspecs
+$ vendor/bin/spectre ./specs /path/to/specs --cover --exclude docs
 $ vendor/bin/spectre $PWD/specs --reporter=Basic
 ```
 
