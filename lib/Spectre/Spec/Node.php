@@ -15,6 +15,12 @@ class Node
 
   public function add($spec)
   {
+    foreach ($this->tree as $one) {
+      if ($one->description === $spec) {
+        return $one;
+      }
+    }
+
     $node = new \Spectre\Spec\Node;
     $node->parent = $this;
     $node->description = $spec;
@@ -26,7 +32,8 @@ class Node
 
   public function push($desc, \Closure $block)
   {
-    $this->tests[$desc] = $block;
+    isset($this->tests[$desc]) || $this->tests[$desc] = array();
+    $this->tests[$desc] []= $block;
   }
 
   public function local($key, $value)

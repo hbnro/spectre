@@ -53,15 +53,18 @@ class TAP
       $prefix = $top ? "$top $label" : $label;
 
       if (!empty($sub['results'])) {
-        foreach ($sub['results'] as $subject => $result) {
+        foreach ($sub['results'] as $subject => $fails) {
           $tests++;
-          $errors += $result[0];
-          $detail = $result[0] ? 'not ok' : 'ok';
+          $result = sizeof($fails);
+          $errors += $result;
+          $detail = $result ? 'not ok' : 'ok';
 
           $out []= "$detail - $prefix $subject\n";
 
-          if ($result[1]) {
-            $out []= "  ---\n  message: >\n    $result[1]\n  ---\n";
+          if ($result) {
+            $out []= "  ---\n  message: |-\n    - ";
+            $out []= join("\n    - ", $fails);
+            $out []= "\n  ---\n";
           }
         }
       }

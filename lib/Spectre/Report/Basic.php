@@ -44,11 +44,12 @@ class Basic
       $out []= "$prefix$label\n";
 
       if (!empty($sub['results'])) {
-        foreach ($sub['results'] as $subject => $result) {
+        foreach ($sub['results'] as $subject => $fails) {
           $tests++;
-          $errors += $result[0];
-          $detail = $result[0] ? 'FAIL' : 'OK';
-          $detail = $result[1] && $detail === 'FAIL' ? "$detail ($result[1])" : $detail;
+          $result = sizeof($fails);
+          $errors += $result;
+
+          $detail = $result ? 'FAIL (' . join(';', $fails) . ')' : 'OK';
 
           $out []= "$prefix- $subject ... $detail\n";
         }

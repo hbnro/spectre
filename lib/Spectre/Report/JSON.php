@@ -32,9 +32,9 @@ class JSON
 
     foreach ($set['groups'] as $label => $sub) {
       if (!empty($sub['results'])) {
-        foreach ($sub['results'] as $subject => $result) {
+        foreach ($sub['results'] as $subject => $fails) {
           $tests++;
-          $errors += $result[0];
+          $errors += sizeof($fails);
         }
       }
 
@@ -53,7 +53,7 @@ class JSON
   {
     $out = array();
     $tabs = str_repeat('  ', $depth);
-    $assoc = is_object($data) || !is_numeric(key($data));
+    $assoc = is_object($data) || is_string(key($data));
 
     foreach ($data as $key => $val) {
       $key = json_encode($key, JSON_NUMERIC_CHECK);

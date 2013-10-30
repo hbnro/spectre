@@ -31,8 +31,6 @@ class Base
     if (!$fail) {
       $old = $this->tree;
       $this->tree = $this->tree->parent;
-
-      unset($old->parent);
     }
   }
 

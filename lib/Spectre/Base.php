@@ -15,20 +15,26 @@ class Base
     return static::$spectre;
   }
 
-  public static function execute(\Closure $test, $node)
+  public static function execute(array $test, $node)
   {
-    $fun = new \ReflectionFunction($test);
-    $args = array();
+    $err = array();
 
-    foreach ($fun->getParameters() as $param) {
-      $args []= $node->context->{$param->getName()};
+    foreach ($test as $callback) {
+      $fun = new \ReflectionFunction($callback);
+      $args = array();
+
+      foreach ($fun->getParameters() as $param) {
+        $args []= $node->context->{$param->getName()};
+      }
+
+      try {
+        call_user_func_array($callback, $args);
+      } catch (\Exception $e) {
+        $err []= $e->getMessage();
+      }
     }
 
-    try {
-      return array(0, call_user_func_array($test, $args));
-    } catch (\Exception $e) {
-      return array(1, $e->getMessage());
-    }
+    return $err;
   }
 
   public static function scalar($args)
