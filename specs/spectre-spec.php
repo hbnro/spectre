@@ -15,7 +15,6 @@ describe('Spectre:', function () {
     });
   });
 
-
   // TODO: do intensive testing!
   describe('About matchers:', function () {
     $tests = array(
@@ -74,7 +73,6 @@ describe('Spectre:', function () {
       'toThrow' => array(function () { throw new \Exception; }),
       '!toThrow' => array(function () {}),
     );
-
 
     foreach ($tests as $fn => $args) {
       $subject = array_shift($args);
