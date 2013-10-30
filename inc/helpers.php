@@ -1,5 +1,10 @@
 <?php
 
+function expect($value)
+{
+  return new \Spectre\Expect($value);
+}
+
 function local($key, $value)
 {
   return \Spectre\Base::instance()->local($key, $value);

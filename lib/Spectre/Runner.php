@@ -10,7 +10,6 @@ class Runner
   private static $params;
   private static $reporters = array('TAP', 'JSON', 'Basic');
 
-
   public static function execute()
   {
     $xdebug = function_exists('xdebug_is_enabled') && xdebug_is_enabled();
@@ -21,7 +20,6 @@ class Runner
         'exclude' => array('x', 'exclude', Params::PARAM_MULTIPLE),
         'reporter' => array('r', 'reporter', Params::PARAM_REQUIRED),
       ));
-
 
       if ($xdebug && static::$params['cover']) {
         $filter = new \PHP_CodeCoverage_Filter;
@@ -38,7 +36,6 @@ class Runner
           }
         }
       }
-
 
       $files = static::prepare();
 
@@ -108,7 +105,6 @@ class Runner
       throw new \Exception("Unknown '$reporter' reporter");
     }
 
-
     $data = \Spectre\Base::instance()->run();
 
     if (!$data) {
@@ -118,11 +114,10 @@ class Runner
       static::report();
     }
 
-
     $klass = "\\Spectre\\Report\\$reporter";
     $tap = new $klass($data);
 
     echo $tap;
-    exit((int)(!!$tap->status));
+    exit((int) (!!$tap->status));
   }
 }

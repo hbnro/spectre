@@ -31,8 +31,35 @@ class Base
     try {
       return array(0, call_user_func_array($test, $args));
     } catch (\Exception $e) {
-      // TODO: improve formatting BTW
-      return array(1, preg_replace('/<\/?value>/', '', $e->getMessage()));
+      return array(1, $e->getMessage());
     }
+  }
+
+  public static function scalar($args)
+  {
+    $out = array();
+
+    foreach ($args as $one) {
+      $type = gettype($one);
+
+      if (is_array($one)) {
+        $one = static::scalar($out);
+      } elseif (is_scalar($one)) {
+        $one = false === $one ? 'false' : $one;
+        $one = true === $one ? 'true' : $one;
+        $one = null === $one ? 'null' : $one;
+      } elseif ($one instanceof \Closure) {
+        $one = '{closure}';
+      } elseif (is_object($one)) {
+        $one = get_class($one);
+      }
+
+      $out []= strlen($one) ? "($type) $one" : "($type)";
+    }
+
+    $out = join(', ', $out);
+    $out = sizeof($args) > 1 ? "[$out]" : $out;
+
+    return $out;
   }
 }
