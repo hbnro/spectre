@@ -2,5 +2,5 @@ language: php
 php:
   - 5.3
 script:
-  - composer update --prefer-dist
+  - COMPOSER_ROOT_VERSION=dev-master composer update --prefer-dist
   - bin/spectre specs/**
