@@ -23,16 +23,18 @@ class Runner
 
       if ($xdebug && static::$params['cover']) {
         $filter = new \PHP_CodeCoverage_Filter;
+        $ignore = static::$params['exclude'] ?: array();
 
-        if (!empty(static::$params['exclude'])) {
-          foreach (static::$params['exclude'] as $path) {
-            if (is_dir($path)) {
-              $filter->addDirectoryToBlacklist(realpath($path));
-            } elseif (is_file($path)) {
-              $filter->addFileToBlacklist(realpath($path));
-            } else {
-              throw new \Exception("The file or directory '$path' does not exists");
-            }
+        $ignore []= realpath(static::$params->caller());
+        $ignore []= __FILE__;
+
+        foreach ($ignore as $path) {
+          if (is_dir($path)) {
+            $filter->addDirectoryToBlacklist(realpath($path));
+          } elseif (is_file($path)) {
+            $filter->addFileToBlacklist(realpath($path));
+          } else {
+            throw new \Exception("The file or directory '$path' does not exists");
           }
         }
       }
