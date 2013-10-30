@@ -10,12 +10,13 @@ class Runner
   private static $params;
   private static $reporters = array('TAP', 'JSON', 'Basic');
 
-  public static function execute()
+  public static function execute(array $argv = array())
   {
     $xdebug = function_exists('xdebug_is_enabled') && xdebug_is_enabled();
 
     try {
-      static::$params = new Params(array(
+      static::$params = new Params($argv);
+      static::$params->parse(array(
         'cover' => array('c', 'cover', Params::PARAM_NO_VALUE),
         'exclude' => array('x', 'exclude', Params::PARAM_MULTIPLE),
         'reporter' => array('r', 'reporter', Params::PARAM_REQUIRED),
