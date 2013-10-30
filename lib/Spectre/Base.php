@@ -17,10 +17,6 @@ class Base
 
   public static function execute(\Closure $test, $node)
   {
-    if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
-      $test = $test->bindTo($node->context);
-    }
-
     $fun = new \ReflectionFunction($test);
     $args = array();
 

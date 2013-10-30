@@ -22,11 +22,7 @@ class Base
     $this->tree = $this->tree->add($desc);
 
     try {
-      if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
-        call_user_func($cases->bindTo($this->tree->context));
-      } else {
-        call_user_func($cases);
-      }
+      call_user_func($cases);
     } catch (\Exception $e) {
       $this->abort($e);
       $fail = true;
