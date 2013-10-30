@@ -3,7 +3,6 @@ Spectre
 
 Aims to write-and-run your specs in a easy way. Quickly.
 
-  - Includes PHPSpec matchers used on expect()
   - Report results using TAP or Basic-output
   - Code-coverage reporting with PHPUnit
   - Don't struggle with classes!
