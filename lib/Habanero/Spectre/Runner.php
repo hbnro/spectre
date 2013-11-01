@@ -61,7 +61,6 @@ class Runner
       throw new \Exception("Unknown '$reporter' reporter");
     }
 
-
     $xdebug = function_exists('xdebug_is_enabled') && xdebug_is_enabled();
 
     if ($xdebug && static::$params['cover']) {
