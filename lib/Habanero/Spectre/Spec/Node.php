@@ -54,26 +54,34 @@ class Node
       isset($out['groups']) || $out['groups'] = array();
       $out['groups'][$group->description] = array();
 
-      if (!empty($group->tests)) {
-        foreach ($group->tests as $desc => $fn) {
-          isset($out['groups'][$group->description]['results']) || $out['groups'][$group->description]['results'] = array();
-          $out['groups'][$group->description]['results'][$desc] = Test::execute($fn, $group, $coverage, $desc);
-        }
-      }
+      empty($group->tests) || $this->reduce($coverage, $group, $out);
 
-      if (!empty($group->tree)) {
-        $out['groups'][$group->description] += $group->report($coverage);
-      }
-
-      if (empty($out['groups'][$group->description])) {
-        unset($out['groups'][$group->description]);
-      }
-
-      if (empty($out['groups'])) {
-        unset($out['groups']);
-      }
+      $this->filter($coverage, $group, $out);
     }
 
     return $out;
+  }
+
+  private function reduce($coverage, $group, &$out)
+  {
+    foreach ($group->tests as $desc => $fn) {
+      isset($out['groups'][$group->description]['results']) || $out['groups'][$group->description]['results'] = array();
+      $out['groups'][$group->description]['results'][$desc] = Test::execute($fn, $group, $coverage, $desc);
+    }
+  }
+
+  private function filter($coverage, $group, &$out)
+  {
+    if (!empty($group->tree)) {
+      $out['groups'][$group->description] += $group->report($coverage);
+    }
+
+    if (empty($out['groups'][$group->description])) {
+      unset($out['groups'][$group->description]);
+    }
+
+    if (empty($out['groups'])) {
+      unset($out['groups']);
+    }
   }
 }
