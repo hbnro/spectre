@@ -8,30 +8,31 @@ class Helpers
   {
     $err = array();
 
-    if ($coverage) {
-      $coverage->start("$node->description $description");
-    }
+    $coverage && $coverage->start("$node->description $description");
 
     foreach ($test as $callback) {
-      $fun = new \ReflectionFunction($callback);
-      $args = array();
-
-      foreach ($fun->getParameters() as $param) {
-        $args []= $node->context->{$param->getName()};
-      }
-
       try {
-        call_user_func_array($callback, $args);
+        call_user_func_array($callback, static::inject($callback, $node));
       } catch (\Exception $e) {
         $err []= $e->getMessage();
       }
     }
 
-    if ($coverage) {
-      $coverage->stop();
-    }
+    $coverage && $coverage->stop();
 
     return $err;
+  }
+
+  public static function inject(\Closure $block, $node)
+  {
+    $block = new \ReflectionFunction($block);
+    $args = array();
+
+    foreach ($block->getParameters() as $param) {
+      $args []= $node->context->{$param->getName()};
+    }
+
+    return $args;
   }
 
   public static function scalar($args)
@@ -40,25 +41,29 @@ class Helpers
 
     foreach ($args as $one) {
       $type = gettype($one);
-
-      if (is_array($one)) {
-        $one = static::scalar($out);
-      } elseif (is_scalar($one)) {
-        $one = false === $one ? 'false' : $one;
-        $one = true === $one ? 'true' : $one;
-        $one = null === $one ? 'null' : $one;
-      } elseif ($one instanceof \Closure) {
-        $one = '{closure}';
-      } elseif (is_object($one)) {
-        $one = get_class($one);
-      }
+      $one = static::value($one);
 
       $out []= strlen($one) ? "($type) $one" : "($type)";
     }
 
-    $out = join(', ', $out);
-    $out = sizeof($args) > 1 ? "[$out]" : $out;
-
     return $out;
+  }
+
+  public static function value($test)
+  {
+    if (is_array($test)) {
+      $test = join(', ', static::scalar($test));
+      $test = sizeof($test) > 1 ? "[$test]" : $test;
+    } elseif (is_scalar($test)) {
+      $test = false === $test ? 'false' : $test;
+      $test = true === $test ? 'true' : $test;
+      $test = null === $test ? 'null' : $test;
+    } elseif ($test instanceof \Closure) {
+      $test = '{closure}';
+    } elseif (is_object($test)) {
+      $test = get_class($test);
+    }
+
+    return $test;
   }
 }
