@@ -10,13 +10,13 @@ class Expect
   private $expected;
   private $negative;
 
-  private $scalars = array(
-                      'array', 'bool',
-                      'callable', 'double',
-                      'float', 'int', 'integer', 'long',
-                      'null', 'numeric', 'object', 'real',
-                      'resource', 'scalar', 'string',
-                    );
+  private $types = array(
+                    'array', 'bool',
+                    'callable', 'double',
+                    'float', 'int', 'integer', 'long',
+                    'null', 'numeric', 'object', 'real',
+                    'resource', 'scalar', 'string',
+                  );
 
   private $alias = array(
                     'boolean' => 'bool',
@@ -74,7 +74,7 @@ class Expect
     $type = strtolower($type);
     $type = isset($this->alias[$type]) ? $this->alias[$type] : $type;
 
-    if (in_array(strtolower($type), $this->scalars)) {
+    if (in_array(strtolower($type), $this->types)) {
       array_unshift($arguments, $type);
 
       $method = 'Is';
