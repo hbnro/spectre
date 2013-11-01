@@ -4,9 +4,13 @@ namespace Habanero\Spectre;
 
 class Helpers
 {
-  public static function execute(array $test, $node)
+  public static function execute(array $test, $node, $coverage, $description)
   {
     $err = array();
+
+    if ($coverage) {
+      $coverage->start("$node->description $description");
+    }
 
     foreach ($test as $callback) {
       $fun = new \ReflectionFunction($callback);
@@ -21,6 +25,10 @@ class Helpers
       } catch (\Exception $e) {
         $err []= $e->getMessage();
       }
+    }
+
+    if ($coverage) {
+      $coverage->stop();
     }
 
     return $err;

@@ -46,7 +46,7 @@ class Node
     $this->context->{$key} = $value;
   }
 
-  public function report()
+  public function report($coverage)
   {
     $out = array();
 
@@ -57,12 +57,12 @@ class Node
       if (!empty($group->tests)) {
         foreach ($group->tests as $desc => $fn) {
           isset($out['groups'][$group->description]['results']) || $out['groups'][$group->description]['results'] = array();
-          $out['groups'][$group->description]['results'][$desc] = Test::execute($fn, $group);
+          $out['groups'][$group->description]['results'][$desc] = Test::execute($fn, $group, $coverage, $desc);
         }
       }
 
       if (!empty($group->tree)) {
-        $out['groups'][$group->description] += $group->report();
+        $out['groups'][$group->description] += $group->report($coverage);
       }
 
       if (empty($out['groups'][$group->description])) {

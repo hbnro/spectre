@@ -47,9 +47,9 @@ class Base
     exit(1);
   }
 
-  public function run()
+  public function run($coverage = null)
   {
-    if (!($retval = $this->tree->report())) {
+    if (!($retval = $this->tree->report($coverage))) {
       $this->abort('Missing specs!');
     }
 
