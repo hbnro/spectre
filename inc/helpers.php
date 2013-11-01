@@ -1,24 +1,24 @@
 <?php
 
-use \Habanero\Spectre\Base as Spectre,
-    \Habanero\Spectre\Expect as Assert;
+use Habanero\Spectre\Base as Scope,
+    Habanero\Spectre\Expect as Assert;
 
 function expect($value)
 {
   return Assert::that($value);
 }
 
-function local($key, $value)
+function let($key, $value)
 {
-  return Spectre::local($key, $value);
+  Scope::local($key, $value);
 }
 
 function describe($desc, $cases)
 {
-  Spectre::describe($desc, $cases);
+  Scope::add($desc, $cases);
 }
 
 function it($desc, $test)
 {
-  Spectre::it($desc, $test);
+  Scope::push($desc, $test);
 }

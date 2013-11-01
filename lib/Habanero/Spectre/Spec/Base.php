@@ -18,7 +18,7 @@ class Base
     return call_user_func_array(array($this->tree, $method), $arguments);
   }
 
-  public function describe($desc, $cases)
+  public function add($desc, $cases)
   {
     $fail = false;
     $this->tree = $this->tree->add($desc);
@@ -36,7 +36,7 @@ class Base
     }
   }
 
-  public function it($desc, $test)
+  public function push($desc, $test)
   {
     $this->tree->push($desc, $test);
   }
