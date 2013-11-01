@@ -50,7 +50,7 @@ class Base
   public function run($coverage = null)
   {
     if (!($retval = $this->tree->report($coverage))) {
-      $this->abort('Missing specs!');
+      throw new \Exception('Missing specs!');
     }
 
     return $retval;
