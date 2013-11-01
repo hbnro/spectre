@@ -13,7 +13,7 @@
     "habanero/clipper": "dev-master"
   },
   "autoload": {
-    "psr-0": { "Spectre": "lib/" },
+    "psr-0": { "Habanero\\Spectre\\": "lib" },
     "files": ["inc/helpers.php"]
   },
   "minimum-stability": "dev",
