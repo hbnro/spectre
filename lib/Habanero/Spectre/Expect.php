@@ -1,6 +1,8 @@
 <?php
 
-namespace Spectre;
+namespace Habanero\Spectre;
+
+use Habanero\Spectre\Helpers as Dump;
 
 class Expect
 {
@@ -47,7 +49,7 @@ class Expect
 
     // default matchers
     $method = ucfirst($method);
-    $klass = "\\Spectre\\Matchers\\$method";
+    $klass = "\\Habanero\\Spectre\\Matchers\\$method";
 
     $test = new $klass($this->expected);
     $result = call_user_func_array(array($test, 'execute'), $arguments);
@@ -59,8 +61,8 @@ class Expect
 
     $repl = array(
       '{verb}' => trim($verb),
-      '{value}' => \Spectre\Base::scalar($arguments),
-      '{subject}' => \Spectre\Base::scalar(array($this->expected)),
+      '{value}' => Dump::scalar($arguments),
+      '{subject}' => Dump::scalar(array($this->expected)),
     );
 
     // reporting

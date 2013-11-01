@@ -1,6 +1,6 @@
 <?php
 
-namespace Spectre\Matchers;
+namespace Habanero\Spectre\Matchers;
 
 class ToEqual extends Base
 {

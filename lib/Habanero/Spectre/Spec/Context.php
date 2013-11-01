@@ -1,6 +1,6 @@
 <?php
 
-namespace Spectre\Spec;
+namespace Habanero\Spectre\Spec;
 
 class Context
 {

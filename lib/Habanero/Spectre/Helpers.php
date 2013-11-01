@@ -1,20 +1,9 @@
 <?php
 
-namespace Spectre;
+namespace Habanero\Spectre;
 
-class Base
+class Helpers
 {
-  private static $spectre;
-
-  public static function instance()
-  {
-    if (!static::$spectre) {
-      static::$spectre = new \Spectre\Spec\Base;
-    }
-
-    return static::$spectre;
-  }
-
   public static function execute(array $test, $node)
   {
     $err = array();

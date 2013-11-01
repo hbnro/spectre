@@ -1,8 +1,9 @@
 <?php
 
-namespace Spectre;
+namespace Habanero\Spectre;
 
-use \Clipper\Params;
+use Habanero\Spectre\Base as Spectre,
+    Habanero\Clipper\Params as GetOpts;
 
 class Runner
 {
@@ -15,11 +16,11 @@ class Runner
     $xdebug = function_exists('xdebug_is_enabled') && xdebug_is_enabled();
 
     try {
-      static::$params = new Params($argv);
+      static::$params = new GetOpts($argv);
       static::$params->parse(array(
-        'cover' => array('c', 'cover', Params::PARAM_NO_VALUE),
-        'exclude' => array('x', 'exclude', Params::PARAM_MULTIPLE),
-        'reporter' => array('r', 'reporter', Params::PARAM_REQUIRED),
+        'cover' => array('c', 'cover', GetOpts::PARAM_NO_VALUE),
+        'exclude' => array('x', 'exclude', GetOpts::PARAM_MULTIPLE),
+        'reporter' => array('r', 'reporter', GetOpts::PARAM_REQUIRED),
       ));
 
       if ($xdebug && static::$params['cover']) {
@@ -108,7 +109,7 @@ class Runner
       throw new \Exception("Unknown '$reporter' reporter");
     }
 
-    $data = \Spectre\Base::instance()->run();
+    $data = Spectre::run();
 
     if (!$data) {
       echo "Missing specs\n";
@@ -117,7 +118,7 @@ class Runner
       static::report();
     }
 
-    $klass = "\\Spectre\\Report\\$reporter";
+    $klass = "\\Habanero\\Spectre\\Report\\$reporter";
     $tap = new $klass($data);
 
     echo $tap;

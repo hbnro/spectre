@@ -12,14 +12,14 @@ call_user_func(function () use($argv) {
     dirname(dirname(dirname(__DIR__))),
   );
 
-
   foreach ($vendor_dirs as $path) {
     $vendor_file = join(array($path, 'vendor', 'autoload.php'), DIRECTORY_SEPARATOR);
+
     if (is_file($vendor_file)) {
       require $vendor_file;
       break;
     }
   }
 
-  \Spectre\Runner::execute($argv);
+  \Habanero\Spectre\Runner::execute($argv);
 });

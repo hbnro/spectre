@@ -1,6 +1,6 @@
 <?php
 
-namespace Spectre\Report;
+namespace Habanero\Spectre\Report;
 
 class Basic
 {
