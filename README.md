@@ -68,7 +68,7 @@ $ vendor/bin/spectre ./specs /path/to/specs --cover --exclude docs
 $ vendor/bin/spectre $PWD/specs --reporter=Basic
 ```
 
-  - `[-r|--reporter=]<TAP|Basic>` choose the reporter (default: Basic)
+  - `[-r|--reporter=]<TAP|JSON|Basic>` choose the reporter (default: Basic)
   - `[-x|--exclude=]<file|path>` ignored for code-coverage
   - `[-c|--cover]` enables the code-coverage
   - `<file|path>` any input file or path
