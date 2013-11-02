@@ -1,6 +1,6 @@
 <?php
 
-namespace Habanero\Spectre\Matchers;
+namespace Spectre\Matchers;
 
 class ToBeLessThan extends Base
 {

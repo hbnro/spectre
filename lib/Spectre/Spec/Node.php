@@ -1,11 +1,6 @@
 <?php
 
-namespace Habanero\Spectre\Spec;
-
-use Habanero\Spectre\Base as Spectre,
-    Habanero\Spectre\Helpers as Test,
-    Habanero\Spectre\Spec\Node as Group,
-    Habanero\Spectre\Spec\Context as Scope;
+namespace Spectre\Spec;
 
 class Node
 {
@@ -15,7 +10,7 @@ class Node
 
   public function __construct()
   {
-    $this->context = new Scope;
+    $this->context = new \Spectre\Spec\Context;
   }
 
   public function add($spec)
@@ -26,7 +21,7 @@ class Node
       }
     }
 
-    $node = new Group;
+    $node = new \Spectre\Spec\Node;
     $node->parent = $this;
     $node->description = $spec;
 
@@ -66,7 +61,7 @@ class Node
   {
     foreach ($group->tests as $desc => $fn) {
       isset($out['groups'][$group->description]['results']) || $out['groups'][$group->description]['results'] = array();
-      $out['groups'][$group->description]['results'][$desc] = Test::execute($fn, $group, $coverage, $desc);
+      $out['groups'][$group->description]['results'][$desc] = \Spectre\Helpers::execute($fn, $group, $coverage, $desc);
     }
   }
 

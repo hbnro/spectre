@@ -1,7 +1,5 @@
 <?php
 
-use Habanero\Spectre\Spec\Base as Spec;
-
 describe('Spectre:', function () {
   describe('Other tests:', function () {
     it('can negate individual tests', function () {
@@ -24,7 +22,7 @@ describe('Spectre:', function () {
     });
 
     it('should be self-contained', function () {
-      $scope = new Spec;
+      $scope = new \Spectre\Spec\Base;
 
       $it = function($desc, $test) use ($scope) { $scope->push($desc, $test); };
       $let = function($key, $value) use ($scope) { $scope->local($key, $value); };

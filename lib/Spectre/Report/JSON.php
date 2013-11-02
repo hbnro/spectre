@@ -1,6 +1,6 @@
 <?php
 
-namespace Habanero\Spectre\Report;
+namespace Spectre\Report;
 
 class JSON
 {

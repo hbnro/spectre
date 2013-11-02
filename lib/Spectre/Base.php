@@ -1,8 +1,6 @@
 <?php
 
-namespace Habanero\Spectre;
-
-use Habanero\Spectre\Spec\Base as Spec;
+namespace Spectre;
 
 class Base
 {
@@ -11,7 +9,7 @@ class Base
   public static function __callStatic($method, array $arguments)
   {
     if (!static::$spectre) {
-      static::$spectre = new Spec;
+      static::$spectre = new \Spectre\Spec\Base;
     }
 
     return call_user_func_array(array(static::$spectre, $method), $arguments);

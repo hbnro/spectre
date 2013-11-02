@@ -1,6 +1,6 @@
 <?php
 
-namespace Habanero\Spectre;
+namespace Spectre;
 
 class Helpers
 {

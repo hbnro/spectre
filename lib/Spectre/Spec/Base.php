@@ -1,8 +1,6 @@
 <?php
 
-namespace Habanero\Spectre\Spec;
-
-use Habanero\Spectre\Spec\Node as Group;
+namespace Spectre\Spec;
 
 class Base
 {
@@ -10,7 +8,7 @@ class Base
 
   public function __construct()
   {
-    $this->tree = new Group;
+    $this->tree = new \Spectre\Spec\Node;
   }
 
   public function __call($method, array $arguments)

@@ -1,9 +1,6 @@
 <?php
 
-namespace Habanero\Spectre;
-
-use Habanero\Spectre\Base as Spectre,
-    Habanero\Clipper\Params as GetOpts;
+namespace Spectre;
 
 class Runner
 {
@@ -14,11 +11,11 @@ class Runner
   public static function execute(array $argv = array())
   {
     try {
-      static::$params = new GetOpts($argv);
+      static::$params = new \Clipper\Params($argv);
       static::$params->parse(array(
-        'cover' => array('c', 'cover', GetOpts::PARAM_NO_VALUE),
-        'exclude' => array('x', 'exclude', GetOpts::PARAM_MULTIPLE),
-        'reporter' => array('r', 'reporter', GetOpts::PARAM_REQUIRED),
+        'cover' => array('c', 'cover', \Clipper\Params::PARAM_NO_VALUE),
+        'exclude' => array('x', 'exclude', \Clipper\Params::PARAM_MULTIPLE),
+        'reporter' => array('r', 'reporter', \Clipper\Params::PARAM_REQUIRED),
       ));
 
       $files = static::prepare();
@@ -66,7 +63,7 @@ class Runner
     if ($xdebug && static::$params['cover']) {
       $cc = new \PHP_CodeCoverage(null, static::skip());
 
-      $data = Spectre::run($cc);
+      $data = \Spectre\Base::run($cc);
 
       $html = new \PHP_CodeCoverage_Report_HTML;
       $html->process($cc, 'coverage/html-report');
@@ -74,10 +71,10 @@ class Runner
       $clover = new \PHP_CodeCoverage_Report_Clover;
       $clover->process($cc, 'coverage/clover-report.xml');
     } else {
-      $data = Spectre::run();
+      $data = \Spectre\Base::run();
     }
 
-    $klass = "\\Habanero\\Spectre\\Report\\$reporter";
+    $klass = "\\Spectre\\Report\\$reporter";
     $tap = new $klass($data);
 
     echo $tap;
