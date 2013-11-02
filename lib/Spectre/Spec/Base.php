@@ -16,6 +16,17 @@ class Base
     return call_user_func_array(array($this->tree, $method), $arguments);
   }
 
+  public function set(array $group)
+  {
+    foreach ($group as $ctx) {
+      @list($node, $block) = $ctx;
+
+      $this->tree = $node;
+
+      call_user_func($block);
+    }
+  }
+
   public function add($desc, $cases)
   {
     $fail = false;

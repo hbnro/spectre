@@ -8,6 +8,12 @@ class Node
   public $tests = array();
   public $context;
 
+  private $after = array();
+  private $afterEach = array();
+
+  private $before = array();
+  private $beforeEach = array();
+
   public function __construct()
   {
     $this->context = new \Spectre\Spec\Context;
@@ -45,24 +51,59 @@ class Node
   {
     $out = array();
 
+    \Spectre\Base::set($this->before);
+
     foreach ($this->tree as $group) {
       isset($out['groups']) || $out['groups'] = array();
       $out['groups'][$group->description] = array();
 
+      \Spectre\Base::set($this->beforeEach);
+
       empty($group->tests) || $this->reduce($coverage, $group, $out);
+
+      \Spectre\Base::set($this->afterEach);
 
       $this->filter($coverage, $group, $out);
     }
 
+    \Spectre\Base::set($this->after);
+
     return $out;
+  }
+
+  public function prepend(\Closure $block, $each = false)
+  {
+    if ($each) {
+      $this->beforeEach []= array($this, $block);
+    } else {
+      $this->before []= array($this, $block);
+    }
+  }
+
+  public function append(\Closure $block, $each = false)
+  {
+    if ($each) {
+      $this->afterEach []= array($this, $block);
+    } else {
+      $this->after []= array($this, $block);
+    }
   }
 
   private function reduce($coverage, $group, &$out)
   {
+    \Spectre\Base::set($group->before);
+
     foreach ($group->tests as $desc => $fn) {
       isset($out['groups'][$group->description]['results']) || $out['groups'][$group->description]['results'] = array();
+
+      \Spectre\Base::set($group->beforeEach);
+
       $out['groups'][$group->description]['results'][$desc] = \Spectre\Helpers::execute($fn, $group, $coverage, $desc);
+
+      \Spectre\Base::set($group->afterEach);
     }
+
+    \Spectre\Base::set($group->after);
   }
 
   private function filter($coverage, $group, &$out)
