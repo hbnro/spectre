@@ -62,6 +62,8 @@ class Helpers
       $test = '{closure}';
     } elseif (is_object($test)) {
       $test = get_class($test);
+    } else {
+      $test = (string) $test;
     }
 
     return $test;
