@@ -58,8 +58,6 @@ class Runner
       throw new \Exception("Unknown '$reporter' reporter");
     }
 
-    echo "Executing tests...\n";
-
     $xdebug = function_exists('xdebug_is_enabled') && xdebug_is_enabled();
 
     if ($xdebug && static::$params['cover']) {
@@ -75,8 +73,6 @@ class Runner
     } else {
       $data = \Spectre\Base::run();
     }
-
-    echo "Preparing report...\n\n";
 
     $klass = "\\Spectre\\Report\\$reporter";
     $tap = new $klass($data);
