@@ -58,6 +58,12 @@ describe('Spectre:', function () {
       '!toStartWith' => array('def', 'f'),
       'toThrow' => array(function () { throw new \Exception; }),
       '!toThrow' => array(function () {}),
+      'toPrint' => array('fuu', 'fuu'),
+      '!toPrint' => array(array(), null),
+      'toHaveKey' => array(array('x' => 'baz'), 'x'),
+      '!toHaveKey' => array('baz', 'y'),
+      'toHaveLength' => array('buzz', 4),
+      '!toHaveLength' => array(array('a','b','c'), 2),
     );
 
     foreach ($tests as $fn => $args) {
