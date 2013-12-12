@@ -93,6 +93,8 @@ class Node
   {
     \Spectre\Base::set($group->before);
 
+    $logger && call_user_func($logger, null, $group->description);
+
     foreach ($group->tests as $desc => $fn) {
       isset($out['groups'][$group->description]['results']) || $out['groups'][$group->description]['results'] = array();
 

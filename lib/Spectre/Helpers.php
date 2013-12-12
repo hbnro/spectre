@@ -19,7 +19,12 @@ class Helpers
         $err []= $e->getMessage();
       }
 
-      $logger && call_user_func($logger, "$node->description $description", $result, end($err));
+      if ($logger) {
+        $icon = $result ? '✓' : '✗';
+        $status = $result ? 'OK' : 'FAIL';
+
+        call_user_func($logger, $result ? 'green' : 'red', "  $icon $description ... $status", end($err));
+      }
     }
 
     $coverage && $coverage->stop();

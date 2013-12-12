@@ -65,15 +65,12 @@ class Runner
     $shell = new \Clipper\Shell;
     $error = 0;
 
-    \Spectre\Base::log(function ($test, $ok, $e) use ($shell, &$error) {
-      $color = $ok ? 'green' : 'red';
-      $result = $ok ? 'OK' : 'FAIL';
-
-      $shell->printf("  <c:$color>* $test ... $result</c>\n");
+    \Spectre\Base::log(function ($color, $msg, $e = null) use ($shell, &$error) {
+      $shell->printf($color ? "  <c:$color>$msg</c>\n" : "  $msg\n");
 
       if ($e) {
         $error++;
-        $shell->printf("    <c:red>$e</c>\n");
+        $shell->printf("      <c:red>$e</c>\n");
       }
     });
 
