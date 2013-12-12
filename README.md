@@ -3,9 +3,9 @@ Spectre
 
 Aims to write-and-run your specs in a easy way. Quickly.
 
-  - Report results using TAP, JSON or Basic-output
   - Code-coverage reporting with PHPUnit
   - Don't struggle with classes!
+  - Save as TAP or JSON
 
 ## How to?
 
@@ -65,12 +65,13 @@ $ vendor/bin/spectre specs -rTAP
 # examples
 $ vendor/bin/spectre specs -r TAP -c -x vendor -xspecs
 $ vendor/bin/spectre ./specs /path/to/specs --cover --exclude docs
-$ vendor/bin/spectre $PWD/specs --reporter=Basic
+$ vendor/bin/spectre $PWD/specs --save results.json
 ```
 
-  - `[-r|--reporter=]<TAP|JSON|Basic>` choose the reporter (default: Basic)
+  - `[-r|--reporter=]<TAP|JSON>` choose the reporter
   - `[-x|--exclude=]<file|path>` ignored for code-coverage
   - `[-c|--cover]` enables the code-coverage
+  - `[-o|--save]` custom report file
   - `<file|path>` any input file or path
 
 [![Build Status](https://travis-ci.org/pateketrueke/spectre.png)](https://travis-ci.org/pateketrueke/spectre)

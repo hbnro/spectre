@@ -13,6 +13,7 @@ class Runner
     try {
       static::$params = new \Clipper\Params($argv);
       static::$params->parse(array(
+        'file' => array('o', 'save', \Clipper\Params::PARAM_REQUIRED),
         'cover' => array('c', 'cover', \Clipper\Params::PARAM_NO_VALUE),
         'exclude' => array('x', 'exclude', \Clipper\Params::PARAM_MULTIPLE),
         'reporter' => array('r', 'reporter', \Clipper\Params::PARAM_REQUIRED),
@@ -52,13 +53,32 @@ class Runner
 
   private static function run()
   {
-    $reporter = !empty(static::$params['reporter']) ? static::$params['reporter'] : 'Basic';
+    $start = microtime(true);
+    $reporter = static::$params['reporter'];
 
-    if (!in_array($reporter, static::$reporters)) {
+    if ($reporter && !in_array($reporter, static::$reporters)) {
       throw new \Exception("Unknown '$reporter' reporter");
     }
 
     $xdebug = function_exists('xdebug_is_enabled') && xdebug_is_enabled();
+
+    $shell = new \Clipper\Shell;
+    $error = 0;
+
+    \Spectre\Base::log(function ($test, $ok, $e) use ($shell, &$error) {
+      $color = $ok ? 'green' : 'red';
+      $result = $ok ? 'OK' : 'FAIL';
+
+      $shell->printf("  <c:$color>* $test ... $result</c>\n");
+
+      if ($e) {
+        $error++;
+        $shell->printf("    <c:red>$e</c>\n");
+      }
+    });
+
+    $shell->printf("Spectre\n");
+    $shell->printf("  <c:cyan>Running specs</c>\n");
 
     if ($xdebug && static::$params['cover']) {
       $cc = new \PHP_CodeCoverage(null, static::skip());
@@ -70,15 +90,36 @@ class Runner
 
       $clover = new \PHP_CodeCoverage_Report_Clover;
       $clover->process($cc, 'coverage/clover-report.xml');
+
+      $shell->printf("  <c:cyan>Saved code-coverage</c>\n");
     } else {
       $data = \Spectre\Base::run();
     }
 
-    $klass = "\\Spectre\\Report\\$reporter";
-    $tap = new $klass($data);
 
-    echo $tap;
-    exit((int) (!!$tap->status));
+    if ($reporter || static::$params['file']) {
+      $file = static::$params['file'] ?: 'report.' . strtolower($reporter);
+      $reporter = $reporter ?: strtoupper(substr($file, strrpos($file, '.') + 1));
+
+      $klass = "\\Spectre\\Report\\$reporter";
+      $tap = new $klass($data);
+      $txt = (string) $tap;
+
+      $shell->printf("  <c:cyan>Saved $file</c>\n");
+
+      file_put_contents($file, $txt);
+    }
+
+
+    $diff = round(microtime(true) - $start, 4);
+
+    if ($error) {
+      $shell->writeln("Done with errors ({$diff}s)");
+    } else {
+      $shell->writeln("Done ({$diff}s)");
+    }
+
+    exit((int) (!!$error));
   }
 
   private static function skip()

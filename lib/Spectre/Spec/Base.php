@@ -5,6 +5,7 @@ namespace Spectre\Spec;
 class Base
 {
   private $tree;
+  private $logger;
 
   public function __construct()
   {
@@ -58,10 +59,15 @@ class Base
 
   public function run($coverage = null)
   {
-    if (!($retval = $this->tree->report($coverage))) {
+    if (!($retval = $this->tree->report($coverage, $this->logger))) {
       throw new \Exception('Missing specs!');
     }
 
     return $retval;
+  }
+
+  public function log(\Closure $block)
+  {
+    $this->logger = $block;
   }
 }

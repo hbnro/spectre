@@ -4,7 +4,7 @@ namespace Spectre;
 
 class Helpers
 {
-  public static function execute(array $test, $node, $coverage, $description)
+  public static function execute(array $test, $node, $coverage, $logger, $description)
   {
     $err = array();
 
@@ -12,10 +12,14 @@ class Helpers
 
     foreach ($test as $callback) {
       try {
+        $result = true;
         call_user_func_array($callback, static::inject($callback, $node));
       } catch (\Exception $e) {
+        $result = false;
         $err []= $e->getMessage();
       }
+
+      $logger && call_user_func($logger, "$node->description $description", $result, end($err));
     }
 
     $coverage && $coverage->stop();

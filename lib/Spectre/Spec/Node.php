@@ -47,7 +47,7 @@ class Node
     $this->context->{$key} = $value;
   }
 
-  public function report($coverage)
+  public function report($coverage, \Closure $logger = null)
   {
     $out = array();
 
@@ -59,11 +59,11 @@ class Node
 
       \Spectre\Base::set($this->beforeEach);
 
-      empty($group->tests) || $this->reduce($coverage, $group, $out);
+      empty($group->tests) || $this->reduce($coverage, $logger, $group, $out);
 
       \Spectre\Base::set($this->afterEach);
 
-      $this->filter($coverage, $group, $out);
+      $this->filter($coverage, $logger, $group, $out);
     }
 
     \Spectre\Base::set($this->after);
@@ -89,7 +89,7 @@ class Node
     }
   }
 
-  private function reduce($coverage, $group, &$out)
+  private function reduce($coverage, $logger, $group, &$out)
   {
     \Spectre\Base::set($group->before);
 
@@ -98,7 +98,7 @@ class Node
 
       \Spectre\Base::set($group->beforeEach);
 
-      $out['groups'][$group->description]['results'][$desc] = \Spectre\Helpers::execute($fn, $group, $coverage, $desc);
+      $out['groups'][$group->description]['results'][$desc] = \Spectre\Helpers::execute($fn, $group, $coverage, $logger, $desc);
 
       \Spectre\Base::set($group->afterEach);
     }
@@ -106,10 +106,10 @@ class Node
     \Spectre\Base::set($group->after);
   }
 
-  private function filter($coverage, $group, &$out)
+  private function filter($coverage, $logger, $group, &$out)
   {
     if (!empty($group->tree)) {
-      $out['groups'][$group->description] += $group->report($coverage);
+      $out['groups'][$group->description] += $group->report($coverage, $logger);
     }
 
     if (empty($out['groups'][$group->description])) {
