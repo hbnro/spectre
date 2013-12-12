@@ -5,7 +5,21 @@ error_reporting(-1);
 date_default_timezone_set('America/Mexico_City');
 
 call_user_func(function () use($argv) {
-  require dirname(__DIR__).DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
+  $vendor_dirs = array(
+    getcwd(),
+    dirname(__DIR__),
+    dirname(dirname(__DIR__)),
+    dirname(dirname(dirname(__DIR__))),
+  );
+
+  foreach ($vendor_dirs as $path) {
+    $vendor_file = join(array($path, 'vendor', 'autoload.php'), DIRECTORY_SEPARATOR);
+
+    if (is_file($vendor_file)) {
+      require $vendor_file;
+      break;
+    }
+  }
 
   \Spectre\Runner::execute($argv);
 });
