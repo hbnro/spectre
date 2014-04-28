@@ -4,32 +4,28 @@ namespace Spectre;
 
 class Runner
 {
+  public static $status = 0;
+
   private static $cc;
   private static $params;
   private static $reporters = array('TAP', 'JSON', 'Basic');
 
   public static function execute(array $argv = array())
   {
-    try {
-      static::$params = new \Clipper\Params($argv);
-      static::$params->parse(array(
-        'file' => array('o', 'save', \Clipper\Params::PARAM_REQUIRED),
-        'cover' => array('c', 'cover', \Clipper\Params::PARAM_NO_VALUE),
-        'exclude' => array('x', 'exclude', \Clipper\Params::PARAM_MULTIPLE),
-        'reporter' => array('r', 'reporter', \Clipper\Params::PARAM_REQUIRED),
-      ));
+    static::$params = new \Clipper\Params($argv);
+    static::$params->parse(array(
+      'cover' => array('c', 'cover', \Clipper\Params::PARAM_NO_VALUE),
+      'exclude' => array('x', 'exclude', \Clipper\Params::PARAM_MULTIPLE),
+      'reporter' => array('r', 'reporter', \Clipper\Params::PARAM_REQUIRED),
+    ));
 
-      $files = static::prepare();
+    $files = static::prepare();
 
-      foreach ($files as $spec) {
-        require $spec;
-      }
-
-      static::run();
-    } catch (\Exception $e) {
-      echo $e->getMessage() . "\n";
-      exit(1);
+    foreach ($files as $spec) {
+      require $spec;
     }
+
+    static::run();
   }
 
   private static function prepare()
@@ -111,12 +107,12 @@ class Runner
     $diff = round(microtime(true) - $start, 4);
 
     if ($error) {
-      $shell->writeln("Done with errors ({$diff}s)");
+      $shell->printf("<c:red>Done with errors ({$diff}s)</c>\n");
     } else {
-      $shell->writeln("Done ({$diff}s)");
+      $shell->printf("<c:green>Done ({$diff}s)</c>\n");
     }
 
-    exit((int) (!!$error));
+    static::$status = $error ? 1 : 0;
   }
 
   private static function skip()

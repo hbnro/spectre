@@ -36,7 +36,6 @@ class Base
     try {
       call_user_func($cases);
     } catch (\Exception $e) {
-      $this->abort($e);
       $fail = true;
     }
 
@@ -49,12 +48,6 @@ class Base
   public function push($desc, $test)
   {
     $this->tree->push($desc, $test);
-  }
-
-  public function abort($error)
-  {
-    echo "$error\n";
-    exit(1);
   }
 
   public function run($coverage = null)

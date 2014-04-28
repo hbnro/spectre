@@ -5,6 +5,8 @@ error_reporting(-1);
 date_default_timezone_set('America/Mexico_City');
 
 call_user_func(function () use($argv) {
+  // TODO: how to include as sub-task on habanero?
+
   $vendor_dirs = array(
     getcwd(),
     dirname(__DIR__),
@@ -22,4 +24,6 @@ call_user_func(function () use($argv) {
   }
 
   \Spectre\Runner::execute($argv);
+
+  exit(\Spectre\Runner::$status);
 });
