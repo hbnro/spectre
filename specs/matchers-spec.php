@@ -56,6 +56,8 @@ describe('Spectre:', function () {
       '!toEndWith' => array('bar', 'baz'),
       'toStartWith' => array('abc', 'a'),
       '!toStartWith' => array('def', 'f'),
+      'toWarn' => array(function () { echo $a; }, 'Undefined variable: a'),
+      '!toWarn' => array(function () {}, 'NO_ERROR'),
       'toThrow' => array(function () { throw new \Exception; }),
       '!toThrow' => array(function () {}),
       'toPrint' => array('fuu', 'fuu'),
