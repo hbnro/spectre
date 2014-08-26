@@ -5,6 +5,22 @@ namespace Spectre;
 class Base
 {
   private static $spectre;
+  private static $matchers = [];
+
+  public static function addMatcher($klass, $method = null)
+  {
+    if (!$method) {
+      $method = explode('\\', $klass);
+      $method = array_pop($method);
+    }
+
+    static::$matchers[$method] = $klass;
+  }
+
+  public static function customMatchers()
+  {
+    return static::$matchers;
+  }
 
   public static function __callStatic($method, array $arguments)
   {

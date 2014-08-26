@@ -32,9 +32,9 @@ class Expect
 
   public function __call($method, array $arguments)
   {
-    // TODO: custom matchers
+    $matchers = Base::customMatchers();
 
-    $test = $this->callback($method, $arguments);
+    $test = $this->callback(!empty($matchers[$method]) ? $matchers[$method] : null, $method, $arguments);
 
     // value interpolation
     $verb = preg_replace_callback('/[A-Z]/', function ($match) {
@@ -64,23 +64,25 @@ class Expect
     return $this;
   }
 
-  private function callback($method, array $arguments)
+  private function callback($klass, $method, array $arguments)
   {
-  // is_* matching
-    @list(, $type) = explode('Be', $method);
+    if (!$klass) {
+      // is_* matching
+      @list(, $type) = explode('Be', $method);
 
-    $type = strtolower($type);
-    $type = isset($this->alias[$type]) ? $this->alias[$type] : $type;
+      $type = strtolower($type);
+      $type = isset($this->alias[$type]) ? $this->alias[$type] : $type;
 
-    if (in_array(strtolower($type), $this->types)) {
-      array_unshift($arguments, $type);
+      if (in_array(strtolower($type), $this->types)) {
+        array_unshift($arguments, $type);
 
-      $method = 'Is';
+        $method = 'Is';
+      }
+
+      // default matchers
+      $method = ucfirst($method);
+      $klass = "\\Spectre\\Matchers\\$method";
     }
-
-    // default matchers
-    $method = ucfirst($method);
-    $klass = "\\Spectre\\Matchers\\$method";
 
     $matcher = new $klass($this->expected);
     $this->result = call_user_func_array(array($matcher, 'execute'), $arguments);
