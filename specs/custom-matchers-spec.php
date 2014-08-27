@@ -10,8 +10,8 @@ class MyCustomMatcher extends \Spectre\Matchers\Base
   }
 }
 
-\Spectre\Base::addMatcher(MyCustomMatcher::class);
-\Spectre\Base::addMatcher(MyCustomMatcher::class, 'toBeCustomValue');
+\Spectre\Base::addMatcher('\\My\\Custom\\Tests\\MyCustomMatcher');
+\Spectre\Base::addMatcher('\\My\\Custom\\Tests\\MyCustomMatcher', 'toBeCustomValue');
 
 describe('Spectre', function () {
   describe('Custom matchers:', function () {
