@@ -73,7 +73,11 @@ class Runner
     $shell->printf("Spectre\n");
     $shell->printf("  <c:cyan>Running specs</c>\n");
 
-    if ($xdebug && static::$params['cover']) {
+    if (static::$params['cover']) {
+      if (!$xdebug) {
+        throw new \Exception("Xdebug is required for code coverage but is missing");
+      }
+
       $cc = new \PHP_CodeCoverage(null, static::skip());
 
       $data = \Spectre\Base::run($cc);
