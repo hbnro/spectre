@@ -5,7 +5,7 @@ namespace Spectre;
 class Base
 {
   private static $spectre;
-  private static $matchers = [];
+  private static $matchers = array();
 
   public static function addMatcher($klass, $method = null)
   {
