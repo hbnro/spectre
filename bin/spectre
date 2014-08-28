@@ -29,7 +29,6 @@ call_user_func(function () use ($argv) {
     'showHelp' => array('h', 'help', \Clipper\Params::PARAM_NO_VALUE),
     'watchMode' => array('w', 'watch', \Clipper\Params::PARAM_NO_VALUE),
     'watchTimeout' => array('t', 'timeout', \Clipper\Params::PARAM_REQUIRED),
-    'watchDuration' => array('d', 'duration', \Clipper\Params::PARAM_NO_VALUE),
     'codeCoverage' => array('c', 'coverage', \Clipper\Params::PARAM_NO_VALUE),
     'excludeSources' => array('x', 'exclude', \Clipper\Params::PARAM_MULTIPLE),
     'reportFile' => array('o', 'output', \Clipper\Params::PARAM_REQUIRED),
@@ -53,7 +52,7 @@ call_user_func(function () use ($argv) {
       throw new \Exception('PCNTL is required for watch mode but is missing');
     }
 
-    $timeout = !isset($cli->params['watchTimeout']) ? 1000 : ($cli->params['watchTimeout'] < 10 ? $cli->params['watchTimeout'] * 1000 : $cli->params['watchTimeout']);
+    $timeout = !empty($cli->params['watchTimeout']) ? $cli->params['watchTimeout'] : 1;
 
     $hashes = getcwd() . '/.spectre';
 
@@ -83,25 +82,17 @@ call_user_func(function () use ($argv) {
           pcntl_signal(SIGHUP, $kill);
           pcntl_signal(SIGINT, $kill);
 
-          $cli->printf("\n<c:light_gray>Press CTRL-C to quit.</c>\n");
-
-          if (!$cli->params['watchDuration']) {
-            $cli->printf("\n<c:dark_gray>(waiting for changes...)</c>");
-          } else {
-            $cli->writeln();
-          }
+          $cli->printf("\n<c:light_gray>Press CTRL-C to quit.</c>\n\n");
         } else {
           $callback();
         }
       }
 
-      if ($cli->params['watchDuration']) {
-        $time = \Spectre\Helpers::secs($duration);
+      $time = \Spectre\Helpers::secs($duration);
 
-        $cli->printf("\r<c:dark_gray>Watch time: $time (waiting for changes...)</c>");
-      }
+      $cli->printf("\r<c:dark_gray>Watch time: $time (waiting for changes...)</c>");
 
-      usleep($timeout);
+      sleep($timeout);
     });
 
     $cli->printf("\r");
