@@ -16,7 +16,9 @@ class Runner
   public static function execute()
   {
     foreach (array_keys(static::watch()) as $spec) {
-      require $spec;
+      if (preg_match('/-spec\.php$/', $spec)) {
+        require $spec;
+      }
     }
 
     return static::run();
@@ -24,21 +26,7 @@ class Runner
 
   public static function watch()
   {
-    $files = array();
-
-    foreach (static::$cli->params as $input) {
-      if (is_dir($input)) {
-        foreach (glob("$input/*-spec.php") as $one) {
-          $files[realpath($one)] = filemtime($one);
-        }
-      } elseif (is_file($input)) {
-        $files[realpath($input)] = filemtime($input);
-      } else {
-        throw new \Exception("The file or directory '$input' does not exists");
-      }
-    }
-
-    return $files;
+    return static::ls(static::$cli->params);
   }
 
   private static function run()
@@ -135,5 +123,28 @@ class Runner
     }
 
     return $filter;
+  }
+
+  private static function ls($set)
+  {
+    $files = array();
+
+    foreach ($set as $input) {
+      if (is_dir($input)) {
+        foreach (glob("$input/*") as $one) {
+          if (preg_match('/\.php$/', $one)) {
+            $files[realpath($one)] = filemtime($one);
+          } else {
+            $files = array_merge($files, static::ls(glob("$one/*")));
+          }
+        }
+      } elseif (is_file($input)) {
+        $files[realpath($input)] = filemtime($input);
+      } else {
+        throw new \Exception("The file or directory '$input' does not exists");
+      }
+    }
+
+    return $files;
   }
 }
