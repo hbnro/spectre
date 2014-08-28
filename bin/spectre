@@ -74,9 +74,9 @@ call_user_func(function () use ($argv) {
           pcntl_signal(SIGHUP, $kill);
           pcntl_signal(SIGINT, $kill);
 
-          $time = str_pad(\Spectre\Helpers::secs($duration), 8, ' ', STR_PAD_LEFT);
+          $time = \Spectre\Helpers::secs($duration);
 
-          $cli->printf("\n<c:dark_gray>$time</c> <c:cyan>Waiting for changes...</c>\n");
+          $cli->printf("\n<c:dark_gray>Watch time: $time</c>\n<c:cyan>Waiting for changes...</c>\n");
         } else {
           $callback();
         }
