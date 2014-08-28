@@ -67,8 +67,7 @@ class Runner
       }
     });
 
-    $shell->printf("Spectre\n");
-    $shell->printf("  <c:cyan>Running specs</c>\n");
+    $shell->printf("<c:cyan>Running specs</c>\n");
 
     if (static::$params['cover']) {
       if (!$xdebug) {
