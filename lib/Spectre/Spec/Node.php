@@ -47,7 +47,7 @@ class Node
     $this->context->{$key} = $value;
   }
 
-  public function report($coverage, \Closure $logger = null)
+  public function report($coverage, \Closure $logger = null, $tabs = 0)
   {
     $out = array();
 
@@ -59,11 +59,11 @@ class Node
 
       \Spectre\Base::set($this->beforeEach);
 
-      empty($group->tests) || $this->reduce($coverage, $logger, $group, $out);
+      $this->reduce($coverage, $logger, $group, $tabs + 1, $out);
 
       \Spectre\Base::set($this->afterEach);
 
-      $this->filter($coverage, $logger, $group, $out);
+      $this->filter($coverage, $logger, $group, $tabs + 1, $out);
     }
 
     \Spectre\Base::set($this->after);
@@ -89,29 +89,33 @@ class Node
     }
   }
 
-  private function reduce($coverage, $logger, $group, &$out)
+  private function reduce($coverage, $logger, $group, $tabs, &$out)
   {
     \Spectre\Base::set($group->before);
 
-    $logger && call_user_func($logger, null, $group->description);
+    $logger && call_user_func($logger, null, $tabs, $group->description, null);
 
     foreach ($group->tests as $desc => $fn) {
       isset($out['groups'][$group->description]['results']) || $out['groups'][$group->description]['results'] = array();
 
       \Spectre\Base::set($group->beforeEach);
 
-      $out['groups'][$group->description]['results'][$desc] = \Spectre\Helpers::execute($fn, $group, $coverage, $logger, $desc);
+      $out['groups'][$group->description]['results'][$desc] = \Spectre\Helpers::execute($fn, $group, $coverage, $logger, $desc, $tabs + 1);
 
       \Spectre\Base::set($group->afterEach);
     }
 
     \Spectre\Base::set($group->after);
+
+    if ($logger && sizeof($group->tests)) {
+      call_user_func($logger);
+    }
   }
 
-  private function filter($coverage, $logger, $group, &$out)
+  private function filter($coverage, $logger, $group, $tabs, &$out)
   {
     if (!empty($group->tree)) {
-      $out['groups'][$group->description] += $group->report($coverage, $logger);
+      $out['groups'][$group->description] += $group->report($coverage, $logger, $tabs);
     }
 
     if (empty($out['groups'][$group->description])) {

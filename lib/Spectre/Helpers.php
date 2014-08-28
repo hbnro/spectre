@@ -4,7 +4,7 @@ namespace Spectre;
 
 class Helpers
 {
-  public static function execute(array $test, $node, $coverage, $logger, $description)
+  public static function execute(array $test, $node, $coverage, $logger, $description, $indentation)
   {
     $err = array();
 
@@ -23,7 +23,7 @@ class Helpers
         $icon = $result ? '✓' : '✗';
         $status = $result ? 'OK' : 'FAIL';
 
-        call_user_func($logger, $result ? 'green' : 'red', "  $icon $description ... $status", end($err));
+        call_user_func($logger, $result ? 'green' : 'red', $indentation, "$icon $description ... $status", end($err));
       }
     }
 

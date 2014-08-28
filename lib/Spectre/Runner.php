@@ -58,16 +58,22 @@ class Runner
     $shell = static::$cli;
     $error = 0;
 
-    \Spectre\Base::log(function ($color, $msg, $e = null) use ($shell, &$error) {
-      $shell->printf($color ? "  <c:$color>$msg</c>\n" : "  $msg\n");
+    \Spectre\Base::log(function ($color = null, $tabs = null, $msg = null, $e = null) use ($shell, &$error) {
+      if (!$msg) {
+        $shell->writeln();
+      } else {
+        $indent = str_repeat('  ', $tabs);
 
-      if ($e) {
-        $error++;
-        $shell->printf("      <c:red>$e</c>\n");
+        $shell->printf($color ? "$indent<c:$color>$msg</c>\n" : "$indent$msg\n");
+
+        if ($e) {
+          $error++;
+          $shell->printf("$indent<c:red>$e</c>\n");
+        }
       }
     });
 
-    $shell->printf("<c:cyan>Running specs</c>\n");
+    $shell->printf("\n<c:light_cyan>Running specs...</c>\n");
 
     if (static::$params['cover']) {
       if (!$xdebug) {
@@ -89,7 +95,6 @@ class Runner
       $data = \Spectre\Base::run();
     }
 
-
     if ($reporter || static::$params['file']) {
       $file = static::$params['file'] ?: 'report.' . strtolower($reporter);
       $reporter = $reporter ?: strtoupper(substr($file, strrpos($file, '.') + 1));
@@ -102,7 +107,6 @@ class Runner
 
       file_put_contents($file, $txt);
     }
-
 
     $diff = round(microtime(true) - $start, 4);
 
