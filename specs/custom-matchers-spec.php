@@ -1,6 +1,5 @@
 <?php
 
-
 namespace My\Custom\Tests;
 
 class MyCustomMatcher extends \Spectre\Matchers\Base
@@ -13,7 +12,7 @@ class MyCustomMatcher extends \Spectre\Matchers\Base
 \Spectre\Base::addMatcher('\\My\\Custom\\Tests\\MyCustomMatcher');
 \Spectre\Base::addMatcher('\\My\\Custom\\Tests\\MyCustomMatcher', 'toBeCustomValue');
 
-describe('Spectre', function () {
+describe('Spectre:', function () {
   describe('Custom matchers:', function () {
     it('should validate custom matchers', function () {
       expect('foo')->toBeCustomValue('foo');
