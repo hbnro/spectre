@@ -93,7 +93,7 @@ Done (0.0017s)
 - **toContain($value)** &mdash; Test for including substrings
 - **toEqual($value)** &mdash; Weak equal comparison (with `==`)
 - **toMatch($value)** &mdash; Test strings with regular expressions
-- **toPrint($value)** &mdash; Test for buffered-substrings (buffers + includes/echos)
+- **toPrint($value)** &mdash; Test for buffered-substrings (capture includes/echos with buffers)
 - **toThrow([$value])** &mdash; Test for exceptions, if `$value` is provided will test against `instanceof`
 - **toWarn($value)** &mdash; Test for buffered-substrings at user-level errors, notices and warnings (no fatal ones)
 
@@ -111,8 +111,8 @@ class CustomMatcher extends Base
 
   public function execute($value)
   {
-  // test $value against $this->expected
-  // then return true or false
+    // test $value against $this->expected
+    // then return true or false
   }
 }
 
