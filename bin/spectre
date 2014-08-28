@@ -36,7 +36,9 @@ call_user_func(function () use ($argv) {
   ));
 
   if ($cli->params['showHelp'] || (sizeof($argv) <= 1)) {
-    $cli->writeln("Usage: $argv[0] [options] <folders|files>\n\nOptions:\n");
+    $cli->writeln("\nUsage: $argv[0] [options] <folders|files>");
+    $cli->writeln("       $argv[0] specs -c -xvendor");
+    $cli->writeln("       $argv[0] test lib src -w\n");
     $cli->writeln($cli->params->usage());
     $cli->writeln();
     exit;
