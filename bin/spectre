@@ -23,28 +23,37 @@ call_user_func(function () use ($argv) {
     }
   }
 
-  $cli = new \Clipper\Shell();
-  $opts = new \Clipper\Params($argv);
+  $cli = new \Clipper\Shell($argv);
 
-  $opts->parse(array(
-    'watch' => array('w', 'watch'),
-    'cover' => array('c', 'cover', \Clipper\Params::PARAM_NO_VALUE),
-    'exclude' => array('x', 'exclude', \Clipper\Params::PARAM_MULTIPLE),
-    'reporter' => array('r', 'reporter', \Clipper\Params::PARAM_REQUIRED),
+  $cli->params->parse(array(
+    'showHelp' => array('h', 'help', \Clipper\Params::PARAM_NO_VALUE),
+    'watchMode' => array('w', 'watch', \Clipper\Params::PARAM_NO_VALUE),
+    'watchTimeout' => array('t', 'timeout', \Clipper\Params::PARAM_REQUIRED),
+    'watchDuration' => array('d', 'duration', \Clipper\Params::PARAM_NO_VALUE),
+    'codeCoverage' => array('c', 'coverage', \Clipper\Params::PARAM_NO_VALUE),
+    'excludeSources' => array('x', 'exclude', \Clipper\Params::PARAM_MULTIPLE),
+    'reportFile' => array('o', 'output', \Clipper\Params::PARAM_REQUIRED),
+    'reportOutput' => array('r', 'reporter', \Clipper\Params::PARAM_REQUIRED),
   ));
 
-  \Spectre\Runner::initialize($opts, $cli);
+  \Spectre\Runner::initialize($cli);
 
-  $callback = function () {
-    exit(\Spectre\Runner::execute());
-  };
+  $callback = function () use ($cli) {
+    $status = \Spectre\Runner::execute();
 
-  if ($opts['watch']) {
-    if (!function_exists('pcntl_fork')) {
-      throw new \Exception('Missing extension PCNTL');
+    if (!$cli->params['watchMode']) {
+      $cli->writeln();
     }
 
-    $timeout = is_bool($opts['watch']) ? 1000 : ($opts['watch'] < 10 ? $opts['watch'] * 1000 : $opts['watch']);
+    exit($status);
+  };
+
+  if ($cli->params['watchMode']) {
+    if (!function_exists('pcntl_fork')) {
+      throw new \Exception('PCNTL is required for watch mode but is missing');
+    }
+
+    $timeout = !isset($cli->params['watchTimeout']) ? 1000 : ($cli->params['watchTimeout'] < 10 ? $cli->params['watchTimeout'] * 1000 : $cli->params['watchTimeout']);
 
     $hashes = getcwd() . '/.spectre';
 
@@ -74,18 +83,28 @@ call_user_func(function () use ($argv) {
           pcntl_signal(SIGHUP, $kill);
           pcntl_signal(SIGINT, $kill);
 
-          $cli->printf("\n<c:light_gray>[press CTRL-C to exit]</c>\n\n");
+          $cli->printf("\n<c:light_gray>Press CTRL-C to quit.</c>\n");
+
+          if (!$cli->params['watchDuration']) {
+            $cli->printf("\n<c:dark_gray>(waiting for changes...)</c>");
+          } else {
+            $cli->writeln();
+          }
         } else {
           $callback();
         }
       }
 
-      $time = \Spectre\Helpers::secs($duration);
+      if ($cli->params['watchDuration']) {
+        $time = \Spectre\Helpers::secs($duration);
 
-      $cli->printf("\r<c:dark_gray>Watch time: $time (waiting for changes...)</c>");
+        $cli->printf("\r<c:dark_gray>Watch time: $time (waiting for changes...)</c>");
+      }
 
       usleep($timeout);
     });
+
+    $cli->printf("\r");
 
     unlink($hashes);
   } else {

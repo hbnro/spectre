@@ -6,13 +6,11 @@ class Runner
 {
   private static $cc;
   private static $cli;
-  private static $params;
   private static $reporters = array('TAP', 'JSON', 'Basic');
 
-  public static function initialize($shell, $options = array())
+  public static function initialize($shell)
   {
     static::$cli = $shell;
-    static::$params = $options;
   }
 
   public static function execute()
@@ -28,7 +26,7 @@ class Runner
   {
     $files = array();
 
-    foreach (static::$params as $input) {
+    foreach (static::$cli->params as $input) {
       if (is_dir($input)) {
         foreach (glob("$input/*-spec.php") as $one) {
           $files[realpath($one)] = filemtime($one);
@@ -46,7 +44,7 @@ class Runner
   private static function run()
   {
     $start = microtime(true);
-    $reporter = static::$params['reporter'];
+    $reporter = static::$cli->params['reporterOutput'];
 
     if ($reporter && !in_array($reporter, static::$reporters)) {
       throw new \Exception("Unknown '$reporter' reporter");
@@ -74,9 +72,9 @@ class Runner
 
     $shell->printf("\n<c:light_cyan>Running specs...</c>\n");
 
-    if (static::$params['cover']) {
+    if (static::$cli->params['codeCoverage']) {
       if (!$xdebug) {
-        throw new \Exception("Xdebug is required for code coverage but is missing");
+        throw new \Exception('Xdebug is required for code coverage but is missing');
       }
 
       $cc = new \PHP_CodeCoverage(null, static::skip());
@@ -94,8 +92,8 @@ class Runner
       $data = \Spectre\Base::run();
     }
 
-    if ($reporter || static::$params['file']) {
-      $file = static::$params['file'] ?: 'report.' . strtolower($reporter);
+    if ($reporter || static::$cli->params['reportFile']) {
+      $file = static::$cli->params['reportFile'] ?: 'report.' . strtolower($reporter);
       $reporter = $reporter ?: strtoupper(substr($file, strrpos($file, '.') + 1));
 
       $klass = "\\Spectre\\Report\\$reporter";
@@ -121,9 +119,9 @@ class Runner
   private static function skip()
   {
     $filter = new \PHP_CodeCoverage_Filter;
-    $ignore = static::$params['exclude'] ?: array();
+    $ignore = static::$cli->params['excludeSources'] ?: array();
 
-    $ignore []= realpath(static::$params->caller());
+    $ignore []= realpath(static::$cli->params->caller());
     $ignore []= __FILE__; // TODO: how cover this?
 
     foreach ($ignore as $path) {
