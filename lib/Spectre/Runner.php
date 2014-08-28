@@ -89,7 +89,7 @@ class Runner
       $clover = new \PHP_CodeCoverage_Report_Clover;
       $clover->process($cc, 'coverage/clover-report.xml');
 
-      $shell->printf("  <c:cyan>Saved code-coverage</c>\n");
+      $shell->printf("<c:cyan>Saved code-coverage</c>\n");
     } else {
       $data = \Spectre\Base::run();
     }
@@ -102,7 +102,7 @@ class Runner
       $tap = new $klass($data);
       $txt = (string) $tap;
 
-      $shell->printf("  <c:cyan>Saved $file</c>\n");
+      $shell->printf("<c:cyan>Saved $file</c>\n");
 
       file_put_contents($file, $txt);
     }
