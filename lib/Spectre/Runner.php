@@ -43,7 +43,9 @@ class Runner
     $shell = static::$cli;
     $error = 0;
 
-    \Spectre\Base::log(function ($color = null, $tabs = null, $msg = null, $e = null) use ($shell, &$error) {
+    \Spectre\Base::log(function () use ($shell, &$error) {
+      @list($color, $tabs, $msg, $e) = func_get_args();
+
       if (!$msg) {
         $shell->writeln();
       } else {
