@@ -4,47 +4,44 @@ namespace Spectre;
 
 class Runner
 {
-  public static $status = 0;
-
   private static $cc;
+  private static $cli;
+  private static $files;
   private static $params;
   private static $reporters = array('TAP', 'JSON', 'Basic');
 
-  public static function execute(array $argv = array())
+  public static function initialize($options, $shell)
   {
-    static::$params = new \Clipper\Params($argv);
-    static::$params->parse(array(
-      'cover' => array('c', 'cover', \Clipper\Params::PARAM_NO_VALUE),
-      'exclude' => array('x', 'exclude', \Clipper\Params::PARAM_MULTIPLE),
-      'reporter' => array('r', 'reporter', \Clipper\Params::PARAM_REQUIRED),
-    ));
+    static::$cli = $shell;
+    static::$params = $options;
+  }
 
-    $files = static::prepare();
-
-    foreach ($files as $spec) {
+  public static function execute()
+  {
+    foreach (array_keys(static::watch()) as $spec) {
       require $spec;
     }
 
-    static::run();
+    return static::run();
   }
 
-  private static function prepare()
+  public static function watch()
   {
-    $files = array();
+    static::$files = array();
 
     foreach (static::$params as $input) {
       if (is_dir($input)) {
         foreach (glob("$input/*-spec.php") as $one) {
-          $files []= realpath($one);
+          static::$files[realpath($one)] = filemtime($one);
         }
       } elseif (is_file($input)) {
-        $files []= realpath($input);
+        static::$files[realpath($input)] = filemtime($input);
       } else {
         throw new \Exception("The file or directory '$input' does not exists");
       }
     }
 
-    return array_unique($files);
+    return static::$files;
   }
 
   private static function run()
@@ -58,7 +55,7 @@ class Runner
 
     $xdebug = function_exists('xdebug_is_enabled') && xdebug_is_enabled();
 
-    $shell = new \Clipper\Shell;
+    $shell = static::$cli;
     $error = 0;
 
     \Spectre\Base::log(function ($color, $msg, $e = null) use ($shell, &$error) {
@@ -116,7 +113,7 @@ class Runner
       $shell->printf("<c:green>Done ({$diff}s)</c>\n");
     }
 
-    static::$status = $error ? 1 : 0;
+    return $error ? 1 : 0;
   }
 
   private static function skip()
