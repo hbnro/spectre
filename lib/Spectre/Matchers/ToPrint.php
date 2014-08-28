@@ -11,6 +11,6 @@ class ToPrint extends Base
     print_r(is_callable($this->expected) ? call_user_func_array($this->expected, $args) : $this->expected);
     $test = ob_get_clean();
 
-    return $test === $value;
+    return false !== strpos($test, $value);
   }
 }
