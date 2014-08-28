@@ -77,4 +77,14 @@ class Helpers
 
     return $test;
   }
+
+  public static function secs($since)
+  {
+    $hours = floor($since / 3600);
+    $mins = floor($since % 3600 /60);
+    $now = sprintf('%d:%02d:%02d', $hours, $mins, $since % 60);
+    $now = preg_replace('/^0+:/', '', $now);
+
+    return $now;
+  }
 }
