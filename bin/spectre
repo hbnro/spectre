@@ -74,22 +74,20 @@ call_user_func(function () use ($argv) {
           pcntl_signal(SIGHUP, $kill);
           pcntl_signal(SIGINT, $kill);
 
-          $time = \Spectre\Helpers::secs($duration);
-
-          $cli->printf("\n<c:dark_gray>Watch time: $time</c>\n<c:cyan>Waiting for changes...</c>\n");
+          $cli->printf("\n<c:light_gray>[press CTRL-C to exit]</c>\n\n");
         } else {
           $callback();
         }
       }
 
+      $time = \Spectre\Helpers::secs($duration);
+
+      $cli->printf("\r<c:dark_gray>Watch time: $time (waiting for changes...)</c>");
+
       usleep($timeout);
     });
 
-    $cli->writeln("\nGood bye!\n");
-
-    if (is_file($hashes)) {
-      unlink($hashes);
-    }
+    unlink($hashes);
   } else {
     $callback();
   }
