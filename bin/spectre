@@ -26,14 +26,21 @@ call_user_func(function () use ($argv) {
   $cli = new \Clipper\Shell($argv);
 
   $cli->params->parse(array(
-    'showHelp' => array('h', 'help', \Clipper\Params::PARAM_NO_VALUE),
-    'watchMode' => array('w', 'watch', \Clipper\Params::PARAM_NO_VALUE),
-    'watchTimeout' => array('t', 'timeout', \Clipper\Params::PARAM_REQUIRED),
-    'codeCoverage' => array('c', 'coverage', \Clipper\Params::PARAM_NO_VALUE),
-    'excludeSources' => array('x', 'exclude', \Clipper\Params::PARAM_MULTIPLE),
-    'reportFile' => array('o', 'output', \Clipper\Params::PARAM_REQUIRED),
-    'reportOutput' => array('r', 'reporter', \Clipper\Params::PARAM_REQUIRED),
+    'showHelp' => array('h', 'help', \Clipper\Params::PARAM_NO_VALUE, 'Display this help'),
+    'watchMode' => array('w', 'watch', \Clipper\Params::PARAM_NO_VALUE, 'Enables the watch mode'),
+    'watchTimeout' => array('t', 'timeout', \Clipper\Params::PARAM_REQUIRED, 'Timeout in seconds for watch mode'),
+    'codeCoverage' => array('c', 'coverage', \Clipper\Params::PARAM_NO_VALUE, 'Enables code coverage instrumentation'),
+    'excludeSources' => array('x', 'exclude', \Clipper\Params::PARAM_MULTIPLE, 'Folders and files to exclude from coverage'),
+    'reportFile' => array('o', 'output', \Clipper\Params::PARAM_REQUIRED, 'Custom filename for saving coverage report'),
+    'reportOutput' => array('r', 'reporter', \Clipper\Params::PARAM_REQUIRED, 'Default reporter for coverage. Options: JSON, TAP'),
   ));
+
+  if ($cli->params['showHelp'] || (sizeof($argv) <= 1)) {
+    $cli->writeln("Usage: $argv[0] [options] <folders|files>\n\nOptions:\n");
+    $cli->writeln($cli->params->usage());
+    $cli->writeln();
+    exit;
+  }
 
   \Spectre\Runner::initialize($cli);
 
