@@ -9,7 +9,7 @@ class Runner
   private static $params;
   private static $reporters = array('TAP', 'JSON', 'Basic');
 
-  public static function initialize($options, $shell)
+  public static function initialize($shell, $options = array())
   {
     static::$cli = $shell;
     static::$params = $options;
