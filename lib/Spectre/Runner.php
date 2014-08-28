@@ -6,7 +6,6 @@ class Runner
 {
   private static $cc;
   private static $cli;
-  private static $files;
   private static $params;
   private static $reporters = array('TAP', 'JSON', 'Basic');
 
@@ -27,21 +26,21 @@ class Runner
 
   public static function watch()
   {
-    static::$files = array();
+    $files = array();
 
     foreach (static::$params as $input) {
       if (is_dir($input)) {
         foreach (glob("$input/*-spec.php") as $one) {
-          static::$files[realpath($one)] = filemtime($one);
+          $files[realpath($one)] = filemtime($one);
         }
       } elseif (is_file($input)) {
-        static::$files[realpath($input)] = filemtime($input);
+        $files[realpath($input)] = filemtime($input);
       } else {
         throw new \Exception("The file or directory '$input' does not exists");
       }
     }
 
-    return static::$files;
+    return $files;
   }
 
   private static function run()
