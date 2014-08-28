@@ -65,7 +65,7 @@ call_user_func(function () use ($argv) {
     };
 
     $cli->main(function ($cli, $ticks, $duration) use ($kill, $hashes, $timeout, $callback) {
-      $current_stats = md5(print_r(\Spectre\Runner::watch(), 1));
+      $current_stats = join("\n", array_unique(array_map('md5', \Spectre\Runner::watch())));
       $previous_stats = is_file($hashes) ? file_get_contents($hashes) : '';
 
       if ($previous_stats !== $current_stats) {
