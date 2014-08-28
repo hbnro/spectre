@@ -6,7 +6,7 @@ class Runner
 {
   private static $cc;
   private static $cli;
-  private static $reporters = array('TAP', 'JSON', 'Basic');
+  private static $reporters = array('TAP', 'JSON');
 
   public static function initialize($shell)
   {
@@ -32,14 +32,7 @@ class Runner
   private static function run()
   {
     $start = microtime(true);
-    $reporter = static::$cli->params['reporterOutput'];
-
-    if ($reporter && !in_array($reporter, static::$reporters)) {
-      throw new \Exception("Unknown '$reporter' reporter");
-    }
-
     $xdebug = function_exists('xdebug_is_enabled') && xdebug_is_enabled();
-
     $shell = static::$cli;
     $error = 0;
 
@@ -82,9 +75,13 @@ class Runner
       $data = \Spectre\Base::run();
     }
 
-    if ($reporter || static::$cli->params['reportFile']) {
-      $file = static::$cli->params['reportFile'] ?: 'report.' . strtolower($reporter);
-      $reporter = $reporter ?: strtoupper(substr($file, strrpos($file, '.') + 1));
+    if (static::$cli->params['reportOutput'] || static::$cli->params['reportFile']) {
+      $file = static::$cli->params['reportFile'] ?: 'report.' . strtolower(static::$cli->params['reporterOutput']);
+      $reporter = static::$cli->params['reportOutput'] ?: strtoupper(substr($file, strrpos($file, '.') + 1));
+
+      if (!in_array($reporter, static::$reporters)) {
+        throw new \Exception("Unknown '$reporter' reporter");
+      }
 
       $klass = "\\Spectre\\Report\\$reporter";
       $tap = new $klass($data);
