@@ -17,12 +17,12 @@ class JSON
 
     $this->status = $err;
 
-    return $this->format(array(
+    return json_encode(array(
       'tests' => $all,
       'errors' => $err,
       'success' => $all - $err,
       'results' => $this->spec,
-    )) . "\n";
+    ), JSON_NUMERIC_CHECK | (defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : 0)) . "\n";
   }
 
   private function report(array $set)
@@ -47,30 +47,5 @@ class JSON
     }
 
     return array($errors, $tests);
-  }
-
-  private function format($data, $depth = 1)
-  {
-    $out = array();
-    $tabs = str_repeat('  ', $depth);
-    $assoc = is_object($data) || is_string(key($data));
-
-    foreach ($data as $key => $val) {
-      $key = json_encode($key, JSON_NUMERIC_CHECK);
-
-      if (is_object($val) || is_array($val)) {
-        $val = $this->format($val, $depth + 1);
-      } else {
-        $val = json_encode($val);
-      }
-
-      $out []= $assoc ? "$tabs$key: $val" : $val;
-    }
-
-    if ($assoc) {
-      return "{\n" . join(",\n", $out) . '}';
-    } else {
-      return '[' . join(',', $out) . ']';
-    }
   }
 }
