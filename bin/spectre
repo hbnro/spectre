@@ -1,12 +1,12 @@
 #!/usr/bin/env php
 <?php
 
+declare(ticks = 1);
+
 error_reporting(-1);
 date_default_timezone_set('America/Mexico_City');
 
-call_user_func(function () use($argv) {
-  // TODO: how to include as sub-task on habanero?
-
+call_user_func(function () use ($argv) {
   $vendor_dirs = array(
     getcwd(),
     dirname(__DIR__),
@@ -23,7 +23,74 @@ call_user_func(function () use($argv) {
     }
   }
 
-  \Spectre\Runner::execute($argv);
+  $cli = new \Clipper\Shell();
+  $opts = new \Clipper\Params($argv);
 
-  exit(\Spectre\Runner::$status);
+  $opts->parse(array(
+    'watch' => array('w', 'watch'),
+    'cover' => array('c', 'cover', \Clipper\Params::PARAM_NO_VALUE),
+    'exclude' => array('x', 'exclude', \Clipper\Params::PARAM_MULTIPLE),
+    'reporter' => array('r', 'reporter', \Clipper\Params::PARAM_REQUIRED),
+  ));
+
+  \Spectre\Runner::initialize($opts, $cli);
+
+  $callback = function () {
+    exit(\Spectre\Runner::execute());
+  };
+
+  if ($opts['watch']) {
+    if (!function_exists('pcntl_fork')) {
+      throw new \Exception('Missing extension PCNTL');
+    }
+
+    $timeout = is_bool($opts['watch']) ? 1000 : ($opts['watch'] < 10 ? $opts['watch'] * 1000 : $opts['watch']);
+
+    $hashes = getcwd() . '/.spectre';
+
+    if (is_file($hashes)) {
+      unlink($hashes);
+    }
+
+    $kill = function () use ($cli) {
+      $cli->quit();
+    };
+
+    $cli->main(function ($cli, $ticks, $duration) use ($kill, $hashes, $timeout, $callback) {
+      $current_stats = md5(print_r(\Spectre\Runner::watch(), 1));
+      $previous_stats = is_file($hashes) ? file_get_contents($hashes) : '';
+
+      if ($previous_stats !== $current_stats) {
+        file_put_contents($hashes, $current_stats);
+
+        $child_pid = pcntl_fork();
+
+        if (-1 === $child_pid) {
+          throw new \Exception('Could not fork the process');
+        } else if ($child_pid) {
+          pcntl_wait($status);
+
+          pcntl_signal(SIGTERM, $kill);
+          pcntl_signal(SIGHUP, $kill);
+          pcntl_signal(SIGINT, $kill);
+
+          $time = str_pad(\Spectre\Helpers::secs($duration), 8, ' ', STR_PAD_LEFT);
+
+          $cli->printf("\n<c:dark_gray>$time</c> <c:cyan>Waiting for changes...</c>\n");
+        } else {
+          $callback();
+        }
+      }
+
+      usleep($timeout);
+    });
+
+    $cli->writeln("\nGood bye!\n");
+
+    if (is_file($hashes)) {
+      unlink($hashes);
+    }
+  } else {
+    $callback();
+  }
 });
