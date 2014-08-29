@@ -10,8 +10,8 @@
   ],
   "require": {
     "php": ">=5.3.4",
-    "phpunit/php-code-coverage": "2.0.10",
-    "habanero/clipper": "dev-master"
+    "phpunit/php-code-coverage": ">=2.0.10",
+    "habanero/clipper": ">=0.1.0"
   },
   "autoload": {
     "psr-4": {
@@ -19,7 +19,6 @@
     },
     "files": ["inc/helpers.php"]
   },
-  "minimum-stability": "dev",
   "bin": ["bin/spectre"],
   "config": {
     "bin-dir": "bin"
