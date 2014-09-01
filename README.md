@@ -15,10 +15,9 @@ Aims to write-and-run your specs in a easy way. Quickly.
 
 ```json
 {
-  "require": {
-    "habanero/spectre": "dev-master"
-  },
-  "minimum-stability": "dev"
+  "require-dev": {
+    "habanero/spectre": "v0.1.0"
+  }
 }
 ```
 
