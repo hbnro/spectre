@@ -36,6 +36,7 @@ Base::customMatchers(array(
   'toStartWith' => require __DIR__ . '/matchers/to_start_with.php',
 
   'toBeLike' => require __DIR__ . '/matchers/to_equal.php',
+  'toEquals' => require __DIR__ . '/matchers/to_equal.php',
   'toEqual' => require __DIR__ . '/matchers/to_equal.php',
 
   'toBeAnInstanceOf' => require __DIR__ . '/matchers/to_be_instance_of.php',
