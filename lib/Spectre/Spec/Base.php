@@ -28,17 +28,13 @@ class Base
     }
   }
 
-  public function add($desc, $cases)
+  public function add($desc, \Closure $cases)
   {
     $fail = false;
     $this->tree = $this->tree->add($desc);
 
     try {
-      if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
-        call_user_func($cases->bindTo($this->tree->context));
-      } else {
-        call_user_func($cases);
-      }
+      call_user_func($cases);
     } catch (\Exception $e) {
       $fail = true;
     }
@@ -49,7 +45,7 @@ class Base
     }
   }
 
-  public function push($desc, $test)
+  public function push($desc, \Closure $test)
   {
     $this->tree->push($desc, $test);
   }

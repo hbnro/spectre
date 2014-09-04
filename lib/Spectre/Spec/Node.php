@@ -6,18 +6,14 @@ class Node
 {
   public $tree = array();
   public $tests = array();
-  public $context;
+
+  private $context = array();
 
   private $after = array();
   private $afterEach = array();
 
   private $before = array();
   private $beforeEach = array();
-
-  public function __construct()
-  {
-    $this->context = new \Spectre\Spec\Context;
-  }
 
   public function add($spec)
   {
@@ -44,7 +40,20 @@ class Node
 
   public function local($key, $value)
   {
-    $this->context->{$key} = $value;
+    $this->context[$key] = $value;
+  }
+
+  public function values()
+  {
+    $out = array();
+    $leaf = $this;
+
+    while (!empty($leaf->parent)) {
+      $out = array_merge($out, $leaf->context);
+      $leaf = $leaf->parent;
+    }
+
+    return $out;
   }
 
   public function report($coverage, \Closure $logger = null, $tabs = 0)

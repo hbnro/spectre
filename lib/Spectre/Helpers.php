@@ -35,10 +35,11 @@ class Helpers
   public static function inject(\Closure $block, $node)
   {
     $block = new \ReflectionFunction($block);
+    $vars = $node->values();
     $args = array();
 
     foreach ($block->getParameters() as $param) {
-      $args []= $node->context->{$param->getName()};
+      $args []= isset($vars[$param->getName()]) ? $vars[$param->getName()] : null;
     }
 
     return $args;
