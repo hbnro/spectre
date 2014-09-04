@@ -24,7 +24,7 @@ class Base
 
       $this->tree = $node;
 
-      call_user_func($block);
+      call_user_func_array($block, \Spectre\Helpers::inject($block, $this->tree));
     }
   }
 
@@ -34,7 +34,7 @@ class Base
     $this->tree = $this->tree->add($desc);
 
     try {
-      call_user_func($cases);
+      call_user_func_array($cases, \Spectre\Helpers::inject($cases, $this->tree));
     } catch (\Exception $e) {
       $fail = true;
     }

@@ -4,6 +4,8 @@ namespace Spectre;
 
 class Base
 {
+  public static $node;
+
   private static $spectre;
   private static $matchers = array();
 

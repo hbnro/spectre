@@ -25,7 +25,14 @@ class Expect
   public static function that($value)
   {
     $test = new self;
-    $test->expected = $value;
+
+    if ($value instanceof \Closure) {
+      $test->expected = function () use ($value) {
+        call_user_func_array($value, Helpers::inject($value, Base::$node));
+      };
+    } else {
+      $test->expected = $value;
+    }
 
     return $test;
   }

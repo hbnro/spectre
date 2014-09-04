@@ -13,6 +13,7 @@ class Helpers
     foreach ($test as $callback) {
       try {
         $result = true;
+        Base::$node = $node;
         call_user_func_array($callback, static::inject($callback, $node));
       } catch (\Exception $e) {
         $result = false;
