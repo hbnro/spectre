@@ -4,12 +4,12 @@ use Spectre\Base;
 use Spectre\Expect;
 
 function xdescribe() {}
-function xit() {}
+function xit($desc) { Base::push($desc); }
 
-function let($key, $value) { Base::local($key, $value); }
+function let($key, $value = null) { Base::local($key, $value); }
 
 function describe($desc, $cases) { Base::add($desc, $cases); }
-function it($desc, $test) { Base::push($desc, $test); }
+function it($desc, $test = null) { Base::push($desc, $test); }
 
 function expect($value) { return Expect::that($value); }
 

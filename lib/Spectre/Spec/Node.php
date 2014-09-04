@@ -32,7 +32,7 @@ class Node
     return $node;
   }
 
-  public function push($desc, \Closure $block)
+  public function push($desc, $block)
   {
     isset($this->tests[$desc]) || $this->tests[$desc] = array();
     $this->tests[$desc] []= $block;

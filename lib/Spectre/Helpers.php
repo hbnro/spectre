@@ -11,20 +11,25 @@ class Helpers
     $coverage && $coverage->start("$node->description $description");
 
     foreach ($test as $callback) {
-      try {
-        $result = true;
-        Base::$node = $node;
-        static::invoke($callback, $node);
-      } catch (\Exception $e) {
-        $result = false;
-        $err []= $e->getMessage();
+      Base::$node = $node;
+
+      if ($result = is_callable($callback)) {
+        try {
+          static::invoke($callback, $node);
+        } catch (\Exception $e) {
+          $result = false;
+          $err []= $e->getMessage();
+        }
+      } else {
+        $result = null;
       }
 
       if ($logger) {
-        $icon = $result ? '✓' : '✗';
-        $status = $result ? 'OK' : 'FAIL';
+        $icon = null === $result ? '?' : ($result ? '✓' : '✗');
+        $color = null === $result ? 'cyan' : ($result ? 'green' : 'red');
+        $status = null === $result ? 'PENDING' : ($result ? 'OK' : 'FAIL');
 
-        call_user_func($logger, $result ? 'green' : 'red', $indentation, "$icon $description ... $status", end($err));
+        call_user_func($logger, $color, $indentation, "$icon $description ... $status", end($err));
       }
     }
 

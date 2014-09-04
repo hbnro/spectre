@@ -45,7 +45,7 @@ class Base
     }
   }
 
-  public function push($desc, \Closure $test)
+  public function push($desc, $test = null)
   {
     $this->tree->push($desc, $test);
   }
