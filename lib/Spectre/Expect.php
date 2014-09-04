@@ -9,15 +9,22 @@ class Expect
   private $negative;
 
   private $types = array(
-                    'array', 'bool',
-                    'callable', 'double',
-                    'float', 'int', 'integer', 'long',
-                    'null', 'numeric', 'object', 'real',
-                    'resource', 'scalar', 'string',
-                  );
-
-  private $alias = array(
-                    'boolean' => 'bool',
+                    'toBeArray' => 'array',
+                    'toBeBool' => 'bool',
+                    'toBeBoolean' => 'bool',
+                    'toBeCallable' => 'callable',
+                    'toBeDouble' => 'double',
+                    'toBeFloat' => 'float',
+                    'toBeInt' => 'int',
+                    'toBeInteger' => 'integer',
+                    'toBeLong' => 'long',
+                    'toBeNull' => 'null',
+                    'toBeNumeric' => 'numeric',
+                    'toBeObject' => 'object',
+                    'toBeReal' => 'real',
+                    'toBeResource' => 'resource',
+                    'toBeScalar' => 'scalar',
+                    'toBeString' => 'string',
                   );
 
   private function __construct() {}
@@ -41,7 +48,27 @@ class Expect
   {
     $matchers = Base::customMatchers();
 
-    $test = $this->callback(!empty($matchers[$method]) ? $matchers[$method] : null, $method, $arguments);
+    if (isset($this->types[$method])) {
+      array_unshift($arguments, $this->types[$method]);
+
+      $method = 'toBeA';
+    }
+
+    if (!isset($matchers[$method])) {
+      throw new \Exception("Unknown '$method' matcher");
+    }
+
+    array_unshift($arguments, $this->expected);
+
+    $test = call_user_func_array($matchers[$method], $arguments);
+
+    $params = array_merge(array(
+      'result' => null,
+      'positive' => "Expected '{subject}' {verb} '{value}', but it does not",
+      'negative' => "Not expected '{subject}' {verb} '{value}', but it does",
+    ), is_array($test) ? $test : array(
+      'result' => !!$test,
+    ));
 
     // value interpolation
     $verb = preg_replace_callback('/[A-Z]/', function ($match) {
@@ -55,8 +82,8 @@ class Expect
     );
 
     // reporting
-    if ($this->negative ? $this->result : !$this->result) {
-        throw new \Exception(strtr($this->negative ? $test->negative : $test->positive, $repl));
+    if ($this->negative ? $params['result'] : !$params['result']) {
+        throw new \Exception(strtr($this->negative ? $params['negative'] : $params['positive'], $repl));
     }
   }
 
@@ -69,31 +96,5 @@ class Expect
     }
 
     return $this;
-  }
-
-  private function callback($klass, $method, array $arguments)
-  {
-    if (!$klass) {
-      // is_* matching
-      @list(, $type) = explode('Be', $method);
-
-      $type = strtolower($type);
-      $type = isset($this->alias[$type]) ? $this->alias[$type] : $type;
-
-      if (in_array(strtolower($type), $this->types)) {
-        array_unshift($arguments, $type);
-
-        $method = 'Is';
-      }
-
-      // default matchers
-      $method = ucfirst($method);
-      $klass = "\\Spectre\\Matchers\\$method";
-    }
-
-    $matcher = new $klass($this->expected);
-    $this->result = call_user_func_array(array($matcher, 'execute'), $arguments);
-
-    return $matcher;
   }
 }

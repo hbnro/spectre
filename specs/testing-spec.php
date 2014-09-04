@@ -2,17 +2,9 @@
 
 // based on the jasmine test suite
 
-namespace My\Custom\Tests;
-
-class MyCustomMatcher extends \Spectre\Matchers\Base
-{
-  public function execute($value) {
-    return $this->expected === $value;
-  }
-}
-
-\Spectre\Base::addMatcher('\\My\\Custom\\Tests\\MyCustomMatcher');
-\Spectre\Base::addMatcher('\\My\\Custom\\Tests\\MyCustomMatcher', 'toBeCustomValue');
+\Spectre\Base::customMatchers('toBeCustomValue', function ($expected, $value) {
+  return $expected === $value;
+});
 
 describe('About expect()', function () {
   it('receive a single value for test', function () {
@@ -24,7 +16,6 @@ describe('About expect()', function () {
   describe('custom matchers', function () {
     it('should validate custom matchers', function () {
       expect('foo')->toBeCustomValue('foo');
-      expect('bar')->MyCustomMatcher('bar');
     });
   });
 
@@ -34,7 +25,7 @@ describe('About expect()', function () {
     let('c', 5);
 
     it('toBe() compares with ===', function ($a, $b, $c) {
-      expect(($a * $a) + ($b * $b))->tobe($c * $c);
+      expect(($a * $a) + ($b * $b))->toBe($c * $c);
       expect($a)->not->toBe(null);
     });
 

@@ -9,19 +9,23 @@ class Base
   private static $spectre;
   private static $matchers = array();
 
-  public static function addMatcher($klass, $method = null)
+  public static function customMatchers($method = null, \Closure $callback = null)
   {
-    if (!$method) {
-      $method = explode('\\', $klass);
-      $method = array_pop($method);
+    if (!func_num_args()) {
+      return static::$matchers;
     }
 
-    static::$matchers[$method] = $klass;
-  }
+    if (!is_array($method)) {
+      $method = array($method => $callback);
+    }
 
-  public static function customMatchers()
-  {
-    return static::$matchers;
+    foreach ($method as $name => $fn) {
+      if (!($fn instanceof \Closure)) {
+        throw new \Exception("Cannot use '$fn' as matcher");
+      }
+
+      static::$matchers[$name] = $fn;
+    }
   }
 
   public static function __callStatic($method, array $arguments)
