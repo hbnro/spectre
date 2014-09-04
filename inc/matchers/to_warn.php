@@ -31,7 +31,7 @@
 
   if (empty($parts['errno'])) {
     return false;
-  } elseif (!func_num_args()) {
+  } elseif (null === $value) {
     return true;
   } elseif (is_numeric($value)) {
     return $parts['errno'] == $value;

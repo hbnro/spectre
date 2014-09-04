@@ -189,6 +189,10 @@ describe('About expect()', function () {
 
       expect($foo)->not->toWarn();
       expect($bar)->toWarn(E_NOTICE);
+
+      expect(function () {
+        file_get_contents(uniqid('http://some.random.site.com/'));
+      })->toWarn();
     });
 
     it('toBeA() will test if a value has a certain type', function () {
