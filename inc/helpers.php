@@ -22,9 +22,6 @@ Base::customMatchers(array(
   'toBe' => require __DIR__ . '/matchers/to_be.php',
   'toBeA' => require __DIR__ . '/matchers/to_be_a.php',
 
-  'toBeDefined' => require __DIR__ . '/matchers/to_be_defined.php',
-  'toBeUndefined' => require __DIR__ . '/matchers/to_be_undefined.php',
-
   'toBeEmpty' => require __DIR__ . '/matchers/to_be_empty.php',
   'toBeFalsy' => require __DIR__ . '/matchers/to_be_falsy.php',
   'toBeTruthy' => require __DIR__ . '/matchers/to_be_truthy.php',
