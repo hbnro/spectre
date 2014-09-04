@@ -1,4 +1,4 @@
-<?php return function ($expected, $value)
+<?php return function ($expected, $value = null)
 {
-  return (is_array($expected) ? count($expected) : strlen((string) $expected)) == $value;
+  return null === $value ? !empty($expected) : ((is_array($expected) ? count($expected) : strlen((string) $expected)) == $value);
 };
