@@ -28,7 +28,7 @@ class Expect
 
     if ($value instanceof \Closure) {
       $test->expected = function () use ($value) {
-        call_user_func_array($value, Helpers::inject($value, Base::$node));
+        Helpers::invoke($value, Base::$node);
       };
     } else {
       $test->expected = $value;

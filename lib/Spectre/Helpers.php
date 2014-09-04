@@ -14,7 +14,7 @@ class Helpers
       try {
         $result = true;
         Base::$node = $node;
-        call_user_func_array($callback, static::inject($callback, $node));
+        static::invoke($callback, $node);
       } catch (\Exception $e) {
         $result = false;
         $err []= $e->getMessage();
@@ -33,17 +33,17 @@ class Helpers
     return $err;
   }
 
-  public static function inject(\Closure $block, $node)
+  public static function invoke(\Closure $block, $node)
   {
-    $block = new \ReflectionFunction($block);
+    $func = new \ReflectionFunction($block);
     $vars = $node->values();
     $args = array();
 
-    foreach ($block->getParameters() as $param) {
+    foreach ($func->getParameters() as $param) {
       $args []= isset($vars[$param->getName()]) ? $vars[$param->getName()] : null;
     }
 
-    return $args;
+    call_user_func_array($block, $args);
   }
 
   public static function scalar($args)
