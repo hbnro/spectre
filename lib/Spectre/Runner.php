@@ -15,8 +15,14 @@ class Runner
 
   public static function execute()
   {
+    $filter = static::$cli->params['filterSpecs'] ? '<(' . static::$cli->params['filterSpecs'] . ')>' : false;
+
     foreach (array_keys(static::watch()) as $spec) {
       if (preg_match('/-spec\.php$/', $spec)) {
+        if ($filter && !@preg_match($filter, $spec)) {
+          continue;
+        }
+
         require $spec;
       }
     }

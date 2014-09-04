@@ -131,6 +131,7 @@ Usage: vendor/bin/spectre [options] <folders|files>
   -w --watch     Enables the watch mode
   -t --timeout   Timeout in seconds for watch mode
   -c --coverage  Enables code coverage instrumentation
+  -f --filter    Filter for executing specific tests by name
   -x --exclude   Folders and files to exclude from coverage
   -o --output    Custom filename for saving coverage report
   -r --reporter  Default reporter for coverage. Options: JSON, TAP
