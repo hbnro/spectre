@@ -4,7 +4,7 @@ namespace Spectre\Matchers;
 
 class ToWarn extends Base
 {
-  public function execute($value)
+  public function execute($value = null)
   {
     $last_error_reporting = error_reporting(-1);
     $last_error = error_get_last();
@@ -13,7 +13,7 @@ class ToWarn extends Base
     ini_set('display_errors', 1);
 
     set_error_handler(function($errno, $errstr, $errfile, $errline) {
-      echo "\n$errstr\n$errfile\n";
+      echo "\nerrno{{$errno}}\nerrstr{{$errstr}}\nerrfile{{$errfile}}\nerrline{{$errline}}\n";
 
       return true;
     });
@@ -27,6 +27,22 @@ class ToWarn extends Base
     error_reporting($last_error_reporting);
     restore_error_handler();
 
-    return false !== strpos($output, $value);
+    $parts = array();
+
+    if (preg_match_all('/(\w+)\{(.+?)\}/s', $output, $matches)) {
+      foreach (array_keys($matches[0]) as $key) {
+        $parts[$matches[1][$key]] = $matches[2][$key];
+      }
+    }
+
+    if (empty($parts['errno'])) {
+      return false;
+    } elseif (!func_num_args()) {
+      return true;
+    } elseif (is_numeric($value)) {
+      return $parts['errno'] == $value;
+    }
+
+    return false !== strpos($parts['errstr'], $value);
   }
 }
