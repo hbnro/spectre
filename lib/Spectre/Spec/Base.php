@@ -6,6 +6,7 @@ class Base
 {
   private $tree;
   private $logger;
+  private $matchers = array();
 
   public function __construct()
   {
@@ -15,6 +16,25 @@ class Base
   public function __call($method, array $arguments)
   {
     return call_user_func_array(array($this->tree, $method), $arguments);
+  }
+
+  public function customMatchers($method = null, \Closure $callback = null)
+  {
+    if (!func_num_args()) {
+      return $this->matchers;
+    }
+
+    if (!is_array($method)) {
+      $method = array($method => $callback);
+    }
+
+    foreach ($method as $name => $fn) {
+      if (!($fn instanceof \Closure)) {
+        throw new \Exception("Cannot use '$fn' as matcher");
+      }
+
+      $this->matchers[$name] = $fn;
+    }
   }
 
   public function set(array $group)
