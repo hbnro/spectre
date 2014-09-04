@@ -25,7 +25,7 @@ class Helpers
       }
 
       if ($logger) {
-        $icon = null === $result ? '?' : ($result ? '✓' : '✗');
+        $icon = null === $result ? '↺' : ($result ? '✓' : '✗');
         $color = null === $result ? 'cyan' : ($result ? 'green' : 'red');
         $status = null === $result ? 'PENDING' : ($result ? 'OK' : 'FAIL');
 
