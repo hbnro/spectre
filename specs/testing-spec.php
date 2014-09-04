@@ -125,20 +125,40 @@ describe('About expect()', function () {
       });
     });
 
-    it('toBeLessThan() is for mathematical comparisons', function () {
-      $pi = 3.1415926;
-      $e = 2.78;
+    describe('toBeLessThan()', function () {
+      it('should work for numeric comparisons', function () {
+        $pi = 3.1415926;
+        $e = 2.78;
 
-      expect($e)->toBeLessThan($pi);
-      expect($pi)->not->toBeLessThan($e);
+        expect($e)->toBeLessThan($pi);
+        expect($pi)->not->toBeLessThan($e);
+      });
+
+      it('should work for array-size comparisons', function () {
+        $foo = array(1, 2, 3);
+        $bar = array(4, 5);
+
+        expect($bar)->toBeLessThan($foo);
+        expect($foo)->not->toBeLessThan($bar);
+      });
     });
 
-    it('toBeGreaterThan() is for mathematical comparisons', function () {
-      $pi = 3.1415926;
-      $e = 2.78;
+    describe('toBeGreaterThan()', function () {
+      it('should work for numeric comparisons', function () {
+        $pi = 3.1415926;
+        $e = 2.78;
 
-      expect($pi)->toBeGreaterThan($e);
-      expect($e)->not->toBeGreaterThan($pi);
+        expect($pi)->toBeGreaterThan($e);
+        expect($e)->not->toBeGreaterThan($pi);
+      });
+
+      it('should work for array-size comparisons', function () {
+        $foo = array(1, 2, 3);
+        $bar = array(4, 5);
+
+        expect($foo)->toBeGreaterThan($bar);
+        expect($bar)->not->toBeGreaterThan($foo);
+      });
     });
 
     it('toPrint() will test if a function prints something', function () {
