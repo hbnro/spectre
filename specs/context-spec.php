@@ -1,6 +1,6 @@
 <?php
 
-describe('About context', function () {
+describe('About let()', function () {
   let('global', 'VALUE');
   let('dummy', new \stdClass());
 
