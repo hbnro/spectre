@@ -96,6 +96,22 @@ describe('About describe()', function () {
       expect(true)->not->toEqual(false);
     });
   });
+
+  describe('with before() and after()', function () {
+    let('foo', new \stdClass());
+
+    before(function ($foo) {
+      $foo->value = 'bar';
+    });
+
+    after(function ($foo) {
+      unset($foo->value);
+    });
+
+    it('should setup and tear-down', function ($foo) {
+      expect($foo->value)->toBe('bar');
+    });
+  });
 });
 
 describe('Pending specs', function () {
@@ -129,20 +145,47 @@ describe('Isolation tests', function () {
   it('should be self-contained', function () {
     $scope = new \Spectre\Spec\Base;
 
-    $it = function($desc, $test) use ($scope) { $scope->push($desc, $test); };
-    $let = function($key, $value) use ($scope) { $scope->local($key, $value); };
+    $scope->customMatchers('toFTW', function () {
+      return 1;
+    });
+
+    try {
+      $scope->customMatchers('FAIL', null);
+    } catch (\Exception $e) {}
+
+    $it = function($desc, $test = null) use ($scope) { $scope->push($desc, $test); };
+    $let = function($key, $value = null) use ($scope) { $scope->local($key, $value); };
     $describe = function($desc, $cases) use ($scope) { $scope->add($desc, $cases); };
+
+    $before = function ($block) use ($scope) { $scope->prepend($block); };
+    $beforeEach = function ($block) use ($scope) { $scope->prepend($block, true); };
+
+    $after = function ($block) use ($scope) { $scope->append($block); };
+    $afterEach = function ($block) use ($scope) { $scope->append($block, true); };
+
+    $after(function () {});
+    $afterEach(function () {});
+
+    $before(function () {});
+    $beforeEach(function () {});
 
     $describe('x', function () use ($it, $let) {
       $let('a', 'b');
       $it('y', function ($a) {
         expect(1)->toBe(1);
         expect($a)->toBe('b');
+        expect(function () {
+          expect(null)->toFTW();
+          expect(null)->toRawwwr();
+        })->toThrow();
       });
+      $it('x');
     });
 
     $describe('z', function () {});
 
-    expect(json_encode($scope->run()))->toBe('{"groups":{"x":{"results":{"y":[]}}}}');
+    $scope->log(function() {});
+
+    expect(json_encode($scope->run()))->toBe('{"groups":{"x":{"results":{"y":[],"x":[]}}}}');
   });
 });
