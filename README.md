@@ -16,7 +16,7 @@ Aims to write-and-run your specs in a easy way. Quickly.
 ```json
 {
   "require-dev": {
-    "habanero/spectre": "v0.1.0"
+    "habanero/spectre": "v0.2.0"
   }
 }
 ```
@@ -61,7 +61,9 @@ Done (0.0017s)
 ## Available matchers
 
 - **toBe($value)** &mdash; Strict equal comparison (with `===`)
+- **toBeA($value)** &mdash; Data-type comparison (with `is_<type>()`)
 - **toBeLike($value)** &mdash; Alias for **toEqual**
+- **toEquals($value)** &mdash; Alias for **toEqual**
 - **toBeGreaterThan($value)** &mdash; Comparison using the `>` operator
 - **toBeLessThan($value)** &mdash; Comparison using the `<` operator
 - **toBeAnInstanceOf($value)** &mdash; Alias for **toBeInstanceOf**
@@ -86,40 +88,37 @@ Done (0.0017s)
 - **toBeScalar()** &mdash; Test using `is_scalar()`
 - **toBeString()** &mdash; Test using `is_string()`
 - **toHaveKey($value)** &mdash; Test arrays using `isset()`
-- **toHaveLength($value)** &mdash; Tests using `count()` and `strlen()`
+- **toHaveLength([$value])** &mdash; Tests using `count()` and `strlen()`
 - **toEndWith($value)** &mdash; Test for trailing substrings
 - **toStartWith($value)** &mdash; Test for leading substrings
+- **toContains($value)** &mdash; Alias for **toContain**
 - **toContain($value)** &mdash; Test for including substrings
 - **toEqual($value)** &mdash; Weak equal comparison (with `==`)
 - **toMatch($value)** &mdash; Test strings with regular expressions
 - **toPrint($value)** &mdash; Test for buffered-substrings (capture includes/echos with buffers)
 - **toThrow([$value])** &mdash; Test for exceptions, if `$value` is provided will test against `instanceof`
-- **toWarn($value)** &mdash; Test for buffered-substrings at user-level errors, notices and warnings (no fatal ones)
+- **toWarn([$value])** &mdash; Test for buffered-substrings at user-level errors, notices and warnings (no fatal ones)
 
 ## Custom matchers
 
 To register your own matchers you should implements the following code:
 
 ```php
-use Spectre\Matchers\Base;
-
-class CustomMatcher extends Base
-{
-  public $positive = "Expected '{subject}' {verb} '{value}', but it does not";
-  public $negative = "Not expected '{subject}' {verb} '{value}', but it does";
-
-  public function execute($value)
-  {
-    // test $value against $this->expected
-    // then return true or false
-  }
-}
-
-// Base::addMatcher($class[, $method])
-Base::addMatcher('CustomMatcher', 'toBeSomething');
+\Spectre\Base::customMatchers('toBeCustomValue', function ($expected, $value) {
+  // test $value against $this->expected
+  // then return true or false
+  //
+  // or for custom messages:
+  //
+  // return array(
+  //   'result' => $expected === $value,
+  //   'negative' => "Expected '{subject}' {verb} '{value}', but it does not",
+  //   'positive' => "Not expected '{subject}' {verb} '{value}', but it does",
+  // );
+});
 ```
 
-Note that `$method` is optional, if missing will use the `$class` name instead.
+Note that any additional arguments will be passed after the `$value` argument.
 
 ## CLI options
 
