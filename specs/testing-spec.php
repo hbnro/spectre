@@ -10,7 +10,7 @@ describe('About expect()', function () {
   it('receive a single value for test', function () {
     expect(function () {
       expect();
-    })->toWarn('Undefined variable: value');
+    })->toWarn();
   });
 
   describe('custom matchers', function () {
