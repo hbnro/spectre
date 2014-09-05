@@ -3,7 +3,7 @@
 // based on the jasmine test suite
 
 \Spectre\Base::customMatchers('toBeCustomValue', function ($expected, $value) {
-  return $expected === $value;
+  return expect($expected)->toBe($value);
 });
 
 describe('About expect()', function () {

@@ -4,6 +4,8 @@ namespace Spectre;
 
 class Expect
 {
+  public $result;
+
   private $expected;
   private $negative;
 
@@ -61,6 +63,10 @@ class Expect
 
     $test = call_user_func_array($matchers[$method], $arguments);
 
+    if ($test instanceof Expect) {
+      $test = $test->result;
+    }
+
     $params = array_merge(array(
       'result' => null,
       'positive' => "Expected '{subject}' {verb} '{value}', but it does not",
@@ -80,8 +86,10 @@ class Expect
       '{subject}' => join('', \Spectre\Helpers::scalar(array($this->expected))),
     );
 
+    $this->result = $this->negative ? !$params['result'] : $params['result'];
+
     // reporting
-    if ($this->negative ? $params['result'] : !$params['result']) {
+    if (!$this->result) {
       throw new \Exception(strtr($this->negative ? $params['negative'] : $params['positive'], $repl));
     }
 
