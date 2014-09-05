@@ -4,7 +4,6 @@ namespace Spectre;
 
 class Expect
 {
-  private $result;
   private $expected;
   private $negative;
 
@@ -83,16 +82,24 @@ class Expect
 
     // reporting
     if ($this->negative ? $params['result'] : !$params['result']) {
-        throw new \Exception(strtr($this->negative ? $params['negative'] : $params['positive'], $repl));
+      throw new \Exception(strtr($this->negative ? $params['negative'] : $params['positive'], $repl));
     }
+
+    return $this;
   }
 
   public function __get($key)
   {
-    if ($key === 'not') {
-      $this->negative = !$this->negative;
-    } else {
-      throw new \Exception("The '$key' operator is not implemented");
+    switch ($key) {
+      case 'and';
+      break;
+
+      case 'not';
+        $this->negative = !$this->negative;
+      break;
+
+      default:
+        throw new \Exception("The '$key' operator is not implemented");
     }
 
     return $this;

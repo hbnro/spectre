@@ -19,6 +19,19 @@ describe('About expect()', function () {
     });
   });
 
+  describe('chaining matchers', function () {
+    it('should chain all matchers', function () {
+      expect(1)
+        ->toBeA('integer')
+        ->and->toBe(1)
+        ->and->not->toBe('1');
+
+      expect('hawaiian pizza')
+        ->toContain('pizza')
+        ->and->not->toContain('pepperoni');
+    });
+  });
+
   describe('included matchers', function () {
     let('a', '3');
     let('b', 4);
