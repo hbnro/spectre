@@ -82,7 +82,7 @@ class Expect
 
     $repl = array(
       '{verb}' => trim($verb),
-      '{value}' => join(', ', \Spectre\Helpers::scalar($arguments)),
+      '{value}' => join(', ', \Spectre\Helpers::scalar(array_slice($arguments, 1))),
       '{subject}' => join('', \Spectre\Helpers::scalar(array($this->expected))),
     );
 
