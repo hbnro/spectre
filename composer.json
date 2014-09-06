@@ -10,8 +10,8 @@
   ],
   "require": {
     "php": ">=5.3.4",
-    "phpunit/php-code-coverage": ">=2.0.10",
-    "habanero/clipper": "dev-master"
+    "phpunit/php-code-coverage": "~2.0.10",
+    "habanero/clipper": "dev-master#0175c7f56088777569ae1ff9d3cd5c86abda12fb"
   },
   "autoload": {
     "psr-4": {
