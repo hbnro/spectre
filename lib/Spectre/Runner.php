@@ -15,7 +15,7 @@ class Runner
 
   public static function execute()
   {
-    $filter = static::$cli->params['filterSpecs'] ? '<(' . static::$cli->params['filterSpecs'] . ')>' : false;
+    $filter = static::$cli->params->filterSpecs ? '<(' . static::$cli->params->filterSpecs . ')>' : false;
 
     foreach (array_keys(static::watch()) as $spec) {
       if (preg_match('/-spec\.php$/', $spec)) {
@@ -61,7 +61,7 @@ class Runner
 
     $shell->printf("\n<c:light_cyan>Running specs...</c>\n");
 
-    if (static::$cli->params['codeCoverage']) {
+    if (static::$cli->params->codeCoverage) {
       if (!$xdebug) {
         throw new \Exception('Xdebug is required for code coverage but is missing');
       }
@@ -81,9 +81,9 @@ class Runner
       $data = \Spectre\Base::run();
     }
 
-    if (static::$cli->params['reportOutput'] || static::$cli->params['reportFile']) {
-      $file = static::$cli->params['reportFile'] ?: 'report.' . strtolower(static::$cli->params['reporterOutput']);
-      $reporter = static::$cli->params['reportOutput'] ?: strtoupper(substr($file, strrpos($file, '.') + 1));
+    if (static::$cli->params->reportOutput || static::$cli->params->reportFile) {
+      $file = static::$cli->params->reportFile ?: 'report.' . strtolower(static::$cli->params->reporterOutput);
+      $reporter = static::$cli->params->reportOutput ?: strtoupper(substr($file, strrpos($file, '.') + 1));
 
       if (!in_array($reporter, static::$reporters)) {
         throw new \Exception("Unknown '$reporter' reporter");
@@ -112,9 +112,9 @@ class Runner
   private static function skip()
   {
     $filter = new \PHP_CodeCoverage_Filter;
-    $ignore = static::$cli->params['excludeSources'] ?: array();
+    $ignore = static::$cli->params->excludeSources ?: array();
 
-    $ignore []= realpath(static::$cli->params->caller());
+    $ignore []= realpath(static::$cli->params->getCommand());
     $ignore []= __FILE__; // TODO: how cover this?
 
     foreach ($ignore as $path) {

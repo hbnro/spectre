@@ -36,8 +36,9 @@ call_user_func(function () use ($argv) {
     'reportOutput' => array('r', 'reporter', \Clipper\Params::PARAM_REQUIRED, 'Default reporter for coverage. Options: JSON, TAP'),
   ));
 
-  if ($cli->params['showHelp'] || (sizeof($argv) <= 1)) {
-    $cli->writeln("\nUsage: $argv[0] [options] <folders|files>\n");
+  if ($cli->params->showHelp || (sizeof($argv) <= 1)) {
+    $cmd = $cli->params->getCommand();
+    $cli->writeln("\nUsage: $cmd [options] <folders|files>\n");
     $cli->writeln($cli->params->usage());
     $cli->writeln();
     exit;
@@ -48,19 +49,19 @@ call_user_func(function () use ($argv) {
   $callback = function () use ($cli) {
     $status = \Spectre\Runner::execute();
 
-    if (!$cli->params['watchMode']) {
+    if (!$cli->params->watchMode) {
       $cli->writeln();
     }
 
     exit($status);
   };
 
-  if ($cli->params->values() && $cli->params['watchMode']) {
+  if ($cli->params->getArray() && $cli->params->watchMode) {
     if (!function_exists('pcntl_fork')) {
       throw new \Exception('PCNTL is required for watch mode but is missing');
     }
 
-    $timeout = !empty($cli->params['watchTimeout']) ? $cli->params['watchTimeout'] : 1;
+    $timeout = !empty($cli->params->watchTimeout) ? $cli->params->watchTimeout : 1;
 
     $hashes = getcwd() . '/.spectre';
 
