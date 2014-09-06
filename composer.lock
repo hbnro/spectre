@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1fd077a7414852edf71d18dae703c01c",
+    "hash": "2d90c70cb3ca686c27348e645e52376c",
     "packages": [
         {
             "name": "habanero/clipper",
@@ -12,24 +12,24 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pateketrueke/clipper.git",
-                "reference": "f6847bbae560fb02d5c06876ea75f5b7ac5a5a10"
+                "reference": "0175c7f56088777569ae1ff9d3cd5c86abda12fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pateketrueke/clipper/zipball/f6847bbae560fb02d5c06876ea75f5b7ac5a5a10",
-                "reference": "f6847bbae560fb02d5c06876ea75f5b7ac5a5a10",
+                "url": "https://api.github.com/repos/pateketrueke/clipper/zipball/0175c7f56088777569ae1ff9d3cd5c86abda12fb",
+                "reference": "0175c7f56088777569ae1ff9d3cd5c86abda12fb",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.4"
             },
             "require-dev": {
-                "habanero/spectre": "dev-master"
+                "habanero/spectre": "dev-master#a61de729624362af1383d15afb5d30f45b25195a"
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Clipper": "lib/"
+                "psr-4": {
+                    "": "lib/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -41,34 +41,34 @@
                     "name": "Alvaro Cabrera"
                 }
             ],
-            "description": "Simple CLI tools",
-            "time": "2014-08-28 17:40:49"
+            "description": "Simple CLI tools for PHP",
+            "time": "2014-09-06 13:58:40"
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "dev-master",
+            "version": "2.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "fdec95eb2eed12b66641add1ce66b3e5b330016d"
+                "reference": "53603b3c995f5aab6b59c8e08c3a663d2cc810b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/fdec95eb2eed12b66641add1ce66b3e5b330016d",
-                "reference": "fdec95eb2eed12b66641add1ce66b3e5b330016d",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/53603b3c995f5aab6b59c8e08c3a663d2cc810b7",
+                "reference": "53603b3c995f5aab6b59c8e08c3a663d2cc810b7",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
-                "phpunit/php-file-iterator": "~1.3.1",
-                "phpunit/php-text-template": "~1.2.0",
-                "phpunit/php-token-stream": "~1.2.2",
-                "sebastian/environment": "~1.0.0",
-                "sebastian/version": "~1.0.3"
+                "phpunit/php-file-iterator": "~1.3",
+                "phpunit/php-text-template": "~1.2",
+                "phpunit/php-token-stream": "~1.3",
+                "sebastian/environment": "~1.0",
+                "sebastian/version": "~1.0"
             },
             "require-dev": {
                 "ext-xdebug": ">=2.1.4",
-                "phpunit/phpunit": "dev-master"
+                "phpunit/phpunit": "~4.1"
             },
             "suggest": {
                 "ext-dom": "*",
@@ -78,7 +78,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -87,6 +87,9 @@
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                ""
+            ],
             "license": [
                 "BSD-3-Clause"
             ],
@@ -104,7 +107,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-08-14 14:32:24"
+            "time": "2014-08-31 06:33:04"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -197,16 +200,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "dev-master",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "15a719c78af351a7b7cf3e390d28c9f23ae8fbbb"
+                "reference": "f8d5d08c56de5cfd592b3340424a81733259a876"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/15a719c78af351a7b7cf3e390d28c9f23ae8fbbb",
-                "reference": "15a719c78af351a7b7cf3e390d28c9f23ae8fbbb",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/f8d5d08c56de5cfd592b3340424a81733259a876",
+                "reference": "f8d5d08c56de5cfd592b3340424a81733259a876",
                 "shasum": ""
             },
             "require": {
@@ -219,7 +222,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2-dev"
+                    "dev-master": "1.3-dev"
                 }
             },
             "autoload": {
@@ -242,27 +245,27 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2014-08-27 08:24:49"
+            "time": "2014-08-31 06:12:13"
         },
         {
             "name": "sebastian/environment",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "10c7467da0622f7848cc5cadc0828c3359254df4"
+                "reference": "79517609ec01139cd7e9fded0dd7ce08c952ef6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/10c7467da0622f7848cc5cadc0828c3359254df4",
-                "reference": "10c7467da0622f7848cc5cadc0828c3359254df4",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/79517609ec01139cd7e9fded0dd7ce08c952ef6a",
+                "reference": "79517609ec01139cd7e9fded0dd7ce08c952ef6a",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0"
+                "phpunit/phpunit": "4.0.*@dev"
             },
             "type": "library",
             "extra": {
@@ -293,7 +296,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2014-05-04 17:56:05"
+            "time": "2014-02-18 16:17:19"
         },
         {
             "name": "sebastian/version",
@@ -337,10 +340,10 @@
     "aliases": [
 
     ],
-    "minimum-stability": "dev",
-    "stability-flags": [
-
-    ],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "habanero/clipper": 20
+    },
     "prefer-stable": false,
     "platform": {
         "php": ">=5.3.4"

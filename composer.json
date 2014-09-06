@@ -11,7 +11,7 @@
   "require": {
     "php": ">=5.3.4",
     "phpunit/php-code-coverage": ">=2.0.10",
-    "habanero/clipper": ">=0.1.0"
+    "habanero/clipper": "dev-master"
   },
   "autoload": {
     "psr-4": {
