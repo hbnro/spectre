@@ -80,10 +80,13 @@ class Expect
       return ' ' . strtolower($match[0]);
     }, $method);
 
+    $value = join(', ', \Spectre\Helpers::scalar(array_slice($arguments, 1)));
+    $subject = join('', \Spectre\Helpers::scalar(array($this->expected)));
+
     $repl = array(
       '{verb}' => trim($verb),
-      '{value}' => join(', ', \Spectre\Helpers::scalar(array_slice($arguments, 1))),
-      '{subject}' => join('', \Spectre\Helpers::scalar(array($this->expected))),
+      '{value}' => "<value>$value</value>",
+      '{subject}' => "<subject>$subject</subject>",
     );
 
     $this->last_result = $this->negative ? !$params['result'] : $params['result'];

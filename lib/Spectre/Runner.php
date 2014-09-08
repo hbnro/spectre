@@ -10,6 +10,9 @@ class Runner
 
   public static function initialize($shell)
   {
+    $shell->colors->alias('subject', 'c:cyan');
+    $shell->colors->alias('value', 'c:light_cyan');
+
     static::$cli = $shell;
   }
 
@@ -54,7 +57,7 @@ class Runner
 
         if ($e) {
           $error++;
-          $shell->printf("$indent<c:red>$e</c>\n");
+          $shell->printf("$indent  %s\n", join("\n$indent  ", explode("\n", $e)));
         }
       }
     });
