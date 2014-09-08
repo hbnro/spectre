@@ -4,27 +4,27 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "74e38ce9c1997777dab1b041e241fc4e",
+    "hash": "d7357e9d94a5a5482c3b59aaf4f46634",
     "packages": [
         {
             "name": "habanero/clipper",
-            "version": "v0.2.0",
+            "version": "v0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pateketrueke/clipper.git",
-                "reference": "a0dac97c66826fad0b6287fccb11f8a46535110e"
+                "reference": "6a7e52b42f366c47c6006df50fb8572a33947a0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pateketrueke/clipper/zipball/a0dac97c66826fad0b6287fccb11f8a46535110e",
-                "reference": "a0dac97c66826fad0b6287fccb11f8a46535110e",
+                "url": "https://api.github.com/repos/pateketrueke/clipper/zipball/6a7e52b42f366c47c6006df50fb8572a33947a0c",
+                "reference": "6a7e52b42f366c47c6006df50fb8572a33947a0c",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.4"
             },
             "require-dev": {
-                "habanero/spectre": "dev-master"
+                "habanero/spectre": "v0.2.0"
             },
             "type": "library",
             "autoload": {
@@ -42,7 +42,7 @@
                 }
             ],
             "description": "Simple CLI tools for PHP",
-            "time": "2014-09-06 14:59:31"
+            "time": "2014-09-08 18:18:37"
         },
         {
             "name": "phpunit/php-code-coverage",
