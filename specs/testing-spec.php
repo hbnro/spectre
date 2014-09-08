@@ -2,7 +2,7 @@
 
 // based on the jasmine test suite
 
-\Spectre\Base::customMatchers('toBeCustomValue', function ($expected, $value) {
+matchers('toBeCustomValue', function ($expected, $value) {
   return expect($expected)->toBe($value);
 });
 

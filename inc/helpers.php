@@ -6,6 +6,7 @@ use Spectre\Expect;
 function xdescribe() {}
 function xit($desc) { Base::push($desc); }
 
+function matchers($key, $value = null) { Base::customMatchers($key, $value); }
 function let($key, $value = null) { Base::local($key, $value); }
 
 function describe($desc, $cases) { Base::add($desc, $cases); }
