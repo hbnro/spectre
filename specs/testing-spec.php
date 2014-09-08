@@ -32,6 +32,18 @@ describe('About expect()', function () {
     });
   });
 
+  describe('negated matchers', function () {
+    it('should negate any matcher', function () {
+      expect(true)->not->toBe(false);
+    });
+
+    it('should negate a matcher at once', function () {
+      expect(1)
+        ->not->toBe(2)
+        ->toEqual(1);
+    });
+  });
+
   describe('included matchers', function () {
     let('a', '3');
     let('b', 4);

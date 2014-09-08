@@ -96,6 +96,8 @@ class Expect
       throw new \Exception(strtr($this->negative ? $params['negative'] : $params['positive'], $repl));
     }
 
+    $this->negative = false;
+
     return $this;
   }
 
