@@ -10,9 +10,6 @@ class Runner
 
   public static function initialize($shell)
   {
-    $shell->colors->alias('subject', 'c:cyan');
-    $shell->colors->alias('value', 'c:light_cyan');
-
     static::$cli = $shell;
   }
 
