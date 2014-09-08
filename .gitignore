@@ -4,3 +4,4 @@ bin/phpspec
 report.tap
 .DS_Store
 .spectre
+.c9
