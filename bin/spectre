@@ -25,8 +25,7 @@ call_user_func(function () use ($argv) {
 
   $cli = new \Clipper\Shell($argv);
 
-  $cli->colors->alias('subject', 'c:cyan');
-  $cli->colors->alias('value', 'c:light_cyan');
+  $cli->colors->alias('debug', 'c:brown');
 
   $cli->params->parse(array(
     'showHelp' => array('h', 'help', \Clipper\Params::PARAM_NO_VALUE, 'Display this help'),

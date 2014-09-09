@@ -54,7 +54,8 @@ class Runner
 
         if ($e) {
           $error++;
-          $shell->printf("$indent  %s\n", join("\n$indent  ", explode("\n", $e)));
+          $debug = join("\n$indent  ", explode("\n", $e));
+          $shell->printf("$indent  $debug\n");
         }
       }
     });

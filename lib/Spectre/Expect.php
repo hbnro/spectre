@@ -85,8 +85,8 @@ class Expect
 
     $repl = array(
       '{verb}' => trim($verb),
-      '{value}' => "<value>$value</value>",
-      '{subject}' => "<subject>$subject</subject>",
+      '{value}' => "<debug>$value</debug>",
+      '{subject}' => "<debug>$subject</debug>",
     );
 
     $this->last_result = $this->negative ? !$params['result'] : $params['result'];
