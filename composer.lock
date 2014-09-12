@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pateketrueke/clipper.git",
-                "reference": "b3d75618dcbaed9276de37c417727c9a0ed9aa9f"
+                "reference": "b9793a132bcc2bb19b47ecf8f52001d986bb4e49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pateketrueke/clipper/zipball/b3d75618dcbaed9276de37c417727c9a0ed9aa9f",
-                "reference": "b3d75618dcbaed9276de37c417727c9a0ed9aa9f",
+                "url": "https://api.github.com/repos/pateketrueke/clipper/zipball/b9793a132bcc2bb19b47ecf8f52001d986bb4e49",
+                "reference": "b9793a132bcc2bb19b47ecf8f52001d986bb4e49",
                 "shasum": ""
             },
             "require": {
@@ -42,7 +42,7 @@
                 }
             ],
             "description": "Simple CLI tools for PHP",
-            "time": "2014-09-09 00:04:40"
+            "time": "2014-09-12 21:39:50"
         },
         {
             "name": "phpunit/php-code-coverage",
