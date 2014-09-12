@@ -7,21 +7,10 @@ error_reporting(-1);
 date_default_timezone_set('America/Mexico_City');
 
 call_user_func(function () use ($argv) {
-  $vendor_dirs = array(
-    getcwd(),
-    dirname(__DIR__),
-    dirname(dirname(__DIR__)),
-    dirname(dirname(dirname(__DIR__))),
-  );
+  $top_vendor = join(DIRECTORY_SEPARATOR, array(dirname(dirname(dirname(__DIR__))), 'autoload.php'));
+  $this_vendor = join(DIRECTORY_SEPARATOR, array(dirname(__DIR__), 'vendor', 'autoload.php'));
 
-  foreach ($vendor_dirs as $path) {
-    $vendor_file = join(array($path, 'vendor', 'autoload.php'), DIRECTORY_SEPARATOR);
-
-    if (is_file($vendor_file)) {
-      require $vendor_file;
-      break;
-    }
-  }
+  require is_file($top_vendor) ? $top_vendor : $this_vendor;
 
   $cli = new \Clipper\Shell($argv);
 
