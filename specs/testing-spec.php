@@ -112,6 +112,7 @@ describe('About expect()', function () {
 
         expect($x)->toContain('bar');
         expect($x)->not->toContain('quux');
+        expect((object) array('x' => 'y'))->toContain('y');
       });
 
       it('should work with strings', function () {
