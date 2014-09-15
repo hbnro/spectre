@@ -97,7 +97,10 @@ class Expect
 
     // reporting
     if (!$this->last_result) {
-      throw new \Exception(strtr($this->negative ? $params['negative'] : $params['positive'], $repl));
+      $message = strtr($this->negative ? $params['negative'] : $params['positive'], $repl);
+      $message = preg_replace('/<debug>\s*<\/debug>/s', '', $message);
+
+      throw new \Exception($message);
     }
 
     $this->negative = false;
