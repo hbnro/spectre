@@ -157,6 +157,8 @@ describe('Isolation tests', function () {
     $let = function($key, $value = null) use ($scope) { $scope->local($key, $value); };
     $describe = function($desc, $cases) use ($scope) { $scope->add($desc, $cases); };
 
+    $expect = function($value) { return \Spectre\Expect::that($value); };
+
     $before = function ($block) use ($scope) { $scope->prepend($block); };
     $beforeEach = function ($block) use ($scope) { $scope->prepend($block, true); };
 
@@ -169,14 +171,15 @@ describe('Isolation tests', function () {
     $before(function () {});
     $beforeEach(function () {});
 
-    $describe('x', function () use ($it, $let) {
+    $describe('x', function () use ($it, $let, $expect) {
+      $let('test', $expect);
       $let('a', 'b');
-      $it('y', function ($a) {
-        expect(1)->toBe(1);
-        expect($a)->toBe('b');
-        expect(function () {
-          expect(null)->toFTW();
-          expect(null)->toRawwwr();
+      $it('y', function ($a, $test) {
+        $test(1)->toBe(1);
+        $test($a)->toBe('b');
+        $test(function ($test) {
+          $test(null)->toFTW();
+          $test(null)->toRawwwr();
         })->toThrow();
       });
       $it('x');
