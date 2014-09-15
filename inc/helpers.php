@@ -12,7 +12,7 @@ function let($key, $value = null) { Base::local($key, $value); }
 function describe($desc, $cases) { Base::add($desc, $cases); }
 function it($desc, $test = null) { Base::push($desc, $test); }
 
-function expect($value) { return Expect::that($value); }
+function expect($value = null) { return Expect::that($value); }
 
 function before($block) { Base::prepend($block); }
 function beforeEach($block) { Base::prepend($block, true); }

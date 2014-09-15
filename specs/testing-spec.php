@@ -6,6 +6,10 @@ matchers('toBeCustomValue', function ($expected, $value) {
   return expect($expected)->toBe($value);
 });
 
+matchers('toFail', function () {
+  return expect(true)->toBe(false);
+});
+
 describe('About expect()', function () {
   it('receive a single value for test', function () {
     expect(function () {
@@ -41,6 +45,10 @@ describe('About expect()', function () {
       expect(1)
         ->not->toBe(2)
         ->toEqual(1);
+    });
+
+    it('should negate custom-matchers also', function () {
+      expect()->not->toFail();
     });
   });
 
