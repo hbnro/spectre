@@ -30,12 +30,22 @@
   }
 
   if (empty($parts['errno'])) {
-    return false;
+    $result = false;
   } elseif (null === $value) {
-    return true;
+    $result = true;
   } elseif (is_numeric($value)) {
-    return $parts['errno'] == $value;
+    $result = $parts['errno'] == $value;
+  } else {
+    $result = false !== strpos($parts['errstr'], $value);
   }
 
-  return false !== strpos($parts['errstr'], $value);
+  if (!$value) {
+    return array(
+      'result' => !!$result,
+      'positive' => "Expected '{subject}' to warn, but it does not",
+      'negative' => "Not expected '{subject}' to warn, but it does",
+    );
+  }
+
+  return $result;
 };
