@@ -19,13 +19,13 @@ call_user_func(function () use ($argv) {
   $cli->params->parse(array(
     'showHelp' => array('h', 'help', \Clipper\Params::PARAM_NO_VALUE, 'Display this help'),
     'watchMode' => array('w', 'watch', \Clipper\Params::PARAM_NO_VALUE, 'Enables the watch mode'),
-    'watchTimeout' => array('t', 'timeout', \Clipper\Params::PARAM_REQUIRED, 'Timeout in seconds for watch mode'),
+    'watchTimeout' => array('t', 'timeout', null, 'Timeout in seconds for watch mode', 'number'),
     'codeCoverage' => array('c', 'coverage', \Clipper\Params::PARAM_NO_VALUE, 'Enables code coverage instrumentation'),
-    'filterSpecs' => array('f', 'filter', \Clipper\Params::PARAM_REQUIRED, 'Filter for executing specific tests by name'),
+    'filterSpecs' => array('f', 'filter', null, 'Filter for executing specific tests by name'),
     'excludeSources' => array('x', 'exclude', \Clipper\Params::PARAM_MULTIPLE, 'Folders and files to exclude from coverage', 'array'),
-    'reportFile' => array('o', 'output', \Clipper\Params::PARAM_REQUIRED, 'Custom filename for saving coverage report'),
-    'reportOutput' => array('r', 'reporter', \Clipper\Params::PARAM_REQUIRED, 'Default reporter for coverage. Options: JSON, TAP'),
-  ));
+    'reportFile' => array('o', 'output', null, 'Custom filename for saving coverage report'),
+    'reportOutput' => array('r', 'reporter', null, 'Default reporter for coverage. Options: JSON, TAP'),
+  ), true);
 
   if ($cli->params->showHelp || (sizeof($argv) <= 1)) {
     $cmd = $cli->params->getCommand();
