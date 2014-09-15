@@ -61,10 +61,14 @@ class Expect
 
     array_unshift($arguments, $this->expected);
 
-    $test = call_user_func_array($matchers[$method], $arguments);
+    try {
+      $test = call_user_func_array($matchers[$method], $arguments);
 
-    if ($test instanceof Expect) {
-      $test = $test->last_result;
+      if ($test instanceof Expect) {
+        $test = $test->last_result;
+      }
+    } catch (\Exception $e) {
+      $test = false;
     }
 
     $params = array_merge(array(
@@ -89,7 +93,7 @@ class Expect
       '{subject}' => "<debug>$subject</debug>",
     );
 
-    $this->last_result = $this->negative ? !$params['result'] : $params['result'];
+    $this->last_result = $this->negative ^ $params['result'];
 
     // reporting
     if (!$this->last_result) {

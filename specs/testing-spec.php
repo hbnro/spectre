@@ -6,8 +6,8 @@ matchers('toBeCustomValue', function ($expected, $value) {
   return expect($expected)->toBe($value);
 });
 
-matchers('toFail', function () {
-  return expect(true)->toBe(false);
+matchers('toExact', function ($expected, $value) {
+  return expect($expected)->toBe($value);
 });
 
 describe('About expect()', function () {
@@ -48,7 +48,7 @@ describe('About expect()', function () {
     });
 
     it('should negate custom-matchers also', function () {
-      expect()->not->toFail();
+      expect(2)->not->toExact(3);
     });
   });
 
