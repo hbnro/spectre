@@ -22,7 +22,7 @@ call_user_func(function () use ($argv) {
     'watchTimeout' => array('t', 'timeout', \Clipper\Params::PARAM_REQUIRED, 'Timeout in seconds for watch mode'),
     'codeCoverage' => array('c', 'coverage', \Clipper\Params::PARAM_NO_VALUE, 'Enables code coverage instrumentation'),
     'filterSpecs' => array('f', 'filter', \Clipper\Params::PARAM_REQUIRED, 'Filter for executing specific tests by name'),
-    'excludeSources' => array('x', 'exclude', \Clipper\Params::PARAM_MULTIPLE, 'Folders and files to exclude from coverage'),
+    'excludeSources' => array('x', 'exclude', \Clipper\Params::PARAM_MULTIPLE, 'Folders and files to exclude from coverage', 'array'),
     'reportFile' => array('o', 'output', \Clipper\Params::PARAM_REQUIRED, 'Custom filename for saving coverage report'),
     'reportOutput' => array('r', 'reporter', \Clipper\Params::PARAM_REQUIRED, 'Default reporter for coverage. Options: JSON, TAP'),
   ));
