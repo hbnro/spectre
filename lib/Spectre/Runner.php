@@ -124,7 +124,7 @@ class Runner
       } elseif (is_file($path)) {
         $filter->addFileToBlacklist(realpath($path));
       } else {
-        throw new \Exception("The file or directory '$path' does not exists");
+        throw new \Exception("The file or directory '$path' does not exist");
       }
     }
 
@@ -147,7 +147,7 @@ class Runner
       } elseif (is_file($input)) {
         $files[realpath($input)] = filemtime($input);
       } else {
-        throw new \Exception("The file or directory '$input' does not exists");
+        throw new \Exception("The file or directory '$input' does not exist");
       }
     }
 
