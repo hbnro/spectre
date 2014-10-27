@@ -5,7 +5,7 @@
 
   if (!$klass) {
     $params['positive'] = "Expected '{subject}' to throw, but it does not";
-    $params['negative'] = "Not expected '{subject}' to throw, but it does";
+    $params['negative'] = "Did not expect '{subject}' to throw, but it did";
   }
 
   try {

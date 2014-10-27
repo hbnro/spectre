@@ -7,7 +7,7 @@
 
   return array(
     'result' => @call_user_func_array("is_$type", $args),
-    'negative' => "Expected is_$type('{subject}') to be true, but it does not",
-    'positive' => "Not expected is_$type('{subject}') to be true, but it does",
+    'negative' => "Expected is_$type('{subject}') to be true, but it was not",
+    'positive' => "Did not expect is_$type('{subject}') to be true, but it was",
   );
 };

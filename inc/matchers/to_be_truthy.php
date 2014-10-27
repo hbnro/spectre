@@ -2,6 +2,6 @@
   return array(
     'result' => !!$expected,
     'positive' => "Expected '{subject}' to be truthy, but it does not",
-    'negative' => "Not expected '{subject}' to be truthy, but it does",
+    'negative' => "Did not expect '{subject}' to be truthy, but it was",
   );
 };

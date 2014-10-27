@@ -43,7 +43,7 @@
     return array(
       'result' => !!$result,
       'positive' => "Expected '{subject}' to warn, but it does not",
-      'negative' => "Not expected '{subject}' to warn, but it does",
+      'negative' => "Did not expect '{subject}' to warn, but it did",
     );
   }
 
