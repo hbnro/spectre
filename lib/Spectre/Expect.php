@@ -73,8 +73,8 @@ class Expect
 
     $params = array_merge(array(
       'result' => null,
-      'positive' => "Expected '{subject}' {verb} '{value}', but it does not",
-      'negative' => "Not expected '{subject}' {verb} '{value}', but it does",
+      'positive' => "Expected '{subject}' {verb} '{value}', but it {verb_past} not",
+      'negative' => "Did not expect '{subject}' {verb} '{value}', but it {verb_past}",
     ), is_array($test) ? $test : array(
       'result' => !!$test,
     ));
@@ -83,12 +83,15 @@ class Expect
     $verb = preg_replace_callback('/[A-Z]/', function ($match) {
       return ' ' . strtolower($match[0]);
     }, $method);
+    
+    $verb_past = (stripos($verb, 'to be') === 0 ? 'was' : 'did');
 
     $value = join(', ', \Spectre\Helpers::scalar(array_slice($arguments, 1)));
     $subject = join('', \Spectre\Helpers::scalar(array($this->expected)));
 
     $repl = array(
       '{verb}' => trim($verb),
+      '{verb_past}' => $verb_past,
       '{value}' => "<debug>$value</debug>",
       '{subject}' => "<debug>$subject</debug>",
     );

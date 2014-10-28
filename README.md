@@ -112,8 +112,8 @@ To register your own matchers you should implements the following code:
   //
   // return array(
   //   'result' => $expected === $value,
-  //   'negative' => "Expected '{subject}' {verb} '{value}', but it does not",
-  //   'positive' => "Not expected '{subject}' {verb} '{value}', but it does",
+  //   'negative' => "Expected '{subject}' {verb} '{value}', but it did not",
+  //   'positive' => "Did not expect '{subject}' {verb} '{value}', but it did",
   // );
 });
 ```
