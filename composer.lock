@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "001edad867766194f78661d59a9b7944",
+    "hash": "d944068f58e572614978dc4eea735fe3",
     "packages": [
         {
             "name": "habanero/clipper",
