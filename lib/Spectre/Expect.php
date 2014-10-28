@@ -83,16 +83,16 @@ class Expect
     $verb = preg_replace_callback('/[A-Z]/', function ($match) {
       return ' ' . strtolower($match[0]);
     }, $method);
-	
-	$verb_past = (stripos($verb, 'to be') === 0 ? 'was' : 'did');
+    
+    $verb_past = (stripos($verb, 'to be') === 0 ? 'was' : 'did');
 
     $value = join(', ', \Spectre\Helpers::scalar(array_slice($arguments, 1)));
     $subject = join('', \Spectre\Helpers::scalar(array($this->expected)));
 
     $repl = array(
       '{verb}' => trim($verb),
-	  '{verb_past}' => $verb_past,
-	  '{value}' => "<debug>$value</debug>",
+      '{verb_past}' => $verb_past,
+      '{value}' => "<debug>$value</debug>",
       '{subject}' => "<debug>$subject</debug>",
     );
 
