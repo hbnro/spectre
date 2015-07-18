@@ -83,7 +83,7 @@ class Runner
     }
 
     if (static::$cli->params->reportOutput || static::$cli->params->reportFile) {
-      $file = static::$cli->params->reportFile ?: 'report.' . strtolower(static::$cli->params->reporterOutput);
+      $file = static::$cli->params->reportFile ?: 'report.' . strtolower(static::$cli->params->reportOutput);
       $reporter = static::$cli->params->reportOutput ?: strtoupper(substr($file, strrpos($file, '.') + 1));
 
       if (!in_array($reporter, static::$reporters)) {
