@@ -1,6 +1,13 @@
+sudo: false
+cache:
+  directories:
+  - $PWD/vendor
 language: php
 php:
   - 5.3
+  - 5.4
+  - 5.5
+  - 5.6
 script:
   - COMPOSER_ROOT_VERSION=dev-master composer install --prefer-dist
-  - bin/spectre specs/**
+  - bin/spectre spec
