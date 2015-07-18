@@ -7,7 +7,7 @@ Aims to write-and-run your specs in a easy way. Quickly.
   - Save as TAP or JSON
   - Watch mode
 
-[![Build Status](https://travis-ci.org/pateketrueke/spectre.png)](https://travis-ci.org/pateketrueke/spectre)
+[![Build Status](https://travis-ci.org/hbnro/spectre.png)](https://travis-ci.org/hbnro/spectre)
 
 ## How to?
 
@@ -142,7 +142,7 @@ Usage: vendor/bin/spectre [options] <folders|files>
 You can mix almost all arguments on several ways, i.e:
 
 ```bash
-$ vendor/bin/spectre specs -r TAP -c -x vendor -xspecs
+$ vendor/bin/spectre specs -rTAP -c -xvendor -xspecs
 $ vendor/bin/spectre ./specs /path/to/specs --coverage --exclude docs
 $ vendor/bin/spectre $PWD/specs --output results.json
 ```
