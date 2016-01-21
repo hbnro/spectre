@@ -32,7 +32,7 @@ call_user_func(function () use ($argv) {
     $cli->writeln("\nUsage: $cmd [options] <folders|files>\n");
     $cli->writeln($cli->params->usage());
     $cli->writeln();
-    exit;
+    exit(1);
   }
 
   \Spectre\Runner::initialize($cli);
