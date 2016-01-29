@@ -77,7 +77,7 @@ describe('About describe()', function () {
 
     beforeEach(function ($foo) {
       if (!isset($foo->bar)) {
-        $foo->bar = 0;
+          $foo->bar = 0;
       }
 
       $foo->bar += 1;
@@ -135,29 +135,36 @@ describe('Isolation tests', function () {
       expect(1)->toBe(1);
       expect(0)->not->toBe(1);
 
-      try { expect(1)->toBe(0); } catch (\Exception $e) {}
-      try { expect(1)->not->toBe(1); } catch (\Exception $e) {}
+      try {
+          expect(1)->toBe(0);
+      } catch (\Exception $e) {
+      }
+      try {
+          expect(1)->not->toBe(1);
+      } catch (\Exception $e) {
+      }
 
       expect(function () { expect(0)->buzz; })->toThrow();
     });
   });
 
   it('should be self-contained', function () {
-    $scope = new \Spectre\Spec\Base;
+    $scope = new \Spectre\Spec\Base();
 
     $scope->customMatchers('toFTW', function () {
       return 1;
     });
 
     try {
-      $scope->customMatchers('FAIL', null);
-    } catch (\Exception $e) {}
+        $scope->customMatchers('FAIL', null);
+    } catch (\Exception $e) {
+    }
 
-    $it = function($desc, $test = null) use ($scope) { $scope->push($desc, $test); };
-    $let = function($key, $value = null) use ($scope) { $scope->local($key, $value); };
-    $describe = function($desc, $cases) use ($scope) { $scope->add($desc, $cases); };
+    $it = function ($desc, $test = null) use ($scope) { $scope->push($desc, $test); };
+    $let = function ($key, $value = null) use ($scope) { $scope->local($key, $value); };
+    $describe = function ($desc, $cases) use ($scope) { $scope->add($desc, $cases); };
 
-    $expect = function($value) { return \Spectre\Expect::that($value); };
+    $expect = function ($value) { return \Spectre\Expect::that($value); };
 
     $before = function ($block) use ($scope) { $scope->prepend($block); };
     $beforeEach = function ($block) use ($scope) { $scope->prepend($block, true); };
@@ -187,7 +194,7 @@ describe('Isolation tests', function () {
 
     $describe('z', function () {});
 
-    $scope->log(function() {});
+    $scope->log(function () {});
 
     expect(json_encode($scope->run()))->toBe('{"groups":{"x":{"results":{"y":[],"x":[]}}}}');
   });

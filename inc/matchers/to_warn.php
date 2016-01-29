@@ -1,12 +1,13 @@
-<?php return function ($expected, $value = null)
-{
+<?php
+
+return function ($expected, $value = null) {
   $last_error_reporting = error_reporting(-1);
   $last_error = error_get_last();
 
   $display_errors = ini_get('display_errors');
   ini_set('display_errors', 1);
 
-  set_error_handler(function($errno, $errstr, $errfile, $errline) {
+  set_error_handler(function ($errno, $errstr, $errfile, $errline) {
     echo "\nerrno{{$errno}}\nerrstr{{$errstr}}\nerrfile{{$errfile}}\nerrline{{$errline}}\n";
 
     return true;
@@ -24,24 +25,24 @@
   $parts = array();
 
   if (preg_match_all('/(\w+)\{(.+?)\}/s', $output, $matches)) {
-    foreach (array_keys($matches[0]) as $key) {
-      $parts[$matches[1][$key]] = $matches[2][$key];
-    }
+      foreach (array_keys($matches[0]) as $key) {
+          $parts[$matches[1][$key]] = $matches[2][$key];
+      }
   }
 
   if (empty($parts['errno'])) {
-    $result = false;
+      $result = false;
   } elseif (null === $value) {
-    $result = true;
+      $result = true;
   } elseif (is_numeric($value)) {
-    $result = $parts['errno'] == $value;
+      $result = $parts['errno'] == $value;
   } else {
-    $result = false !== strpos($parts['errstr'], $value);
+      $result = false !== strpos($parts['errstr'], $value);
   }
 
   if (!$value) {
-    return array(
-      'result' => !!$result,
+      return array(
+      'result' => (bool) $result,
       'positive' => "Expected '{subject}' to warn, but it did not",
       'negative' => "Did not expect '{subject}' to warn, but it did",
     );

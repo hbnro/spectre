@@ -1,37 +1,37 @@
 #!/usr/bin/env php
 <?php
 
-declare(ticks = 1);
+declare (ticks = 1);
 
 error_reporting(-1);
 date_default_timezone_set('America/Mexico_City');
 
 call_user_func(function () use ($argv) {
   $fixed_vendors = array_unique(array_filter(array(
-    join(DIRECTORY_SEPARATOR, array(getcwd(), 'vendor')),
-    join(DIRECTORY_SEPARATOR, array(dirname(__DIR__), 'vendor'))
+    implode(DIRECTORY_SEPARATOR, array(getcwd(), 'vendor')),
+    implode(DIRECTORY_SEPARATOR, array(dirname(__DIR__), 'vendor')),
   )));
 
-  $autoload = NULL;
+  $autoload = null;
 
   foreach ($fixed_vendors as $vendor_dir) {
-    if (!$autoload) {
-      $autoload = require join(DIRECTORY_SEPARATOR, array($vendor_dir, 'autoload.php'));
-    } else {
-      $composer_dir = join(DIRECTORY_SEPARATOR, array($vendor_dir, 'composer'));
-      $classmap_file = join(DIRECTORY_SEPARATOR, array($composer_dir, 'autoload_classmap.php'));
-      $namespaces_file = join(DIRECTORY_SEPARATOR, array($composer_dir, 'autoload_namespaces.php'));
+      if (!$autoload) {
+          $autoload = require implode(DIRECTORY_SEPARATOR, array($vendor_dir, 'autoload.php'));
+      } else {
+          $composer_dir = implode(DIRECTORY_SEPARATOR, array($vendor_dir, 'composer'));
+          $classmap_file = implode(DIRECTORY_SEPARATOR, array($composer_dir, 'autoload_classmap.php'));
+          $namespaces_file = implode(DIRECTORY_SEPARATOR, array($composer_dir, 'autoload_namespaces.php'));
 
-      if (is_file($classmap_file)) {
-        $autoload->addClassMap(require $classmap_file);
-      }
+          if (is_file($classmap_file)) {
+              $autoload->addClassMap(require $classmap_file);
+          }
 
-      if (is_file($namespaces_file) && ($test = require $namespaces_file)) {
-        foreach ($test as $key => $val) {
-          $autoload->add($key, $val);
-        }
+          if (is_file($namespaces_file) && ($test = require $namespaces_file)) {
+              foreach ($test as $key => $val) {
+                  $autoload->add($key, $val);
+              }
+          }
       }
-    }
   }
 
   $cli = new \Clipper\Shell($argv);
@@ -50,11 +50,11 @@ call_user_func(function () use ($argv) {
   ), true);
 
   if ($cli->params->showHelp || (sizeof($argv) <= 1)) {
-    $cmd = $cli->params->getCommand();
-    $cli->writeln("\nUsage: $cmd [options] <folders|files>\n");
-    $cli->writeln($cli->params->usage());
-    $cli->writeln();
-    exit(1);
+      $cmd = $cli->params->getCommand();
+      $cli->writeln("\nUsage: $cmd [options] <folders|files>\n");
+      $cli->writeln($cli->params->usage());
+      $cli->writeln();
+      exit(1);
   }
 
   \Spectre\Runner::initialize($cli);
@@ -63,51 +63,51 @@ call_user_func(function () use ($argv) {
     $status = \Spectre\Runner::execute();
 
     if (!$cli->params->watchMode) {
-      $cli->writeln();
+        $cli->writeln();
     }
 
     exit($status);
   };
 
   if ($cli->params->getArray() && $cli->params->watchMode) {
-    if (!function_exists('pcntl_fork')) {
-      throw new \Exception('PCNTL is required for watch mode but is missing');
-    }
+      if (!function_exists('pcntl_fork')) {
+          throw new \Exception('PCNTL is required for watch mode but is missing');
+      }
 
-    $timeout = !empty($cli->params->watchTimeout) ? $cli->params->watchTimeout : 1;
+      $timeout = !empty($cli->params->watchTimeout) ? $cli->params->watchTimeout : 1;
 
-    $hashes = getcwd() . '/.spectre';
+      $hashes = getcwd().'/.spectre';
 
-    if (is_file($hashes)) {
-      unlink($hashes);
-    }
+      if (is_file($hashes)) {
+          unlink($hashes);
+      }
 
-    $kill = function () use ($cli) {
+      $kill = function () use ($cli) {
       $cli->quit();
     };
 
-    $cli->main(function ($cli, $ticks, $duration) use ($kill, $hashes, $timeout, $callback) {
-      $current_stats = join("\n", array_unique(array_map('md5', \Spectre\Runner::watch())));
+      $cli->main(function ($cli, $ticks, $duration) use ($kill, $hashes, $timeout, $callback) {
+      $current_stats = implode("\n", array_unique(array_map('md5', \Spectre\Runner::watch())));
       $previous_stats = is_file($hashes) ? file_get_contents($hashes) : '';
 
       if ($previous_stats !== $current_stats) {
-        file_put_contents($hashes, $current_stats);
+          file_put_contents($hashes, $current_stats);
 
-        $child_pid = pcntl_fork();
+          $child_pid = pcntl_fork();
 
-        if (-1 === $child_pid) {
-          throw new \Exception('Could not fork the process');
-        } else if ($child_pid) {
-          pcntl_wait($status);
+          if (-1 === $child_pid) {
+              throw new \Exception('Could not fork the process');
+          } elseif ($child_pid) {
+              pcntl_wait($status);
 
-          pcntl_signal(SIGTERM, $kill);
-          pcntl_signal(SIGHUP, $kill);
-          pcntl_signal(SIGINT, $kill);
+              pcntl_signal(SIGTERM, $kill);
+              pcntl_signal(SIGHUP, $kill);
+              pcntl_signal(SIGINT, $kill);
 
-          $cli->printf("\n<c:light_gray>Press CTRL-C to quit.</c>\n\n");
-        } else {
-          $callback();
-        }
+              $cli->printf("\n<c:light_gray>Press CTRL-C to quit.</c>\n\n");
+          } else {
+              $callback();
+          }
       }
 
       $time = \Spectre\Helpers::secs($duration);
@@ -117,10 +117,10 @@ call_user_func(function () use ($argv) {
       sleep($timeout);
     });
 
-    $cli->printf("\r\n");
+      $cli->printf("\r\n");
 
-    unlink($hashes);
+      unlink($hashes);
   } else {
-    $callback();
+      $callback();
   }
 });

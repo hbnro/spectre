@@ -1,5 +1,6 @@
-<?php return function ($expected, $type)
-{
+<?php
+
+return function ($expected, $type) {
   $args = func_get_args();
   $args = array_slice($args, 2);
 

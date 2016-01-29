@@ -4,83 +4,83 @@ namespace Spectre\Spec;
 
 class Base
 {
-  private $tree;
-  private $logger;
-  private $matchers = array();
+    private $tree;
+    private $logger;
+    private $matchers = array();
 
-  public function __construct()
-  {
-    $this->tree = new \Spectre\Spec\Node;
-  }
-
-  public function __call($method, array $arguments)
-  {
-    return call_user_func_array(array($this->tree, $method), $arguments);
-  }
-
-  public function customMatchers($method = null, \Closure $callback = null)
-  {
-    if (!func_num_args()) {
-      return $this->matchers;
+    public function __construct()
+    {
+        $this->tree = new \Spectre\Spec\Node();
     }
 
-    if (!is_array($method)) {
-      $method = array($method => $callback);
+    public function __call($method, array $arguments)
+    {
+        return call_user_func_array(array($this->tree, $method), $arguments);
     }
 
-    foreach ($method as $name => $fn) {
-      if (!($fn instanceof \Closure)) {
-        throw new \Exception("Cannot use '$fn' as matcher");
-      }
+    public function customMatchers($method = null, \Closure $callback = null)
+    {
+        if (!func_num_args()) {
+            return $this->matchers;
+        }
 
-      $this->matchers[$name] = $fn;
-    }
-  }
+        if (!is_array($method)) {
+            $method = array($method => $callback);
+        }
 
-  public function set(array $group)
-  {
-    foreach ($group as $ctx) {
-      @list($node, $block) = $ctx;
+        foreach ($method as $name => $fn) {
+            if (!($fn instanceof \Closure)) {
+                throw new \Exception("Cannot use '$fn' as matcher");
+            }
 
-      $this->tree = $node;
-
-      \Spectre\Helpers::invoke($block, $this->tree);
-    }
-  }
-
-  public function add($desc, \Closure $cases)
-  {
-    $fail = false;
-    $this->tree = $this->tree->add($desc);
-
-    try {
-      \Spectre\Helpers::invoke($cases, $this->tree);
-    } catch (\Exception $e) {
-      $fail = true;
+            $this->matchers[$name] = $fn;
+        }
     }
 
-    if (!$fail) {
-      $old = $this->tree;
-      $this->tree = $this->tree->parent;
-    }
-  }
+    public function set(array $group)
+    {
+        foreach ($group as $ctx) {
+            @list($node, $block) = $ctx;
 
-  public function push($desc, $test = null)
-  {
-    $this->tree->push($desc, $test);
-  }
+            $this->tree = $node;
 
-  public function run($coverage = null)
-  {
-    if (!($retval = $this->tree->report($coverage, $this->logger))) {
-      throw new \Exception('Missing specs!');
+            \Spectre\Helpers::invoke($block, $this->tree);
+        }
     }
 
-    return $retval;
-  }
+    public function add($desc, \Closure $cases)
+    {
+        $fail = false;
+        $this->tree = $this->tree->add($desc);
 
-  public function log(\Closure $block)
-  {
-    $this->logger = $block;
-  }
+        try {
+            \Spectre\Helpers::invoke($cases, $this->tree);
+        } catch (\Exception $e) {
+            $fail = true;
+        }
+
+        if (!$fail) {
+            $old = $this->tree;
+            $this->tree = $this->tree->parent;
+        }
+    }
+
+    public function push($desc, $test = null)
+    {
+        $this->tree->push($desc, $test);
+    }
+
+    public function run($coverage = null)
+    {
+        if (!($retval = $this->tree->report($coverage, $this->logger))) {
+            throw new \Exception('Missing specs!');
+        }
+
+        return $retval;
+    }
+
+    public function log(\Closure $block)
+    {
+        $this->logger = $block;
+    }
 }

@@ -1,11 +1,12 @@
-<?php return function ($expected)
-{
+<?php
+
+return function ($expected) {
   if (is_array($expected)) {
-    $result = 0 === sizeof($expected);
+      $result = 0 === sizeof($expected);
   } elseif (is_string($expected)) {
-    $result = 0 === strlen($expected);
+      $result = 0 === strlen($expected);
   } else {
-    $result = empty($expected);
+      $result = empty($expected);
   }
 
   return array(

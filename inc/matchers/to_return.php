@@ -1,4 +1,6 @@
-<?php return function ($expected, $value) {
+<?php
+
+return function ($expected, $value) {
   return array(
     'result' => is_callable($expected) && (call_user_func($expected) === $value),
     'positive' => "Expected '{subject}' to return '{value}', but it did not",

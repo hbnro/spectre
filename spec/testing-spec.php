@@ -321,31 +321,31 @@ describe('About expect()', function () {
       expect($foo)->not->toHaveKey('nothing');
     });
 
-    it('toHaveKeys() will test for multiple keys', function() {
+    it('toHaveKeys() will test for multiple keys', function () {
       $foo = array('a' => 'b', 'c' => 'd');
 
       expect($foo)->toHaveKeys('a', 'c');
       expect($foo)->not->toHaveKeys('x');
     });
 
-    it('toHaveValues() will test for multiple values', function() {
+    it('toHaveValues() will test for multiple values', function () {
       $foo = array('a', 'b', 'c');
 
       expect($foo)->toHaveValues('a', 'c');
       expect($foo)->not->toHaveValues('x');
     });
 
-    it('toBeTrue() will test for true booleans', function() {
+    it('toBeTrue() will test for true booleans', function () {
       expect(true)->toBeTrue();
       expect(false)->not->toBeTrue();
     });
 
-    it('toBeFalse() will test for false booleans', function() {
+    it('toBeFalse() will test for false booleans', function () {
       expect(false)->toBeFalse();
       expect(true)->not->toBeFalse();
     });
 
-    it('toReturn() will test for callback values', function() {
+    it('toReturn() will test for callback values', function () {
       expect('phpversion')->toReturn(phpversion());
     });
   });

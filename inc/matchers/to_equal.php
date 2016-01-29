@@ -1,4 +1,5 @@
-<?php return function ($expected, $value)
-{
+<?php
+
+return function ($expected, $value) {
   return $expected == $value;
 };
