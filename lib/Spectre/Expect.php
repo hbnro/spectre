@@ -28,6 +28,11 @@ class Expect
                     'toBeString' => 'string',
                   );
 
+  private $values = array(
+                    'toBeTrue' => true,
+                    'toBeFalse' => false,
+                  );
+
   private function __construct() {}
 
   public static function that($value)
@@ -49,10 +54,10 @@ class Expect
   {
     $matchers = Base::customMatchers();
 
-    if (isset($this->types[$method])) {
-      array_unshift($arguments, $this->types[$method]);
+    if (isset($this->values[$method]) || isset($this->types[$method])) {
+      array_unshift($arguments, isset($this->values[$method]) ? $this->values[$method] : $this->types[$method]);
 
-      $method = 'toBeA';
+      $method = 'toBe' . (!isset($this->values[$method]) ? 'A' : '');
     }
 
     if (!isset($matchers[$method])) {
@@ -83,7 +88,7 @@ class Expect
     $verb = preg_replace_callback('/[A-Z]/', function ($match) {
       return ' ' . strtolower($match[0]);
     }, $method);
-    
+
     $verb_past = (stripos($verb, 'to be') === 0 ? 'was' : 'did');
 
     $value = join(', ', \Spectre\Helpers::scalar(array_slice($arguments, 1)));

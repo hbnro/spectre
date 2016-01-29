@@ -44,11 +44,14 @@ Base::customMatchers(array(
   'toBeInstanceOf' => require __DIR__ . '/matchers/to_be_instance_of.php',
 
   'toHaveKey' => require __DIR__ . '/matchers/to_have_key.php',
+  'toHaveKeys' => require __DIR__ . '/matchers/to_have_key.php',
+  'toHaveValues' => require __DIR__ . '/matchers/to_contain.php',
   'toHaveLength' => require __DIR__ . '/matchers/to_have_length.php',
 
   'toMatch' => require __DIR__ . '/matchers/to_match.php',
   'toPrint' => require __DIR__ . '/matchers/to_print.php',
 
+  'toReturn' => require __DIR__ . '/matchers/to_return.php',
   'toThrow' => require __DIR__ . '/matchers/to_throw.php',
   'toWarn' => require __DIR__ . '/matchers/to_warn.php',
 ));
