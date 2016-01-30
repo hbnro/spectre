@@ -13,7 +13,7 @@ call_user_func(function () use ($argv) {
   )));
 
   foreach ($fixed_vendors as $vendor_dir) {
-      if (!$autoload) {
+      if (!isset($autoload)) {
           $autoload = require implode(DIRECTORY_SEPARATOR, array($vendor_dir, 'autoload.php'));
       } else {
           $composer_dir = implode(DIRECTORY_SEPARATOR, array($vendor_dir, 'composer'));
