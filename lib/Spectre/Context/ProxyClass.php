@@ -2,7 +2,7 @@
 
 namespace Spectre\Context;
 
-class Proxy
+class ProxyClass
 {
     private $_fakeProps = array();
 
