@@ -8,11 +8,9 @@ date_default_timezone_set('America/Mexico_City');
 
 call_user_func(function () use ($argv) {
   $fixed_vendors = array_unique(array_filter(array(
-    implode(DIRECTORY_SEPARATOR, array(getcwd(), 'vendor')),
     implode(DIRECTORY_SEPARATOR, array(dirname(__DIR__), 'vendor')),
+    implode(DIRECTORY_SEPARATOR, array(getcwd(), 'vendor')),
   )));
-
-  $autoload = null;
 
   foreach ($fixed_vendors as $vendor_dir) {
       if (!$autoload) {
@@ -76,7 +74,7 @@ call_user_func(function () use ($argv) {
 
       $timeout = !empty($cli->params->watchTimeout) ? $cli->params->watchTimeout : 1;
 
-      $hashes = getcwd().'/.spectre';
+      $hashes = implode(DIRECTORY_SEPARATOR, array(getcwd(), '.spectre'));
 
       if (is_file($hashes)) {
           unlink($hashes);
