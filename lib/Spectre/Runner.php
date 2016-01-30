@@ -72,10 +72,10 @@ class Runner
             $data = \Spectre\Base::run($cc);
 
             $html = new \PHP_CodeCoverage_Report_HTML();
-            $html->process($cc, 'coverage/html-report');
+            $html->process($cc, implode(DIRECTORY_SEPARATOR, array('coverage', 'html-report')));
 
             $clover = new \PHP_CodeCoverage_Report_Clover();
-            $clover->process($cc, 'coverage/clover-report.xml');
+            $clover->process($cc, implode(DIRECTORY_SEPARATOR, array('coverage', 'clover-report.xml')));
 
             $shell->printf("<c:cyan>Saved code-coverage</c>\n");
         } else {
