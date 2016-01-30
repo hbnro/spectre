@@ -197,7 +197,7 @@ describe('About expect()', function () {
 
     it('toPrint() will test if a function prints something', function () {
       expect(function () {
-        phpinfo();
+        echo phpversion();
       })->toPrint(phpversion());
 
       expect('foo')->toPrint('foo');
