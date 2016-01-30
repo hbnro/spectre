@@ -43,22 +43,22 @@ class Runner
         $error = 0;
 
         \Spectre\Base::log(function () use ($shell, &$error) {
-      @list($color, $tabs, $msg, $e) = func_get_args();
+            @list($color, $tabs, $msg, $e) = func_get_args();
 
-      if (!$msg) {
-          $shell->writeln();
-      } else {
-          $indent = str_repeat('  ', $tabs);
+            if (!$msg) {
+                $shell->writeln();
+            } else {
+                $indent = str_repeat('  ', $tabs);
 
-          $shell->printf($color ? "$indent<c:$color>$msg</c>\n" : "$indent$msg\n");
+                $shell->printf($color ? "$indent<c:$color>$msg</c>\n" : "$indent$msg\n");
 
-          if ($e) {
-              ++$error;
-              $debug = implode("\n$indent  ", explode("\n", $e));
-              $shell->printf("$indent  $debug\n");
-          }
-      }
-    });
+                if ($e) {
+                    ++$error;
+                    $debug = implode("\n$indent  ", explode("\n", $e));
+                    $shell->printf("$indent  $debug\n");
+                }
+            }
+        });
 
         $shell->printf("\n<c:light_cyan>Running specs...</c>\n");
 

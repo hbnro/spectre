@@ -1,5 +1,5 @@
 <?php
 
 return function ($expected, $value) {
-  return $expected === $value;
+    return $expected === $value;
 };
