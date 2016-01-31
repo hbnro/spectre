@@ -138,11 +138,12 @@ describe('Isolation tests', function () {
             expect(0)->not->toBe(1);
 
             try {
-                    expect(1)->toBe(0);
+                expect(1)->toBe(0);
             } catch (\Exception $e) {
             }
+
             try {
-                    expect(1)->not->toBe(1);
+                expect(1)->not->toBe(1);
             } catch (\Exception $e) {
             }
 
@@ -158,7 +159,7 @@ describe('Isolation tests', function () {
         });
 
         try {
-                $scope->customMatchers('FAIL', null);
+            $scope->customMatchers('FAIL', null);
         } catch (\Exception $e) {
         }
 
@@ -198,6 +199,6 @@ describe('Isolation tests', function () {
 
         $scope->log(function () {});
 
-        expect(json_encode($scope->run()))->toBe('{"groups":{"x":{"results":{"y":[],"x":[]}}}}');
+        expect(json_encode($scope->run()))->toBe('{"groups":{"x":{"results":{"y":[],"x":[]}},"z":[]}}');
     });
 });

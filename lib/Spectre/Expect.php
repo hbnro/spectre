@@ -10,28 +10,28 @@ class Expect
     private $negative;
 
     private $types = array(
-                    'toBeArray' => 'array',
-                    'toBeBool' => 'bool',
-                    'toBeBoolean' => 'bool',
-                    'toBeCallable' => 'callable',
-                    'toBeDouble' => 'double',
-                    'toBeFloat' => 'float',
-                    'toBeInt' => 'int',
-                    'toBeInteger' => 'integer',
-                    'toBeLong' => 'long',
-                    'toBeNull' => 'null',
-                    'toBeNumeric' => 'numeric',
-                    'toBeObject' => 'object',
-                    'toBeReal' => 'real',
-                    'toBeResource' => 'resource',
-                    'toBeScalar' => 'scalar',
-                    'toBeString' => 'string',
-                  );
+        'toBeArray' => 'array',
+        'toBeBool' => 'bool',
+        'toBeBoolean' => 'bool',
+        'toBeCallable' => 'callable',
+        'toBeDouble' => 'double',
+        'toBeFloat' => 'float',
+        'toBeInt' => 'int',
+        'toBeInteger' => 'integer',
+        'toBeLong' => 'long',
+        'toBeNull' => 'null',
+        'toBeNumeric' => 'numeric',
+        'toBeObject' => 'object',
+        'toBeReal' => 'real',
+        'toBeResource' => 'resource',
+        'toBeScalar' => 'scalar',
+        'toBeString' => 'string',
+    );
 
     private $values = array(
-                    'toBeTrue' => true,
-                    'toBeFalse' => false,
-                  );
+        'toBeTrue' => true,
+        'toBeFalse' => false,
+    );
 
     private function __construct()
     {
@@ -43,8 +43,8 @@ class Expect
 
         if ($value instanceof \Closure) {
             $test->expected = function () use ($value) {
-        Helpers::invoke($value, Base::$node);
-      };
+                Helpers::invoke($value, Base::$node);
+            };
         } else {
             $test->expected = $value;
         }
@@ -79,17 +79,17 @@ class Expect
         }
 
         $params = array_merge(array(
-      'result' => null,
-      'positive' => "Expected '{subject}' {verb} '{value}', but it {verb_past} not",
-      'negative' => "Did not expect '{subject}' {verb} '{value}', but it {verb_past}",
-    ), is_array($test) ? $test : array(
-      'result' => (bool) $test,
-    ));
+            'result' => null,
+            'positive' => "Expected '{subject}' {verb} '{value}', but it {verb_past} not",
+            'negative' => "Did not expect '{subject}' {verb} '{value}', but it {verb_past}",
+        ), is_array($test) ? $test : array(
+            'result' => (bool) $test,
+        ));
 
-    // value interpolation
-    $verb = preg_replace_callback('/[A-Z]/', function ($match) {
-      return ' '.strtolower($match[0]);
-    }, $method);
+        // value interpolation
+        $verb = preg_replace_callback('/[A-Z]/', function ($match) {
+            return ' '.strtolower($match[0]);
+        }, $method);
 
         $verb_past = (stripos($verb, 'to be') === 0 ? 'was' : 'did');
 
@@ -97,21 +97,21 @@ class Expect
         $subject = implode('', \Spectre\Helpers::scalar(array($this->expected)));
 
         $repl = array(
-      '{verb}' => trim($verb),
-      '{verb_past}' => $verb_past,
-      '{value}' => "<debug>$value</debug>",
-      '{subject}' => "<debug>$subject</debug>",
-    );
+            '{verb}' => trim($verb),
+            '{verb_past}' => $verb_past,
+            '{value}' => "<debug>$value</debug>",
+            '{subject}' => "<debug>$subject</debug>",
+        );
 
         $this->last_result = $this->negative ^ $params['result'];
 
-    // reporting
-    if (!$this->last_result) {
-        $message = strtr($this->negative ? $params['negative'] : $params['positive'], $repl);
-        $message = preg_replace('/<debug>\s*<\/debug>/s', '', $message);
+        // reporting
+        if (!$this->last_result) {
+            $message = strtr($this->negative ? $params['negative'] : $params['positive'], $repl);
+            $message = preg_replace('/<debug>\s*<\/debug>/s', '', $message);
 
-        throw new \Exception($message);
-    }
+            throw new \Exception($message);
+        }
 
         $this->negative = false;
 
@@ -121,16 +121,16 @@ class Expect
     public function __get($key)
     {
         switch ($key) {
-      case 'and';
-      break;
+            case 'and';
+            break;
 
-      case 'not';
-        $this->negative = !$this->negative;
-      break;
+            case 'not';
+                $this->negative = !$this->negative;
+            break;
 
-      default:
-        throw new \Exception("The '$key' operator is not implemented");
-    }
+            default:
+                throw new \Exception("The '$key' operator is not implemented");
+        }
 
         return $this;
     }

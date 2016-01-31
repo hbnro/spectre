@@ -18,11 +18,11 @@ class JSON
         $this->status = $err;
 
         return json_encode(array(
-      'tests' => $all,
-      'errors' => $err,
-      'success' => $all - $err,
-      'results' => $this->spec,
-    ), JSON_NUMERIC_CHECK | (defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : 0))."\n";
+            'tests' => $all,
+            'errors' => $err,
+            'success' => $all - $err,
+            'results' => $this->spec,
+        ), JSON_NUMERIC_CHECK | (defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : 0))."\n";
     }
 
     private function report(array $set)
