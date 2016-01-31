@@ -6,6 +6,7 @@ class Node
 {
     public $tree = array();
     public $tests = array();
+    public $mocks = array();
 
     private $context = array();
 
