@@ -60,36 +60,38 @@ class Stub
         ),
     );
 
-    public static function __callStatic($method, $arguments)
+    public function __construct($className = null)
     {
-        if (isset(static::$factories[$method])) {
-            return new static($method, $arguments[0]);
-        }
-    }
-
-    public function __construct($type, $className)
-    {
-        $this->type = $type;
-        $this->name = $className;
+        $this->className = $className;
     }
 
     public function __call($method, $arguments = array())
     {
+        if (isset(static::$factories[$method])) {
+            $className = isset($arguments[0]) ? $arguments[0] : $this->className;
+
+            return $this->build($method, $className);
+        }
+
         $this->attributes[$method] = $arguments;
 
         return $this;
     }
 
-    public function build()
+    public static function factory($className = null)
     {
         if (!static::$builder) {
             static::$builder = new \PHPUnit_Framework_MockObject_Generator();
         }
 
-        $args = array();
-        $args [] = $this->name;
+        return new static($className);
+    }
 
-        foreach (static::$factories[$this->type] as $key => $val) {
+    private function build($type, $name)
+    {
+        $args = array($name);
+
+        foreach (static::$factories[$type] as $key => $val) {
             if (!isset($this->attributes[$key])) {
                 $args [] = $val;
             } elseif (is_array($val)) {
@@ -99,6 +101,6 @@ class Stub
             }
         }
 
-        return call_user_func_array(array(static::$builder, $this->type), $args);
+        return call_user_func_array(array(static::$builder, $type), $args);
     }
 }
