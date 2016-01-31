@@ -2,6 +2,87 @@
 
 use Spectre\Base;
 use Spectre\Expect;
+use Spectre\Mocker\Stub;
+
+function spy($name)
+{
+    return Stub::factory($name);
+}
+
+function any()
+{
+    return new PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount();
+}
+
+function never()
+{
+    return new PHPUnit_Framework_MockObject_Matcher_InvokedCount(0);
+}
+
+function atLeast($count)
+{
+    return new PHPUnit_Framework_MockObject_Matcher_InvokedAtLeastCount($count);
+}
+
+function atLeastOnce()
+{
+    return new PHPUnit_Framework_MockObject_Matcher_InvokedAtLeastOnce();
+}
+
+function once()
+{
+    return new PHPUnit_Framework_MockObject_Matcher_InvokedCount(1);
+}
+
+function exactly($count)
+{
+    return new PHPUnit_Framework_MockObject_Matcher_InvokedCount($count);
+}
+
+function atMost($count)
+{
+    return new PHPUnit_Framework_MockObject_Matcher_InvokedAtMostCount($count);
+}
+
+function at($index)
+{
+    return new PHPUnit_Framework_MockObject_Matcher_InvokedAtIndex($index);
+}
+
+function returnValue($test)
+{
+    return new PHPUnit_Framework_MockObject_Stub_Return($test);
+}
+
+function returnValueMap(array $test)
+{
+    return new PHPUnit_Framework_MockObject_Stub_ReturnValueMap($test);
+}
+
+function returnArgument($index)
+{
+    return new PHPUnit_Framework_MockObject_Stub_ReturnArgument($index);
+}
+
+function returnCallback($fn)
+{
+    return new PHPUnit_Framework_MockObject_Stub_ReturnCallback($fn);
+}
+
+function returnSelf()
+{
+    return new PHPUnit_Framework_MockObject_Stub_ReturnSelf();
+}
+
+function throwException($e)
+{
+    return new PHPUnit_Framework_MockObject_Stub_Exception($e);
+}
+
+function onConsecutiveCalls()
+{
+    return new PHPUnit_Framework_MockObject_Stub_ConsecutiveCalls(func_get_args());
+}
 
 function xdescribe($desc)
 {
