@@ -14,7 +14,7 @@ describe('Mocker', function () {
     it('can mock instance methods', function () {
         $stub = spy('Foo')
             ->methods('baz')
-            ->callMethods(false)
+            ->callOriginalMethods(false)
             ->getMock();
 
         $stub->expects(exactly(1))
