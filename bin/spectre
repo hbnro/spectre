@@ -13,8 +13,10 @@ call_user_func(function () use ($argv) {
   )));
 
   foreach ($fixed_vendors as $vendor_dir) {
-      if (!isset($autoload)) {
-          $autoload = require implode(DIRECTORY_SEPARATOR, array($vendor_dir, 'autoload.php'));
+      $autoload_file = implode(DIRECTORY_SEPARATOR, array($vendor_dir, 'autoload.php'));
+
+      if (!isset($autoload) && is_file($autoload_file)) {
+          $autoload = require $autoload_file;
       } else {
           $composer_dir = implode(DIRECTORY_SEPARATOR, array($vendor_dir, 'composer'));
           $classmap_file = implode(DIRECTORY_SEPARATOR, array($composer_dir, 'autoload_classmap.php'));
