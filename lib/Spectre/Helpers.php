@@ -24,6 +24,15 @@ class Helpers
                 $result = null;
             }
 
+            try {
+                foreach ($node->mocks as $obj) {
+                    $obj->__phpunit_verify(true);
+                }
+            } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+                $result = false;
+                $err []= $e->getMessage();
+            }
+
             if ($logger) {
                 $icon = null === $result ? '↺' : ($result ? '✓' : '✗');
                 $color = null === $result ? 'cyan' : ($result ? 'green' : 'red');
