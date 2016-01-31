@@ -127,13 +127,5 @@ class Node
         if (!empty($group->tree)) {
             $out['groups'][$group->description] += $group->report($coverage, $logger, $tabs);
         }
-
-        if (empty($out['groups'][$group->description])) {
-            unset($out['groups'][$group->description]);
-        }
-
-        if (empty($out['groups'])) {
-            unset($out['groups']);
-        }
     }
 }
