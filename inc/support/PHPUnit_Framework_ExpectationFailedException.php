@@ -1,16 +1,5 @@
 <?php
 
-class PHPUnit_Framework_ExpectationFailedException
+class PHPUnit_Framework_ExpectationFailedException extends PHPUnit_Framework_Exception
 {
-    protected $comparisonFailure;
-
-    public function __construct($message, $comparisonFailure = null, Exception $previous = null)
-    {
-        $this->comparisonFailure = $comparisonFailure;
-    }
-
-    public function getComparisonFailure()
-    {
-        return $this->comparisonFailure;
-    }
 }

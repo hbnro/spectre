@@ -25,4 +25,9 @@ class PHPUnit_Framework_Constraint_IsEqual extends PHPUnit_Framework_Constraint
             throw new \PHPUnit_Framework_Exception($description);
         }
     }
+
+    public function toString()
+    {
+        return "`$this->value`";
+    }
 }
