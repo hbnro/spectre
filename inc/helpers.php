@@ -3,8 +3,9 @@
 use Spectre\Base;
 use Spectre\Expect;
 
-function xdescribe()
+function xdescribe($desc)
 {
+    Base::add($desc);
 }
 
 function xit($desc)

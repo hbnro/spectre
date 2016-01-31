@@ -48,15 +48,17 @@ class Base
         }
     }
 
-    public function add($desc, \Closure $cases)
+    public function add($desc, \Closure $cases = null)
     {
         $fail = false;
         $this->tree = $this->tree->add($desc);
 
-        try {
-            \Spectre\Helpers::invoke($cases, $this->tree);
-        } catch (\Exception $e) {
-            $fail = true;
+        if ($cases) {
+            try {
+                \Spectre\Helpers::invoke($cases, $this->tree);
+            } catch (\Exception $e) {
+                $fail = true;
+            }
         }
 
         if (!$fail) {

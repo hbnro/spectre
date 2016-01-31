@@ -102,7 +102,10 @@ class Node
     {
         \Spectre\Base::set($group->before);
 
-        $logger && call_user_func($logger, null, $tabs, $group->description, null);
+        $desc = empty($group->tests) ? "↺ $group->description ... PENDING" : $group->description;
+        $status = empty($group->tests) ? 'cyan' : null;
+
+        $logger && call_user_func($logger, $status, $tabs, $desc, null);
 
         foreach ($group->tests as $desc => $fn) {
             isset($out['groups'][$group->description]['results']) || $out['groups'][$group->description]['results'] = array();
@@ -116,9 +119,7 @@ class Node
 
         \Spectre\Base::set($group->after);
 
-        if ($logger && sizeof($group->tests)) {
-            call_user_func($logger);
-        }
+        $logger && call_user_func($logger);
     }
 
     private function filter($coverage, $logger, $group, $tabs, &$out)
