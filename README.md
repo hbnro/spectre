@@ -2,6 +2,7 @@ Spectre
 =======
 Aims to write-and-run your specs in a easy way. Quickly.
 
+  - Mock support for classes and functions*
   - Code-coverage reporting with PHPUnit
   - Don't struggle with classes!
   - Save as TAP or JSON
@@ -119,6 +120,52 @@ To register your own matchers you should implements the following code:
 ```
 
 Note that any additional arguments will be passed after the `$value` argument.
+
+## Mock support
+
+Since `0.3.0` you can mock classes and some built-in functions using the same API, see [spec/mock-spec.php](https://github.com/hbnro/spectre/blob/master/spec/mocks-spec.php) for more examples.
+
+In short, you can mock any class or function as follows:
+
+```php
+// class
+$stub = spy($namespace, $className)
+    ->methods('testMethod')
+    ->getMock();
+
+$stub->expects($callback = any())
+    ->method('testMethod')
+    ->willReturn(42);
+
+// function
+$stub = fn($namespace, $function)
+    ->expects($callback = any())
+    ->willReturn(42);
+```
+
+## Available constraints
+
+- **any()**
+- **never()**
+- **atLeast($count)**
+- **atLeastOnce()**
+- **once()**
+- **exactly($count)**
+- **atMost($count)**
+- **at($index)**
+- **returnValue($test)**
+- **returnValueMap($test)**
+- **returnArgument($index)**
+- **returnCallback($fn)**
+- **returnSelf()**
+- **throwException($e)**
+- **onConsecutiveCalls()**
+
+Some constraints are also spies, given a `$callback` reference you can ask later for:
+
+- **hasBeenInvoked()**
+- **getInvocations()**
+- **getInvocationCount()**
 
 ## CLI options
 
