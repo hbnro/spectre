@@ -68,7 +68,7 @@ class Fun
                     ->method($this->function);
             }
 
-            return $this->callback->method($this->function);
+            $this->callback->method($this->function);
         }
 
         return call_user_func_array(array($this->callback, $method), $arguments);
