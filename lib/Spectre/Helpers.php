@@ -38,7 +38,7 @@ class Helpers
                 $color = null === $result ? 'cyan' : ($result ? 'green' : 'red');
                 $status = null === $result ? 'PENDING' : ($result ? 'OK' : 'FAIL');
 
-                call_user_func($logger, $color, $indentation, "$icon $description ... $status", implode("\n", $err));
+                call_user_func($logger, $color, $indentation, "$icon $description ... $status", end($err));
             }
         }
 
