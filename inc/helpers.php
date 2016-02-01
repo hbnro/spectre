@@ -2,7 +2,13 @@
 
 use Spectre\Base;
 use Spectre\Expect;
+use Spectre\Mocker\Fun;
 use Spectre\Mocker\Stub;
+
+function fn($ns, $name)
+{
+    return Fun::factory($ns, $name);
+}
 
 function spy($ns, $name = null)
 {

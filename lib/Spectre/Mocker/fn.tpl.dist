@@ -1,0 +1,6 @@
+{namespace}
+
+function {fallback}()
+{
+    return \Spectre\Mocker\Fun::invoke(__FUNCTION__, func_get_args());
+}
