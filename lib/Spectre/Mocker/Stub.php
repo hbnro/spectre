@@ -109,7 +109,7 @@ class Stub
         $mock = call_user_func_array(array(static::$builder, $type), $args);
 
         if (isset(\Spectre\Base::$node->mocks)) {
-            \Spectre\Base::$node->mocks []= $mock;
+            \Spectre\Base::$node->mocks [] = $mock;
         }
 
         return $mock;

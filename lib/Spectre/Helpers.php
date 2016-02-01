@@ -30,7 +30,7 @@ class Helpers
                 }
             } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
                 $result = false;
-                $err []= $e->getMessage();
+                $err [] = $e->getMessage();
             }
 
             if ($logger) {
