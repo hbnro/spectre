@@ -4,9 +4,9 @@ use Spectre\Base;
 use Spectre\Expect;
 use Spectre\Mocker\Stub;
 
-function spy($name)
+function spy($ns, $name = null)
 {
-    return Stub::factory($name);
+    return Stub::factory($ns, $name);
 }
 
 function any()

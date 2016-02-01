@@ -78,13 +78,18 @@ class Stub
         return $this;
     }
 
-    public static function factory($className = null)
+    public static function factory($namespace, $className = null)
     {
         if (!static::$builder) {
             static::$builder = new \PHPUnit_Framework_MockObject_Generator();
         }
 
-        return new static($className);
+        if (!$className) {
+            $className = $namespace;
+            $namespace = '';
+        }
+
+        return new static(implode('\\', array($namespace, $className)));
     }
 
     private function build($type, $name)
