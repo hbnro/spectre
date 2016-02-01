@@ -32,7 +32,7 @@ class Fun
     public function __construct($qualified)
     {
         if (!function_exists($qualified)) {
-            $this->callback = \Spectre\Mocker\Stub::factory(__NAMESPACE__, 'Map')
+            $this->callback = \Spectre\Mocker\Stub::factory($qualified)
                 ->methods('__invoke')
                 ->getMock();
 
