@@ -6,18 +6,18 @@ class Fun
 {
     private static $proxies = array();
 
+    private $is_defined;
     private $function;
     private $callback;
-    private $installed;
 
-    public static function factory($namespace, $className = null)
+    public static function factory($namespace, $function = null)
     {
-        if (!$className) {
-            $className = $namespace;
+        if (!$function) {
+            $function = $namespace;
             $namespace = '';
         }
 
-        $qualified = implode('\\', array($namespace, $className));
+        $qualified = implode('\\', array($namespace, $function));
 
         static::$proxies[$qualified] = new static($qualified);
 
@@ -27,9 +27,9 @@ class Fun
     public static function invoke($qualified, array $arguments)
     {
         $parts = explode('\\', $qualified);
-        $name = end($parts);
+        $function = end($parts);
 
-        return call_user_func_array(array(static::$proxies[$qualified]->callback, $name), $arguments);
+        return call_user_func_array(array(static::$proxies[$qualified]->callback, $function), $arguments);
     }
 
     public function __construct($qualified)
@@ -59,18 +59,19 @@ class Fun
 
     public function __call($method, array $arguments)
     {
-        if (!$this->installed) {
-            $this->installed = true;
+        $callback = $this->callback;
+
+        if (!$this->is_defined) {
+            $this->is_defined = true;
 
             if ($method === 'expects') {
-                return $this->callback
-                    ->expects($arguments[0])
+                return call_user_func_array(array($this->callback, $method), $arguments)
                     ->method($this->function);
             }
 
-            $this->callback->method($this->function);
+            $callback = $this->callback->method($this->function);
         }
 
-        return call_user_func_array(array($this->callback, $method), $arguments);
+        return call_user_func_array(array($callback, $method), $arguments);
     }
 }
