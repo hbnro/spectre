@@ -26,19 +26,24 @@ class Fun
 
     public static function invoke($qualified, array $arguments)
     {
-        return call_user_func_array(array(static::$proxies[$qualified]->callback, '__invoke'), $arguments);
+        $parts = explode('\\', $qualified);
+        $name = end($parts);
+
+        return call_user_func_array(array(static::$proxies[$qualified]->callback, $name), $arguments);
     }
 
     public function __construct($qualified)
     {
         if (!function_exists($qualified)) {
-            $this->callback = \Spectre\Mocker\Stub::factory($qualified)
-                ->methods('__invoke')
-                ->getMock();
-
             $parts = explode('\\', $qualified);
             $fun = array_pop($parts);
             $ns = implode('\\', $parts);
+
+            $this->function = $fun;
+
+            $this->callback = \Spectre\Mocker\Stub::factory($qualified)
+                ->methods($fun)
+                ->getMock();
 
             $template = new \Text_Template(implode(DIRECTORY_SEPARATOR, array(__DIR__, 'fn.tpl')));
             $template->setVar(array(
@@ -47,8 +52,6 @@ class Fun
             ));
 
             $code = $template->render();
-
-            $this->function = $fun;
 
             eval($code);
         }
@@ -62,10 +65,10 @@ class Fun
             if ($method === 'expects') {
                 return $this->callback
                     ->expects($arguments[0])
-                    ->method('__invoke');
+                    ->method($this->function);
             }
 
-            return $this->callback->method('__invoke');
+            return $this->callback->method($this->function);
         }
 
         return call_user_func_array(array($this->callback, $method), $arguments);
