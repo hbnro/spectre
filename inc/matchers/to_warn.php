@@ -13,31 +13,40 @@ return function ($expected, $value = null) {
         return true;
     });
 
-    ob_start();
-    $args = array_slice(func_get_args(), 2);
-    call_user_func_array($expected, $args);
-    $output = ob_get_clean();
+    $result = null;
+
+    try {
+        ob_start();
+        $args = array_slice(func_get_args(), 2);
+        call_user_func_array($expected, $args);
+        $output = ob_get_clean();
+    } catch (\Error $e) {
+        $output = (string) $e;
+        $result = true;
+    }
 
     ini_set('display_errors', $display_errors);
     error_reporting($last_error_reporting);
     restore_error_handler();
 
-    $parts = array();
+    if (is_null($result)) {
+        $parts = array();
 
-    if (preg_match_all('/(\w+)\{(.+?)\}/s', $output, $matches)) {
-        foreach (array_keys($matches[0]) as $key) {
-            $parts[$matches[1][$key]] = $matches[2][$key];
+        if (preg_match_all('/(\w+)\{(.+?)\}/s', $output, $matches)) {
+            foreach (array_keys($matches[0]) as $key) {
+                $parts[$matches[1][$key]] = $matches[2][$key];
+            }
         }
-    }
 
-    if (empty($parts['errno'])) {
-        $result = false;
-    } elseif (null === $value) {
-        $result = true;
-    } elseif (is_numeric($value)) {
-        $result = $parts['errno'] == $value;
-    } else {
-        $result = false !== strpos($parts['errstr'], $value);
+        if (empty($parts['errno'])) {
+            $result = false;
+        } elseif (null === $value) {
+            $result = true;
+        } elseif (is_numeric($value)) {
+            $result = $parts['errno'] == $value;
+        } else {
+            $result = false !== strpos($parts['errstr'], $value);
+        }
     }
 
     if (!$value) {
