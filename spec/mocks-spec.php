@@ -35,7 +35,7 @@ describe('Mocker', function () {
     });
 
     it('can mock global functions', function () {
-        $stub = fn(__NAMESPACE__, 'phpversion')
+        $stub = fun(__NAMESPACE__, 'phpversion')
             ->expects(exactly(2))
             ->will(returnValue(42));
 

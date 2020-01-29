@@ -5,7 +5,7 @@ use Spectre\Expect;
 use Spectre\Mocker\Fun;
 use Spectre\Mocker\Stub;
 
-function fn($ns, $name)
+function fun($ns, $name)
 {
     return Fun::factory($ns, $name);
 }

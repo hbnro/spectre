@@ -138,7 +138,7 @@ $stub->expects($callback = any())
     ->willReturn(42);
 
 // function
-$stub = fn($namespace, $function)
+$stub = fun($namespace, $function)
     ->expects($callback = any())
     ->willReturn(42);
 ```
