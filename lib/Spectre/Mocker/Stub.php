@@ -106,7 +106,7 @@ class Stub
             }
         }
 
-        $mock = call_user_func_array(array(static::$builder, $type), $args);
+        $mock = @call_user_func_array(array(static::$builder, $type), $args);
 
         if (isset(\Spectre\Base::$node->mocks)) {
             \Spectre\Base::$node->mocks [] = $mock;
