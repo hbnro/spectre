@@ -8,7 +8,7 @@
       "email": "pateketrueke@gmail.com"
     }
   ],
-  "version": "v0.3.2",
+  "version": "v0.3.3",
   "require": {
     "php": ">=5.3.4",
     "habanero/clipper": "~0.2.1",
