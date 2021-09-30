@@ -8,7 +8,7 @@ Aims to write-and-run your specs in a easy way. Quickly.
   - Save as TAP or JSON
   - Watch mode
 
-[![Build Status](https://travis-ci.org/hbnro/spectre.png)](https://travis-ci.org/hbnro/spectre)
+[![CI](https://github.com/hbnro/spectre/actions/workflows/ci.yml/badge.svg)](https://github.com/hbnro/spectre/actions)
 
 ## How to?
 
