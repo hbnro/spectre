@@ -222,7 +222,7 @@ describe('About expect()', function () {
       };
 
       expect($foo)->not->toWarn();
-      expect($bar)->toWarn(E_NOTICE);
+      expect($bar)->toWarn(E_WARNING);
 
       expect(function () {
         file_get_contents(uniqid('http://some.random.site.com/'));

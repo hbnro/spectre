@@ -78,7 +78,7 @@ class Helpers
     {
         if (is_array($test)) {
             $test = implode(', ', static::scalar($test));
-            $test = sizeof($test) > 1 ? "[$test]" : $test;
+            $test = strlen($test) > 1 ? "[$test]" : $test;
         } elseif (is_scalar($test)) {
             $test = false === $test ? 'false' : $test;
             $test = true === $test ? 'true' : $test;

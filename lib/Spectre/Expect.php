@@ -22,7 +22,7 @@ class Expect
         'toBeNull' => 'null',
         'toBeNumeric' => 'numeric',
         'toBeObject' => 'object',
-        'toBeReal' => 'real',
+        'toBeReal' => 'float',
         'toBeResource' => 'resource',
         'toBeScalar' => 'scalar',
         'toBeString' => 'string',
