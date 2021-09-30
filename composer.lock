@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "178cd15496ab59faa3ec52b40f44a953",
+    "content-hash": "69c0afe26710819216f78c4649b8ddf4",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -77,20 +77,20 @@
         },
         {
             "name": "habanero/clipper",
-            "version": "v0.2.3",
+            "version": "v0.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hbnro/clipper.git",
-                "reference": "57c23a1dc792b07e0900160f690fecdd57f325d6"
+                "reference": "a8cb3d9936a1de8059fa58d169b5647e1cc6d2c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hbnro/clipper/zipball/57c23a1dc792b07e0900160f690fecdd57f325d6",
-                "reference": "57c23a1dc792b07e0900160f690fecdd57f325d6",
+                "url": "https://api.github.com/repos/hbnro/clipper/zipball/a8cb3d9936a1de8059fa58d169b5647e1cc6d2c3",
+                "reference": "a8cb3d9936a1de8059fa58d169b5647e1cc6d2c3",
                 "shasum": ""
             },
             "require": {
-                "habanero/spectre": "^0.3.0",
+                "habanero/spectre": "^0.3.3",
                 "php": ">=5.3.4"
             },
             "type": "library",
@@ -112,9 +112,9 @@
             "description": "Simple CLI tools for PHP",
             "support": {
                 "issues": "https://github.com/hbnro/clipper/issues",
-                "source": "https://github.com/hbnro/clipper/tree/v0.2.3"
+                "source": "https://github.com/hbnro/clipper/tree/v0.2.4"
             },
-            "time": "2016-02-01T22:25:46+00:00"
+            "time": "2021-09-30T17:05:28+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
