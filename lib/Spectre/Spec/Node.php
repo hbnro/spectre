@@ -103,8 +103,8 @@ class Node
     {
         \Spectre\Base::set($group->before);
 
-        $desc = empty($group->tests) ? "↺ $group->description ... PENDING" : $group->description;
-        $status = empty($group->tests) ? 'cyan' : null;
+        $desc = empty($group->tests) && empty($group->tree) ? "↺ $group->description ... PENDING" : $group->description;
+        $status = empty($group->tests) && empty($group->tree) ? 'cyan' : null;
 
         $logger && call_user_func($logger, $status, $tabs, $desc, null);
 

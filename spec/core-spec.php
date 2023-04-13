@@ -122,6 +122,14 @@ describe('Pending specs', function () {
     });
 
     it("can be declared with 'it' but without a function");
+
+    describe('Pending blocks are dimmed', function () {
+        describe('if they have no tests', function () {
+        });
+        describe('so nested blocks', function () {
+            it('are fine');
+        });
+    });
 });
 
 describe('Isolation tests', function () {
