@@ -8,6 +8,9 @@ class Node
     public $tests = array();
     public $mocks = array();
 
+    public $parent = null;
+    public $description = null;
+
     private $context = array();
 
     private $after = array();
@@ -103,8 +106,8 @@ class Node
     {
         \Spectre\Base::set($group->before);
 
-        $desc = empty($group->tests) && empty($group->tree) ? "↺ $group->description ... PENDING" : $group->description;
-        $status = empty($group->tests) && empty($group->tree) ? 'cyan' : null;
+        $desc = empty($group->tests) ? "↺ $group->description ... PENDING" : $group->description;
+        $status = empty($group->tests) ? 'cyan' : null;
 
         $logger && call_user_func($logger, $status, $tabs, $desc, null);
 

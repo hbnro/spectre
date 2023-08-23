@@ -6,6 +6,7 @@ class Stub
 {
     private $type = null;
     private $name = null;
+    private $className = null;
 
     private $arguments = array();
     private $attributes = array();

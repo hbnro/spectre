@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "06981e68428ca2d5f8e7449c76599d91",
+    "content-hash": "1d9f712b80226dde00ff32dc79f61966",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -12,25 +12,26 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "6410c4b8352cb64218641457cef64997e6b784fb"
+                "reference": "0a0fa9780f5d4e507415a065172d26a98d02047b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/6410c4b8352cb64218641457cef64997e6b784fb",
-                "reference": "6410c4b8352cb64218641457cef64997e6b784fb",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/0a0fa9780f5d4e507415a065172d26a98d02047b",
+                "reference": "0a0fa9780f5d4e507415a065172d26a98d02047b",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1 || ^8.0"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^8.0",
+                "doctrine/coding-standard": "^9 || ^11",
                 "ext-pdo": "*",
                 "ext-phar": "*",
-                "phpbench/phpbench": "^0.13 || 1.0.0-alpha2",
-                "phpstan/phpstan": "^0.12",
-                "phpstan/phpstan-phpunit": "^0.12",
-                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
+                "phpbench/phpbench": "^0.16 || ^1",
+                "phpstan/phpstan": "^1.4",
+                "phpstan/phpstan-phpunit": "^1",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
+                "vimeo/psalm": "^4.30 || ^5.4"
             },
             "type": "library",
             "autoload": {
@@ -57,7 +58,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/instantiator/issues",
-                "source": "https://github.com/doctrine/instantiator/tree/1.4.x"
+                "source": "https://github.com/doctrine/instantiator/tree/1.5.0"
             },
             "funding": [
                 {
@@ -73,26 +74,27 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-11-10T19:05:51+00:00"
+            "time": "2022-12-30T00:15:36+00:00"
         },
         {
             "name": "habanero/clipper",
-            "version": "v0.2.5",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hbnro/clipper.git",
-                "reference": "c9bfb35668989e714e2363318ccca6c16c684e09"
+                "reference": "84ef10ec2a76e2fc1ca9d9ff82bbd3e68091bd06"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hbnro/clipper/zipball/c9bfb35668989e714e2363318ccca6c16c684e09",
-                "reference": "c9bfb35668989e714e2363318ccca6c16c684e09",
+                "url": "https://api.github.com/repos/hbnro/clipper/zipball/84ef10ec2a76e2fc1ca9d9ff82bbd3e68091bd06",
+                "reference": "84ef10ec2a76e2fc1ca9d9ff82bbd3e68091bd06",
                 "shasum": ""
             },
             "require": {
                 "habanero/spectre": "^0.3.3",
                 "php": ">=5.3.4"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -112,9 +114,9 @@
             "description": "Simple CLI tools for PHP",
             "support": {
                 "issues": "https://github.com/hbnro/clipper/issues",
-                "source": "https://github.com/hbnro/clipper/tree/v0.2.5"
+                "source": "https://github.com/hbnro/clipper/tree/master"
             },
-            "time": "2022-01-04T16:25:37+00:00"
+            "time": "2023-08-23T08:19:01+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -621,7 +623,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "habanero/clipper": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
