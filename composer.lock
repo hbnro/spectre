@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1d9f712b80226dde00ff32dc79f61966",
+    "content-hash": "8f905ec75e94c0138bdc75ad09a9203d",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -78,23 +78,22 @@
         },
         {
             "name": "habanero/clipper",
-            "version": "dev-master",
+            "version": "v0.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hbnro/clipper.git",
-                "reference": "84ef10ec2a76e2fc1ca9d9ff82bbd3e68091bd06"
+                "reference": "7b154b489afc82244a911e3b0db036714a1d8d2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hbnro/clipper/zipball/84ef10ec2a76e2fc1ca9d9ff82bbd3e68091bd06",
-                "reference": "84ef10ec2a76e2fc1ca9d9ff82bbd3e68091bd06",
+                "url": "https://api.github.com/repos/hbnro/clipper/zipball/7b154b489afc82244a911e3b0db036714a1d8d2f",
+                "reference": "7b154b489afc82244a911e3b0db036714a1d8d2f",
                 "shasum": ""
             },
             "require": {
-                "habanero/spectre": "^0.3.3",
+                "habanero/spectre": "^0.3.6",
                 "php": ">=5.3.4"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -114,9 +113,9 @@
             "description": "Simple CLI tools for PHP",
             "support": {
                 "issues": "https://github.com/hbnro/clipper/issues",
-                "source": "https://github.com/hbnro/clipper/tree/master"
+                "source": "https://github.com/hbnro/clipper/tree/v0.2.6"
             },
-            "time": "2023-08-23T08:19:01+00:00"
+            "time": "2023-08-23T08:26:03+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -623,14 +622,12 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "habanero/clipper": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=5.3.4"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }
