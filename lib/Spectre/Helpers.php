@@ -103,4 +103,25 @@ class Helpers
 
         return $now;
     }
+
+    public static function run($main)
+    {
+        try {
+            $main();
+        } catch (\Exception $e) {
+            echo $e->getMessage(), "\n";
+            $stack = [];
+            $length = 0;
+            foreach (debug_backtrace() as $x) {
+                if (!isset($x['file'])) continue;
+                $fn = (isset($x['class']) ? "{$x['class']}{$x['type']}" : '').$x['function'];
+                $stack []= [$fn, str_replace(getcwd(), '.', "{$x['file']}:{$x['line']}")];
+                $length = strlen($fn) > $length ? strlen($fn) : $length;
+            }
+            foreach ($stack as [$fn, $src]) {
+                echo str_pad("{$fn}()\t", $length + 5, ' ', STR_PAD_LEFT), "$src\n";
+            }
+            exit(1);
+        }
+    }
 }

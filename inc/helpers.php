@@ -2,8 +2,14 @@
 
 use Spectre\Base;
 use Spectre\Expect;
+use Spectre\Helpers;
 use Spectre\Mocker\Fun;
 use Spectre\Mocker\Stub;
+
+function test($fn)
+{
+    Helpers::run($fn);
+}
 
 function fun($ns, $name)
 {
