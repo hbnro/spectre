@@ -151,6 +151,11 @@ function afterEach($block)
     Base::append($block, true);
 }
 
+set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+    if (!(error_reporting() & $errno)) return false;
+    echo str_replace(getcwd(), '.', "$errstr\n  at $errfile:$errline\n");
+});
+
 Base::customMatchers(array(
   'toBe' => require implode(DIRECTORY_SEPARATOR, array(__DIR__, 'matchers', 'to_be.php')),
   'toBeA' => require implode(DIRECTORY_SEPARATOR, array(__DIR__, 'matchers', 'to_be_a.php')),
